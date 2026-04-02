@@ -4,7 +4,871 @@
   <meta charset="UTF-8">
   <title>Master Pedidos</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Master Pedidos - Jornal de Ofertas</title>
+  <style>
+    :root {
+      --topo: #1d4ed8;
+      --topo-2: #2563eb;
+      --fundo: #eff6ff;
+      --card: #ffffff;
+      --texto: #0f172a;
+      --muted: #475569;
+      --promo: #ef4444;
+      --promo-texto: #ffffff;
+      --botao: #16a34a;
+      --botao-texto: #ffffff;
+      --sec: #dbeafe;
+      --borda: #bfdbfe;
+      --shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
+      --radius: 18px;
+      --radius-sm: 12px;
+      --max: 1240px;
+    }
 
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, #f8fbff 0%, var(--fundo) 100%);
+      color: var(--texto);
+    }
+
+    .topbar {
+      background: linear-gradient(135deg, var(--topo), var(--topo-2));
+      color: white;
+      padding: 20px 16px 28px;
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .wrap {
+      max-width: var(--max);
+      margin: 0 auto;
+    }
+
+    .topbar-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr auto;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 30px;
+    }
+
+    .brand p {
+      margin: 6px 0 0;
+      opacity: 0.95;
+      font-size: 14px;
+    }
+
+    .search {
+      display: flex;
+      gap: 10px;
+      background: rgba(255,255,255,.15);
+      padding: 10px;
+      border-radius: 14px;
+      backdrop-filter: blur(8px);
+    }
+
+    .search input, .search select, .field input, .field textarea {
+      width: 100%;
+      border: none;
+      outline: none;
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 15px;
+    }
+
+    .cart-btn {
+      border: none;
+      cursor: pointer;
+      background: white;
+      color: var(--topo);
+      font-weight: bold;
+      border-radius: 14px;
+      padding: 14px 18px;
+      min-width: 120px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      max-width: var(--max);
+      margin: 18px auto 0;
+      padding: 0 16px;
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 18px;
+    }
+
+    .hero-card, .info-card, .produto, .pedido-box, .resumo-box {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(191, 219, 254, 0.6);
+    }
+
+    .hero-card {
+      padding: 28px;
+      background: linear-gradient(135deg, #ffffff 0%, #eff6ff 100%);
+    }
+
+    .hero-card h2 {
+      margin: 0 0 12px;
+      font-size: 34px;
+      line-height: 1.1;
+    }
+
+    .hero-card p {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .badge {
+      background: var(--sec);
+      color: var(--topo);
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .info-card {
+      padding: 22px;
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+
+    .info-item {
+      background: #f8fbff;
+      border: 1px solid var(--borda);
+      padding: 14px;
+      border-radius: 14px;
+    }
+
+    .info-item strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .section {
+      max-width: var(--max);
+      margin: 18px auto;
+      padding: 0 16px;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .section-title h3 {
+      margin: 0;
+      font-size: 28px;
+    }
+
+    .section-title span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .produto {
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .produto-img {
+      position: relative;
+      background: #fff;
+      aspect-ratio: 1 / 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .produto-img img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .tag-promo {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: var(--promo);
+      color: var(--promo-texto);
+      font-size: 12px;
+      font-weight: bold;
+      border-radius: 999px;
+      padding: 7px 10px;
+    }
+
+    .produto-body {
+      padding: 16px;
+      display: grid;
+      gap: 10px;
+      height: 100%;
+    }
+
+    .produto h4 {
+      margin: 0;
+      font-size: 17px;
+      min-height: 44px;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 13px;
+      min-height: 18px;
+    }
+
+    .precos {
+      display: flex;
+      align-items: end;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .preco-atual {
+      font-size: 28px;
+      font-weight: bold;
+      color: #0f172a;
+    }
+
+    .preco-antigo {
+      text-decoration: line-through;
+      color: #94a3b8;
+      font-size: 14px;
+    }
+
+    .validade {
+      font-size: 12px;
+      color: #b91c1c;
+      font-weight: bold;
+    }
+
+    .produto-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: auto;
+    }
+
+    .produto-actions button, .cta, .submit-btn {
+      border: none;
+      cursor: pointer;
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-weight: bold;
+      transition: .18s ease;
+    }
+
+    .add-btn {
+      flex: 1;
+      background: var(--botao);
+      color: var(--botao-texto);
+    }
+
+    .qtd-btn {
+      background: var(--sec);
+      color: var(--topo);
+      min-width: 52px;
+    }
+
+    .cta {
+      display: inline-block;
+      text-decoration: none;
+      background: var(--botao);
+      color: white;
+    }
+
+    .pedido-layout {
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 18px;
+    }
+
+    .pedido-box, .resumo-box {
+      padding: 20px;
+    }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .field {
+      display: grid;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .field label {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: bold;
+    }
+
+    .opcoes {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .opcao {
+      border: 1px solid var(--borda);
+      background: #f8fbff;
+      border-radius: 999px;
+      padding: 10px 14px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .opcao.active {
+      background: var(--topo);
+      color: white;
+      border-color: var(--topo);
+    }
+
+    .cart-list {
+      display: grid;
+      gap: 12px;
+      max-height: 420px;
+      overflow: auto;
+    }
+
+    .cart-item {
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 12px;
+      display: grid;
+      grid-template-columns: 60px 1fr auto;
+      gap: 12px;
+      align-items: center;
+      background: #fff;
+    }
+
+    .cart-item img {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+      background: #fff;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .cart-title {
+      font-weight: bold;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
+    .cart-meta {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .cart-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .cart-controls button {
+      border: none;
+      border-radius: 10px;
+      padding: 6px 10px;
+      cursor: pointer;
+      background: #e2e8f0;
+      font-weight: bold;
+    }
+
+    .linha-resumo {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .linha-resumo.total {
+      font-size: 22px;
+      font-weight: bold;
+      border-bottom: none;
+    }
+
+    .submit-btn {
+      width: 100%;
+      margin-top: 16px;
+      background: #25d366;
+      color: white;
+      font-size: 16px;
+    }
+
+    .vazio {
+      text-align: center;
+      color: var(--muted);
+      padding: 30px 16px;
+      border: 2px dashed #cbd5e1;
+      border-radius: 16px;
+      background: #f8fafc;
+    }
+
+    footer {
+      max-width: var(--max);
+      margin: 30px auto 40px;
+      padding: 0 16px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 13px;
+    }
+
+    @media (max-width: 1100px) {
+      .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .pedido-layout { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 880px) {
+      .topbar-grid, .hero, .field-grid { grid-template-columns: 1fr; }
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .brand h1 { font-size: 24px; }
+      .hero-card h2 { font-size: 28px; }
+    }
+
+    @media (max-width: 560px) {
+      .grid { grid-template-columns: 1fr; }
+      .search { flex-direction: column; }
+      .section-title { align-items: start; flex-direction: column; }
+      .produto-actions { flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-grid">
+      <div class="brand">
+        <h1>🛒 Master Pedidos</h1>
+        <p>Jornal de ofertas com pedidos online e retirada na loja</p>
+      </div>
+
+      <div class="search">
+        <input id="busca" type="text" placeholder="Buscar produto, marca ou categoria" />
+        <select id="filtroCategoria">
+          <option value="">Todas as categorias</option>
+        </select>
+      </div>
+
+      <button class="cart-btn" id="abrirPedido">Pedido (0)</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-card">
+      <h2>Ofertas do dia em formato de jornal, direto do seu JSON</h2>
+      <p>
+        Esta página lê os produtos automaticamente de um arquivo <strong>produtos.json</strong>,
+        destaca promoções, monta o carrinho e finaliza o pedido pelo WhatsApp com retirada na loja.
+      </p>
+      <div class="badge-row">
+        <div class="badge">Gerado por JSON</div>
+        <div class="badge">Pedido rápido</div>
+        <div class="badge">Retirada na loja</div>
+        <div class="badge">Pronto para celular</div>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <div class="info-item">
+        <strong>Como funciona</strong>
+        O cliente escolhe os itens, informa nome e telefone, e envia o pedido pronto para o WhatsApp da loja.
+      </div>
+      <div class="info-item">
+        <strong>Origem dos dados</strong>
+        Os cards são montados pelo arquivo JSON, então quando você atualizar o JSON, o jornal atualiza junto.
+      </div>
+      <div class="info-item">
+        <strong>Entrega inicial</strong>
+        Nesta versão o fluxo está preparado para <strong>retirada na loja</strong>. Depois dá para incluir entrega e taxa.
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-title">
+      <h3>🔥 Jornal de Ofertas</h3>
+      <span id="contadorProdutos">0 produtos</span>
+    </div>
+    <div id="produtosGrid" class="grid"></div>
+  </section>
+
+  <section class="section">
+    <div class="section-title">
+      <h3>📦 Fechar pedido</h3>
+      <span>Retirada na loja via WhatsApp</span>
+    </div>
+
+    <div class="pedido-layout">
+      <div class="pedido-box">
+        <div class="field-grid">
+          <div class="field">
+            <label>Nome</label>
+            <input id="clienteNome" type="text" placeholder="Seu nome" />
+          </div>
+          <div class="field">
+            <label>Telefone</label>
+            <input id="clienteTelefone" type="text" placeholder="(19) 99999-9999" />
+          </div>
+        </div>
+
+        <div class="field-grid">
+          <div class="field">
+            <label>Data desejada</label>
+            <input id="dataRetirada" type="date" />
+          </div>
+          <div class="field">
+            <label>Horário desejado</label>
+            <input id="horaRetirada" type="time" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Forma de recebimento</label>
+          <div class="opcoes">
+            <button type="button" class="opcao active" data-tipo="retirada">Retirada na loja</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Observações</label>
+          <textarea id="observacoes" rows="5" placeholder="Ex.: separar bem gelado, retirar após 18h, etc."></textarea>
+        </div>
+      </div>
+
+      <aside class="resumo-box">
+        <div id="cartList" class="cart-list"></div>
+
+        <div class="linha-resumo">
+          <span>Subtotal</span>
+          <strong id="subtotal">R$ 0,00</strong>
+        </div>
+        <div class="linha-resumo">
+          <span>Retirada</span>
+          <strong>Grátis</strong>
+        </div>
+        <div class="linha-resumo total">
+          <span>Total</span>
+          <strong id="total">R$ 0,00</strong>
+        </div>
+
+        <button id="btnWhats" class="submit-btn">Enviar pedido no WhatsApp</button>
+      </aside>
+    </div>
+  </section>
+
+  <footer>
+    Master Pedidos • Jornal de ofertas gerado por JSON • Pedido com retirada na loja
+  </footer>
+
+  <script>
+    const CONFIG = {
+      lojaNome: 'Master Pedidos',
+      whatsapp: '5519999999999',
+      jsonUrl: './produtos.json',
+      moeda: 'BRL',
+      locale: 'pt-BR'
+    };
+
+    let produtos = [];
+    let produtosFiltrados = [];
+    let carrinho = [];
+
+    const elGrid = document.getElementById('produtosGrid');
+    const elBusca = document.getElementById('busca');
+    const elFiltroCategoria = document.getElementById('filtroCategoria');
+    const elContador = document.getElementById('contadorProdutos');
+    const elCartBtn = document.getElementById('abrirPedido');
+    const elCartList = document.getElementById('cartList');
+    const elSubtotal = document.getElementById('subtotal');
+    const elTotal = document.getElementById('total');
+
+    function formatarMoeda(v) {
+      return Number(v || 0).toLocaleString(CONFIG.locale, { style: 'currency', currency: CONFIG.moeda });
+    }
+
+    function normalizarTexto(txt) {
+      return String(txt || '')
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '');
+    }
+
+    function obterPreco(item) {
+      const promo = Number(item.promo || 0);
+      const venda = Number(item.venda || item.valor || 0);
+      return promo > 0 ? promo : venda;
+    }
+
+    function estaEmPromocao(item) {
+      return Number(item.promo || 0) > 0;
+    }
+
+    function categoriaDo(item) {
+      return item.categoria || item.fornecedor || 'Geral';
+    }
+
+    function imagemDo(item) {
+      return item.imagem || item.url_ibb || item.link || 'https://placehold.co/600x600?text=Sem+Imagem';
+    }
+
+    function tituloDo(item) {
+      return item.nome || item.descricao || 'Produto';
+    }
+
+    function codigoDo(item) {
+      return String(item.codigo || item.cod || '');
+    }
+
+    async function carregarProdutos() {
+      try {
+        const resp = await fetch(CONFIG.jsonUrl, { cache: 'no-store' });
+        const data = await resp.json();
+        produtos = Array.isArray(data) ? data : (data.produtos || []);
+        preencherCategorias();
+        aplicarFiltros();
+      } catch (e) {
+        elGrid.innerHTML = '<div class="vazio">Não foi possível carregar o produtos.json.<br>Verifique se o arquivo existe e está no formato correto.</div>';
+        console.error(e);
+      }
+    }
+
+    function preencherCategorias() {
+      const cats = [...new Set(produtos.map(categoriaDo).filter(Boolean))].sort((a, b) => a.localeCompare(b));
+      elFiltroCategoria.innerHTML = '<option value="">Todas as categorias</option>' +
+        cats.map(cat => `<option value="${cat}">${cat}</option>`).join('');
+    }
+
+    function aplicarFiltros() {
+      const busca = normalizarTexto(elBusca.value);
+      const cat = elFiltroCategoria.value;
+
+      produtosFiltrados = produtos.filter(item => {
+        const texto = normalizarTexto([
+          tituloDo(item),
+          categoriaDo(item),
+          item.fornecedor,
+          item.marca,
+          codigoDo(item)
+        ].join(' '));
+
+        const okBusca = !busca || texto.includes(busca);
+        const okCat = !cat || categoriaDo(item) === cat;
+        return okBusca && okCat;
+      });
+
+      produtosFiltrados.sort((a, b) => {
+        const ap = estaEmPromocao(a) ? 0 : 1;
+        const bp = estaEmPromocao(b) ? 0 : 1;
+        if (ap !== bp) return ap - bp;
+        return tituloDo(a).localeCompare(tituloDo(b));
+      });
+
+      renderProdutos();
+    }
+
+    function renderProdutos() {
+      elContador.textContent = `${produtosFiltrados.length} produtos`;
+
+      if (!produtosFiltrados.length) {
+        elGrid.innerHTML = '<div class="vazio">Nenhum produto encontrado.</div>';
+        return;
+      }
+
+      elGrid.innerHTML = produtosFiltrados.map(item => {
+        const precoAtual = obterPreco(item);
+        const precoAntigo = Number(item.venda || item.valor || 0);
+        const promo = estaEmPromocao(item);
+        const validade = item.validade_promo || item.validade || '';
+        const codigo = codigoDo(item);
+
+        return `
+          <article class="produto">
+            <div class="produto-img">
+              ${promo ? '<div class="tag-promo">OFERTA</div>' : ''}
+              <img src="${imagemDo(item)}" alt="${tituloDo(item)}" loading="lazy">
+            </div>
+            <div class="produto-body">
+              <h4>${tituloDo(item)}</h4>
+              <div class="meta">${categoriaDo(item)} • Cód. ${codigo || '-'}</div>
+              <div class="precos">
+                <div class="preco-atual">${formatarMoeda(precoAtual)}</div>
+                ${promo && precoAntigo > 0 ? `<div class="preco-antigo">${formatarMoeda(precoAntigo)}</div>` : ''}
+              </div>
+              ${promo && validade ? `<div class="validade">Oferta válida até ${validade}</div>` : '<div class="validade">&nbsp;</div>'}
+              <div class="produto-actions">
+                <button class="qtd-btn" onclick="adicionarCarrinho('${codigo}', -1)">-</button>
+                <button class="add-btn" onclick="adicionarCarrinho('${codigo}', 1)">Adicionar</button>
+                <button class="qtd-btn" onclick="adicionarCarrinho('${codigo}', 1)">+</button>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    function adicionarCarrinho(codigo, delta) {
+      const item = produtos.find(p => codigoDo(p) === codigo);
+      if (!item) return;
+
+      const achou = carrinho.find(p => codigoDo(p) === codigo);
+      if (!achou && delta < 0) return;
+
+      if (!achou) {
+        carrinho.push({ ...item, quantidade: 1 });
+      } else {
+        achou.quantidade += delta;
+        if (achou.quantidade <= 0) {
+          carrinho = carrinho.filter(p => codigoDo(p) !== codigo);
+        }
+      }
+
+      renderCarrinho();
+    }
+
+    function renderCarrinho() {
+      const totalItens = carrinho.reduce((acc, item) => acc + Number(item.quantidade || 0), 0);
+      elCartBtn.textContent = `Pedido (${totalItens})`;
+
+      if (!carrinho.length) {
+        elCartList.innerHTML = '<div class="vazio">Seu pedido está vazio.</div>';
+        elSubtotal.textContent = formatarMoeda(0);
+        elTotal.textContent = formatarMoeda(0);
+        return;
+      }
+
+      let subtotal = 0;
+      elCartList.innerHTML = carrinho.map(item => {
+        const valor = obterPreco(item);
+        const qtd = Number(item.quantidade || 0);
+        const totalItem = valor * qtd;
+        subtotal += totalItem;
+
+        return `
+          <div class="cart-item">
+            <img src="${imagemDo(item)}" alt="${tituloDo(item)}">
+            <div>
+              <div class="cart-title">${tituloDo(item)}</div>
+              <div class="cart-meta">${formatarMoeda(valor)} cada</div>
+              <div class="cart-controls">
+                <button onclick="adicionarCarrinho('${codigoDo(item)}', -1)">-</button>
+                <strong>${qtd}</strong>
+                <button onclick="adicionarCarrinho('${codigoDo(item)}', 1)">+</button>
+              </div>
+            </div>
+            <strong>${formatarMoeda(totalItem)}</strong>
+          </div>
+        `;
+      }).join('');
+
+      elSubtotal.textContent = formatarMoeda(subtotal);
+      elTotal.textContent = formatarMoeda(subtotal);
+    }
+
+    function gerarMensagemWhatsApp() {
+      const nome = document.getElementById('clienteNome').value.trim();
+      const telefone = document.getElementById('clienteTelefone').value.trim();
+      const data = document.getElementById('dataRetirada').value;
+      const hora = document.getElementById('horaRetirada').value;
+      const obs = document.getElementById('observacoes').value.trim();
+
+      if (!nome) {
+        alert('Informe o nome do cliente.');
+        return '';
+      }
+
+      if (!carrinho.length) {
+        alert('Adicione pelo menos um item ao pedido.');
+        return '';
+      }
+
+      let subtotal = 0;
+      const linhas = carrinho.map((item, i) => {
+        const valor = obterPreco(item);
+        const qtd = Number(item.quantidade || 0);
+        const totalItem = valor * qtd;
+        subtotal += totalItem;
+        return `${i + 1}. ${tituloDo(item)} | Qtd: ${qtd} | Unit: ${formatarMoeda(valor)} | Total: ${formatarMoeda(totalItem)}`;
+      });
+
+      const texto = [
+        `*Novo pedido - ${CONFIG.lojaNome}*`,
+        '',
+        `*Cliente:* ${nome}`,
+        `*Telefone:* ${telefone || '-'} `,
+        `*Recebimento:* Retirada na loja`,
+        `*Data desejada:* ${data || '-'} `,
+        `*Horário desejado:* ${hora || '-'} `,
+        '',
+        '*Itens do pedido:*',
+        ...linhas,
+        '',
+        `*Total:* ${formatarMoeda(subtotal)}`,
+        '',
+        `*Observações:* ${obs || '-'}`
+      ].join('\n');
+
+      return texto;
+    }
+
+    function enviarWhatsApp() {
+      const texto = gerarMensagemWhatsApp();
+      if (!texto) return;
+      const url = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(texto)}`;
+      window.open(url, '_blank');
+    }
+
+    document.getElementById('btnWhats').addEventListener('click', enviarWhatsApp);
+    document.getElementById('abrirPedido').addEventListener('click', () => {
+      document.querySelector('.pedido-box').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    elBusca.addEventListener('input', aplicarFiltros);
+    elFiltroCategoria.addEventListener('change', aplicarFiltros);
+
+    carregarProdutos();
+    renderCarrinho();
+  </script>
+</body>
+</html>
   <style>
     body {
       margin: 0;
