@@ -1,171 +1,165 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <title>Master Pedidos</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Master Pedidos - Jornal de Ofertas</title>
+  <title>Master Pedidos Atacadão</title>
   <style>
     :root {
-      --topo: #1d4ed8;
-      --topo-2: #2563eb;
-      --fundo: #eff6ff;
+      --bg: #f3f4f6;
       --card: #ffffff;
-      --texto: #0f172a;
-      --muted: #475569;
-      --promo: #ef4444;
-      --promo-texto: #ffffff;
-      --botao: #16a34a;
-      --botao-texto: #ffffff;
-      --sec: #dbeafe;
-      --borda: #bfdbfe;
-      --shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
-      --radius: 18px;
-      --radius-sm: 12px;
-      --max: 1240px;
+      --ink: #111827;
+      --muted: #6b7280;
+      --line: #e5e7eb;
+      --blue: #0057b8;
+      --blue-2: #0b67d1;
+      --yellow: #ffd500;
+      --yellow-2: #ffef80;
+      --green: #16a34a;
+      --red: #d61f1f;
+      --red-2: #ef4444;
+      --shadow: 0 10px 24px rgba(17, 24, 39, 0.08);
+      --radius: 16px;
+      --max: 1380px;
     }
 
     * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
     body {
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
-      background: linear-gradient(180deg, #f8fbff 0%, var(--fundo) 100%);
-      color: var(--texto);
+      color: var(--ink);
+      background: linear-gradient(180deg, #f8fafc 0%, var(--bg) 100%);
     }
 
-    .topbar {
-      background: linear-gradient(135deg, var(--topo), var(--topo-2));
-      color: white;
-      padding: 20px 16px 28px;
-      box-shadow: var(--shadow);
+    .top-strip {
+      background: #082f49;
+      color: #fff;
+      font-size: 13px;
+      padding: 8px 14px;
+      text-align: center;
+    }
+
+    .header {
       position: sticky;
       top: 0;
-      z-index: 20;
+      z-index: 30;
+      background: linear-gradient(135deg, var(--blue), var(--blue-2));
+      box-shadow: var(--shadow);
     }
 
     .wrap {
       max-width: var(--max);
       margin: 0 auto;
+      padding: 0 16px;
     }
 
-    .topbar-grid {
+    .header-inner {
       display: grid;
-      grid-template-columns: 1.3fr 1fr auto;
+      grid-template-columns: 280px 1fr auto;
       gap: 14px;
       align-items: center;
+      padding: 16px 0;
     }
 
-    .brand h1 {
-      margin: 0;
-      font-size: 30px;
-    }
-
-    .brand p {
-      margin: 6px 0 0;
-      opacity: 0.95;
-      font-size: 14px;
-    }
-
-    .search {
+    .logo-box {
       display: flex;
-      gap: 10px;
-      background: rgba(255,255,255,.15);
-      padding: 10px;
-      border-radius: 14px;
-      backdrop-filter: blur(8px);
+      flex-direction: column;
+      gap: 4px;
+      color: white;
     }
 
-    .search input, .search select, .field input, .field textarea {
+    .logo-title {
+      font-size: 30px;
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -0.5px;
+    }
+
+    .logo-sub {
+      font-size: 13px;
+      opacity: .95;
+    }
+
+    .busca-row {
+      display: grid;
+      grid-template-columns: 1.2fr 220px 150px;
+      gap: 10px;
+    }
+
+    .busca-row input,
+    .busca-row select,
+    .field input,
+    .field textarea,
+    .field select {
       width: 100%;
       border: none;
       outline: none;
-      border-radius: 10px;
-      padding: 12px 14px;
-      font-size: 15px;
+      border-radius: 12px;
+      padding: 13px 14px;
+      font-size: 14px;
     }
 
-    .cart-btn {
+    .right-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .cart-btn,
+    .menu-btn,
+    .whats-btn,
+    .submit-btn,
+    .qty-btn,
+    .add-btn,
+    .fun-toggle,
+    .fun-card button {
       border: none;
       cursor: pointer;
-      background: white;
-      color: var(--topo);
-      font-weight: bold;
-      border-radius: 14px;
-      padding: 14px 18px;
-      min-width: 120px;
-      box-shadow: var(--shadow);
+      font-weight: 700;
+      border-radius: 12px;
+      transition: .18s ease;
     }
 
-    .hero {
+    .cart-btn, .menu-btn {
+      padding: 13px 16px;
+      background: #fff;
+      color: var(--blue);
+      box-shadow: var(--shadow);
+      white-space: nowrap;
+    }
+
+    .menu-btn {
+      background: var(--yellow);
+      color: #111827;
+    }
+
+    .hero-mini {
       max-width: var(--max);
-      margin: 18px auto 0;
+      margin: 16px auto 0;
       padding: 0 16px;
       display: grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap: 18px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
     }
 
-    .hero-card, .info-card, .produto, .pedido-box, .resumo-box {
+    .mini-box {
       background: var(--card);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
-      border: 1px solid rgba(191, 219, 254, 0.6);
-    }
-
-    .hero-card {
-      padding: 28px;
-      background: linear-gradient(135deg, #ffffff 0%, #eff6ff 100%);
-    }
-
-    .hero-card h2 {
-      margin: 0 0 12px;
-      font-size: 34px;
-      line-height: 1.1;
-    }
-
-    .hero-card p {
-      margin: 0 0 18px;
-      color: var(--muted);
-      font-size: 16px;
-    }
-
-    .badge-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .badge {
-      background: var(--sec);
-      color: var(--topo);
-      padding: 8px 12px;
-      border-radius: 999px;
-      font-size: 13px;
-      font-weight: bold;
-    }
-
-    .info-card {
-      padding: 22px;
-      display: grid;
-      gap: 14px;
-      align-content: start;
-    }
-
-    .info-item {
-      background: #f8fbff;
-      border: 1px solid var(--borda);
+      border: 1px solid rgba(229, 231, 235, 0.9);
       padding: 14px;
-      border-radius: 14px;
     }
 
-    .info-item strong {
+    .mini-box strong {
       display: block;
       margin-bottom: 4px;
+      font-size: 15px;
+    }
+
+    .mini-box span {
+      font-size: 13px;
+      color: var(--muted);
     }
 
     .section {
@@ -179,29 +173,61 @@
       justify-content: space-between;
       align-items: center;
       gap: 12px;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
-    .section-title h3 {
+    .title-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .title-badge {
+      background: var(--yellow);
+      color: #111827;
+      font-weight: 900;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+    }
+
+    .section-title h2 {
       margin: 0;
       font-size: 28px;
+      line-height: 1.05;
     }
 
-    .section-title span {
+    .section-title p {
+      margin: 4px 0 0;
       color: var(--muted);
-      font-size: 14px;
+      font-size: 13px;
+    }
+
+    .title-side {
+      color: var(--muted);
+      font-size: 13px;
+      text-align: right;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 16px;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 12px;
     }
 
     .produto {
+      background: var(--card);
+      border-radius: 14px;
       overflow: hidden;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
       display: flex;
       flex-direction: column;
+      min-height: 100%;
+    }
+
+    .produto:hover {
+      transform: translateY(-2px);
     }
 
     .produto-img {
@@ -211,7 +237,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 16px;
+      padding: 10px;
+      border-bottom: 1px solid var(--line);
     }
 
     .produto-img img {
@@ -220,104 +247,158 @@
       object-fit: contain;
     }
 
-    .tag-promo {
+    .oferta-tag {
       position: absolute;
-      top: 12px;
-      left: 12px;
-      background: var(--promo);
-      color: var(--promo-texto);
-      font-size: 12px;
-      font-weight: bold;
+      top: 10px;
+      left: 10px;
+      background: var(--red);
+      color: white;
+      padding: 6px 9px;
       border-radius: 999px;
-      padding: 7px 10px;
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: .4px;
+    }
+
+    .codigo-tag {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(17,24,39,.78);
+      color: white;
+      padding: 5px 8px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 700;
     }
 
     .produto-body {
-      padding: 16px;
-      display: grid;
-      gap: 10px;
-      height: 100%;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      flex: 1;
     }
 
-    .produto h4 {
+    .marca {
+      color: var(--blue);
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+    }
+
+    .produto h3 {
       margin: 0;
-      font-size: 17px;
-      min-height: 44px;
+      font-size: 14px;
+      line-height: 1.2;
+      min-height: 34px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
 
-    .meta {
+    .meta-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 12px;
       color: var(--muted);
-      font-size: 13px;
-      min-height: 18px;
     }
 
-    .precos {
+    .price-box {
+      background: linear-gradient(180deg, #fffef2 0%, #fff8cf 100%);
+      border: 1px solid #f3e8a8;
+      border-radius: 12px;
+      padding: 10px;
+      display: grid;
+      gap: 4px;
+    }
+
+    .price-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .price-label {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .unit-chip {
+      background: white;
+      border: 1px solid #f3e8a8;
+      border-radius: 999px;
+      padding: 4px 8px;
+      font-size: 11px;
+      font-weight: 800;
+      color: #92400e;
+    }
+
+    .price-main {
       display: flex;
       align-items: end;
-      gap: 10px;
+      gap: 8px;
       flex-wrap: wrap;
     }
 
-    .preco-atual {
+    .price-main strong {
       font-size: 28px;
-      font-weight: bold;
-      color: #0f172a;
+      line-height: 1;
+      color: var(--red);
+      letter-spacing: -1px;
     }
 
-    .preco-antigo {
-      text-decoration: line-through;
-      color: #94a3b8;
-      font-size: 14px;
+    .price-main small {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 700;
     }
 
     .validade {
-      font-size: 12px;
+      font-size: 11px;
       color: #b91c1c;
-      font-weight: bold;
+      font-weight: 800;
+      min-height: 14px;
     }
 
-    .produto-actions {
+    .actions {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       margin-top: auto;
     }
 
-    .produto-actions button, .cta, .submit-btn {
-      border: none;
-      cursor: pointer;
-      border-radius: 12px;
-      padding: 12px 14px;
-      font-weight: bold;
-      transition: .18s ease;
+    .qty-btn {
+      min-width: 42px;
+      padding: 10px 0;
+      background: #e5eefc;
+      color: var(--blue);
     }
 
     .add-btn {
       flex: 1;
-      background: var(--botao);
-      color: var(--botao-texto);
-    }
-
-    .qtd-btn {
-      background: var(--sec);
-      color: var(--topo);
-      min-width: 52px;
-    }
-
-    .cta {
-      display: inline-block;
-      text-decoration: none;
-      background: var(--botao);
+      background: var(--green);
       color: white;
+      padding: 10px 12px;
     }
 
     .pedido-layout {
       display: grid;
       grid-template-columns: 1fr 420px;
-      gap: 18px;
+      gap: 16px;
     }
 
-    .pedido-box, .resumo-box {
-      padding: 20px;
+    .box {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--line);
+      padding: 18px;
     }
 
     .field-grid {
@@ -333,217 +414,456 @@
     }
 
     .field label {
-      font-size: 13px;
+      font-size: 12px;
       color: var(--muted);
-      font-weight: bold;
+      font-weight: 800;
+      text-transform: uppercase;
     }
 
-    .opcoes {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 14px;
-    }
-
-    .opcao {
-      border: 1px solid var(--borda);
-      background: #f8fbff;
+    .recebimento-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #ecfdf5;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+      padding: 10px 12px;
       border-radius: 999px;
-      padding: 10px 14px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .opcao.active {
-      background: var(--topo);
-      color: white;
-      border-color: var(--topo);
+      font-weight: 800;
+      margin-bottom: 14px;
     }
 
     .cart-list {
       display: grid;
-      gap: 12px;
+      gap: 10px;
       max-height: 420px;
       overflow: auto;
+      margin-bottom: 14px;
     }
 
     .cart-item {
-      border: 1px solid #e2e8f0;
-      border-radius: 14px;
-      padding: 12px;
       display: grid;
-      grid-template-columns: 60px 1fr auto;
-      gap: 12px;
+      grid-template-columns: 56px 1fr auto;
+      gap: 10px;
       align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 10px;
       background: #fff;
     }
 
     .cart-item img {
-      width: 60px;
-      height: 60px;
+      width: 56px;
+      height: 56px;
       object-fit: contain;
-      background: #fff;
-      border-radius: 12px;
-      border: 1px solid #e2e8f0;
+      background: white;
+      border-radius: 10px;
+      border: 1px solid var(--line);
     }
 
-    .cart-title {
-      font-weight: bold;
-      font-size: 14px;
+    .cart-name {
+      font-weight: 800;
+      font-size: 13px;
       margin-bottom: 4px;
     }
 
     .cart-meta {
-      color: var(--muted);
       font-size: 12px;
+      color: var(--muted);
     }
 
     .cart-controls {
       display: flex;
       align-items: center;
       gap: 8px;
-      margin-top: 8px;
+      margin-top: 7px;
     }
 
     .cart-controls button {
       border: none;
-      border-radius: 10px;
-      padding: 6px 10px;
       cursor: pointer;
-      background: #e2e8f0;
-      font-weight: bold;
+      width: 26px;
+      height: 26px;
+      border-radius: 8px;
+      font-weight: 900;
+      background: #e5eefc;
+      color: var(--blue);
     }
 
-    .linha-resumo {
+    .cart-total-item {
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .resume-line {
       display: flex;
       justify-content: space-between;
-      gap: 12px;
+      gap: 10px;
       padding: 10px 0;
-      border-bottom: 1px solid #e2e8f0;
+      border-bottom: 1px solid var(--line);
+      font-size: 14px;
     }
 
-    .linha-resumo.total {
-      font-size: 22px;
-      font-weight: bold;
+    .resume-line.total {
+      font-size: 24px;
+      font-weight: 900;
       border-bottom: none;
     }
 
+    .whats-btn,
     .submit-btn {
       width: 100%;
-      margin-top: 16px;
-      background: #25d366;
+      padding: 14px 16px;
       color: white;
+      font-size: 15px;
+    }
+
+    .whats-btn {
+      background: #25d366;
+      margin-top: 12px;
+    }
+
+    .submit-btn {
+      background: var(--blue);
+      margin-top: 10px;
+    }
+
+    .fun-toggle {
+      background: linear-gradient(135deg, #7c3aed, #9333ea);
+      color: white;
+      padding: 13px 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .fun-panel {
+      display: none;
+      background: #f8fafc;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px;
+      margin-top: 12px;
+    }
+
+    .fun-panel.open {
+      display: block;
+    }
+
+    .fun-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .fun-card {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px;
+      box-shadow: var(--shadow);
+      display: grid;
+      gap: 10px;
+      align-content: start;
+    }
+
+    .fun-card h3 {
+      margin: 0;
       font-size: 16px;
     }
 
-    .vazio {
+    .fun-card p,
+    .fun-card li,
+    .fun-card .result {
+      font-size: 13px;
+      color: #374151;
+      line-height: 1.45;
+    }
+
+    .fun-card ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .fun-card button {
+      background: var(--yellow);
+      color: #111827;
+      padding: 10px 12px;
+    }
+
+    .crossword {
+      display: grid;
+      grid-template-columns: repeat(7, 34px);
+      gap: 4px;
+      justify-content: start;
+    }
+
+    .crossword div {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: white;
+      font-weight: 900;
+      font-size: 14px;
+    }
+
+    .crossword .fill { background: #dbeafe; }
+    .crossword .empty { background: #1f2937; border-color: #1f2937; }
+
+    .hint-box {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-radius: 12px;
+      padding: 10px;
+    }
+
+    .empty-state {
+      padding: 24px;
       text-align: center;
       color: var(--muted);
-      padding: 30px 16px;
       border: 2px dashed #cbd5e1;
       border-radius: 16px;
-      background: #f8fafc;
+      background: #fff;
     }
 
     footer {
       max-width: var(--max);
-      margin: 30px auto 40px;
+      margin: 24px auto 40px;
       padding: 0 16px;
+      font-size: 12px;
       color: var(--muted);
       text-align: center;
-      font-size: 13px;
     }
 
-    @media (max-width: 1100px) {
-      .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-      .pedido-layout { grid-template-columns: 1fr; }
+    @media (max-width: 1180px) {
+      .header-inner,
+      .pedido-layout,
+      .hero-mini,
+      .fun-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .busca-row {
+        grid-template-columns: 1fr 180px 130px;
+      }
     }
 
-    @media (max-width: 880px) {
-      .topbar-grid, .hero, .field-grid { grid-template-columns: 1fr; }
-      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .brand h1 { font-size: 24px; }
-      .hero-card h2 { font-size: 28px; }
+    @media (max-width: 900px) {
+      .header-inner,
+      .hero-mini,
+      .pedido-layout,
+      .field-grid,
+      .fun-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .busca-row {
+        grid-template-columns: 1fr;
+      }
+
+      .right-actions {
+        flex-wrap: wrap;
+      }
     }
 
     @media (max-width: 560px) {
-      .grid { grid-template-columns: 1fr; }
-      .search { flex-direction: column; }
-      .section-title { align-items: start; flex-direction: column; }
-      .produto-actions { flex-wrap: wrap; }
+      .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .section-title {
+        align-items: start;
+        flex-direction: column;
+      }
+
+      .title-side {
+        text-align: left;
+      }
+
+      .price-main strong {
+        font-size: 24px;
+      }
+
+      .crossword {
+        grid-template-columns: repeat(7, 28px);
+      }
+
+      .crossword div {
+        width: 28px;
+        height: 28px;
+      }
     }
   </style>
 </head>
 <body>
-  <header class="topbar">
-    <div class="wrap topbar-grid">
-      <div class="brand">
-        <h1>🛒 Master Pedidos</h1>
-        <p>Jornal de ofertas com pedidos online e retirada na loja</p>
+  <div class="top-strip">🛒 Ofertas atualizadas por JSON • Pedido rápido no WhatsApp • Retirada na loja</div>
+
+  <header class="header">
+    <div class="wrap header-inner">
+      <div class="logo-box">
+        <div class="logo-title">MASTER PEDIDOS</div>
+        <div class="logo-sub">Seu atacadão digital com ofertas, pedido e entretenimento</div>
       </div>
 
-      <div class="search">
-        <input id="busca" type="text" placeholder="Buscar produto, marca ou categoria" />
-        <select id="filtroCategoria">
-          <option value="">Todas as categorias</option>
+      <div class="busca-row">
+        <input id="busca" type="text" placeholder="Buscar por produto, marca ou código" />
+        <select id="filtroMarca">
+          <option value="">Todas as marcas</option>
+        </select>
+        <select id="filtroOferta">
+          <option value="">Tudo</option>
+          <option value="promo">Só ofertas</option>
+          <option value="normal">Só normais</option>
         </select>
       </div>
 
-      <button class="cart-btn" id="abrirPedido">Pedido (0)</button>
+      <div class="right-actions">
+        <button class="menu-btn" id="scrollPedido">Fechar Pedido</button>
+        <button class="cart-btn" id="cartBtn">Carrinho (0)</button>
+      </div>
     </div>
   </header>
 
-  <section class="hero">
-    <div class="hero-card">
-      <h2>Ofertas do dia em formato de jornal, direto do seu JSON</h2>
-      <p>
-        Esta página lê os produtos automaticamente de um arquivo <strong>produtos.json</strong>,
-        destaca promoções, monta o carrinho e finaliza o pedido pelo WhatsApp com retirada na loja.
-      </p>
-      <div class="badge-row">
-        <div class="badge">Gerado por JSON</div>
-        <div class="badge">Pedido rápido</div>
-        <div class="badge">Retirada na loja</div>
-        <div class="badge">Pronto para celular</div>
-      </div>
+  <section class="hero-mini">
+    <div class="mini-box">
+      <strong>Preço de atacado</strong>
+      <span>Ofertas com visual forte e fácil de enxergar no celular.</span>
     </div>
-
-    <div class="info-card">
-      <div class="info-item">
-        <strong>Como funciona</strong>
-        O cliente escolhe os itens, informa nome e telefone, e envia o pedido pronto para o WhatsApp da loja.
-      </div>
-      <div class="info-item">
-        <strong>Origem dos dados</strong>
-        Os cards são montados pelo arquivo JSON, então quando você atualizar o JSON, o jornal atualiza junto.
-      </div>
-      <div class="info-item">
-        <strong>Entrega inicial</strong>
-        Nesta versão o fluxo está preparado para <strong>retirada na loja</strong>. Depois dá para incluir entrega e taxa.
-      </div>
+    <div class="mini-box">
+      <strong>Pedido rápido</strong>
+      <span>Escolha os itens e envie o pedido pronto no WhatsApp.</span>
+    </div>
+    <div class="mini-box">
+      <strong>Retirada na loja</strong>
+      <span>Fluxo simples, sem complicação e sem taxa de entrega.</span>
+    </div>
+    <div class="mini-box">
+      <strong>Área divertida</strong>
+      <span>Receitas, horóscopo, palavras cruzadas e números da sorte.</span>
     </div>
   </section>
 
   <section class="section">
     <div class="section-title">
-      <h3>🔥 Jornal de Ofertas</h3>
-      <span id="contadorProdutos">0 produtos</span>
+      <div class="title-left">
+        <span class="title-badge">ATACADÃO</span>
+        <div>
+          <h2>Jornal de Ofertas</h2>
+          <p>Produtos puxados automaticamente do seu JSON</p>
+        </div>
+      </div>
+      <div class="title-side" id="contadorProdutos">0 produtos</div>
     </div>
-    <div id="produtosGrid" class="grid"></div>
+
+    <div id="gridOfertas" class="grid"></div>
   </section>
 
   <section class="section">
     <div class="section-title">
-      <h3>📦 Fechar pedido</h3>
-      <span>Retirada na loja via WhatsApp</span>
+      <div class="title-left">
+        <span class="title-badge">CATÁLOGO</span>
+        <div>
+          <h2>Mais Produtos</h2>
+          <p>Lista geral organizada por marca e descrição</p>
+        </div>
+      </div>
+      <div class="title-side">Visual limpo, compacto e comercial</div>
+    </div>
+
+    <div id="gridProdutos" class="grid"></div>
+  </section>
+
+  <section class="section">
+    <div class="section-title">
+      <div class="title-left">
+        <span class="title-badge">EXTRA</span>
+        <div>
+          <h2>Entretenimento</h2>
+          <p>Abra uma área leve para engajar quem está vendo as ofertas</p>
+        </div>
+      </div>
+      <button class="fun-toggle" id="toggleFun">Abrir entretenimento</button>
+    </div>
+
+    <div class="fun-panel" id="funPanel">
+      <div class="fun-grid">
+        <div class="fun-card">
+          <h3>🔢 Mega Sena da Sorte</h3>
+          <p>Gere sugestões aleatórias de números para brincar.</p>
+          <button id="gerarMega">Gerar números</button>
+          <div class="result" id="megaResultado">Nenhum jogo gerado ainda.</div>
+        </div>
+
+        <div class="fun-card">
+          <h3>♈ Horóscopo do Dia</h3>
+          <select id="signoSelect">
+            <option value="Áries">Áries</option>
+            <option value="Touro">Touro</option>
+            <option value="Gêmeos">Gêmeos</option>
+            <option value="Câncer">Câncer</option>
+            <option value="Leão">Leão</option>
+            <option value="Virgem">Virgem</option>
+            <option value="Libra">Libra</option>
+            <option value="Escorpião">Escorpião</option>
+            <option value="Sagitário">Sagitário</option>
+            <option value="Capricórnio">Capricórnio</option>
+            <option value="Aquário">Aquário</option>
+            <option value="Peixes">Peixes</option>
+          </select>
+          <button id="verHoroscopo">Ver horóscopo</button>
+          <div class="result" id="horoscopoResultado">Escolha um signo.</div>
+        </div>
+
+        <div class="fun-card">
+          <h3>🍳 Receita Rápida</h3>
+          <button id="gerarReceita">Gerar receita</button>
+          <div class="result" id="receitaResultado">Clique para ver uma receita simples.</div>
+        </div>
+
+        <div class="fun-card">
+          <h3>🧩 Palavras Cruzadas</h3>
+          <div class="crossword" aria-label="mini palavras cruzadas">
+            <div class="fill">L</div><div class="fill">E</div><div class="fill">I</div><div class="fill">T</div><div class="fill">E</div><div class="empty"></div><div class="empty"></div>
+            <div class="empty"></div><div class="empty"></div><div class="fill">O</div><div class="empty"></div><div class="empty"></div><div class="empty"></div><div class="empty"></div>
+            <div class="fill">P</div><div class="fill">R</div><div class="fill">O</div><div class="fill">M</div><div class="fill">O</div><div class="empty"></div><div class="empty"></div>
+            <div class="empty"></div><div class="empty"></div><div class="fill">G</div><div class="empty"></div><div class="empty"></div><div class="empty"></div><div class="empty"></div>
+            <div class="fill">C</div><div class="fill">A</div><div class="fill">I</div><div class="fill">X</div><div class="fill">A</div><div class="empty"></div><div class="empty"></div>
+          </div>
+          <div class="hint-box">
+            <strong>Dicas:</strong>
+            <ul>
+              <li>Bebida branca muito comum no café da manhã.</li>
+              <li>Quando o preço cai, vira uma boa...</li>
+              <li>Venda por embalagem fechada.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="pedidoSection">
+    <div class="section-title">
+      <div class="title-left">
+        <span class="title-badge">PEDIDO</span>
+        <div>
+          <h2>Monte seu pedido</h2>
+          <p>Retirada na loja com envio rápido pelo WhatsApp</p>
+        </div>
+      </div>
+      <div class="title-side">Pedido simples e direto</div>
     </div>
 
     <div class="pedido-layout">
-      <div class="pedido-box">
+      <div class="box">
+        <div class="recebimento-pill">✔ Retirada na loja</div>
+
         <div class="field-grid">
           <div class="field">
             <label>Nome</label>
-            <input id="clienteNome" type="text" placeholder="Seu nome" />
+            <input id="clienteNome" type="text" placeholder="Digite seu nome" />
           </div>
           <div class="field">
             <label>Telefone</label>
@@ -563,41 +883,34 @@
         </div>
 
         <div class="field">
-          <label>Forma de recebimento</label>
-          <div class="opcoes">
-            <button type="button" class="opcao active" data-tipo="retirada">Retirada na loja</button>
-          </div>
-        </div>
-
-        <div class="field">
           <label>Observações</label>
-          <textarea id="observacoes" rows="5" placeholder="Ex.: separar bem gelado, retirar após 18h, etc."></textarea>
+          <textarea id="observacoes" rows="5" placeholder="Ex.: separar os mais gelados, retirar após as 17h, etc."></textarea>
         </div>
       </div>
 
-      <aside class="resumo-box">
+      <aside class="box">
         <div id="cartList" class="cart-list"></div>
 
-        <div class="linha-resumo">
+        <div class="resume-line">
           <span>Subtotal</span>
           <strong id="subtotal">R$ 0,00</strong>
         </div>
-        <div class="linha-resumo">
+        <div class="resume-line">
           <span>Retirada</span>
           <strong>Grátis</strong>
         </div>
-        <div class="linha-resumo total">
+        <div class="resume-line total">
           <span>Total</span>
           <strong id="total">R$ 0,00</strong>
         </div>
 
-        <button id="btnWhats" class="submit-btn">Enviar pedido no WhatsApp</button>
+        <button class="whats-btn" id="btnWhats">Enviar pedido no WhatsApp</button>
       </aside>
     </div>
   </section>
 
   <footer>
-    Master Pedidos • Jornal de ofertas gerado por JSON • Pedido com retirada na loja
+    Master Pedidos • Layout atacadão sem banner gigante • Integrado ao seu modelo de JSON
   </footer>
 
   <script>
@@ -610,199 +923,176 @@
     };
 
     let produtos = [];
-    let produtosFiltrados = [];
+    let filtrados = [];
     let carrinho = [];
 
-    const elGrid = document.getElementById('produtosGrid');
     const elBusca = document.getElementById('busca');
-    const elFiltroCategoria = document.getElementById('filtroCategoria');
+    const elFiltroMarca = document.getElementById('filtroMarca');
+    const elFiltroOferta = document.getElementById('filtroOferta');
+    const elGridOfertas = document.getElementById('gridOfertas');
+    const elGridProdutos = document.getElementById('gridProdutos');
     const elContador = document.getElementById('contadorProdutos');
-    const elCartBtn = document.getElementById('abrirPedido');
     const elCartList = document.getElementById('cartList');
     const elSubtotal = document.getElementById('subtotal');
     const elTotal = document.getElementById('total');
+    const elCartBtn = document.getElementById('cartBtn');
+    const elFunPanel = document.getElementById('funPanel');
 
-    function formatarMoeda(v) {
+    function dinheiro(v) {
       return Number(v || 0).toLocaleString(CONFIG.locale, { style: 'currency', currency: CONFIG.moeda });
     }
 
-    function normalizarTexto(txt) {
-      return String(txt || '')
+    function texto(t) {
+      return String(t || '').trim();
+    }
+
+    function normalizar(t) {
+      return texto(t)
         .toLowerCase()
         .normalize('NFD')
         .replace(/[\u0300-\u036f]/g, '');
     }
 
-    function toNumeroBR(v) {
-      if (v === null || v === undefined) return 0;
-      if (typeof v === 'number') return isNaN(v) ? 0 : v;
-    
-      let s = String(v).trim();
-      if (!s) return 0;
-    
-      s = s.replace(/\s/g, '');
-    
-      if (s.includes(',') && s.includes('.')) {
-        s = s.replace(/\./g, '').replace(',', '.');
-      } else if (s.includes(',')) {
-        s = s.replace(',', '.');
+    function codigoDo(item) { return texto(item.codigo); }
+    function tituloDo(item) { return texto(item.descricao) || 'Produto'; }
+    function marcaDo(item) { return texto(item.marca) || 'Sem marca'; }
+    function imagemDo(item) { return texto(item.imagem) || 'https://placehold.co/500x500?text=Sem+Imagem'; }
+    function unidadesDo(item) { return Number(item.unidades || 0); }
+    function valorDo(item) { return Number(item.valor || 0); }
+    function promoDo(item) { return item.promo === true; }
+    function promoQtdDo(item) { return Number(item.promo_qtd || 0); }
+    function valorPromoQtdDo(item) { return Number(item.valor_promo_qtd || 0); }
+    function validadeDo(item) { return texto(item.Validade); }
+
+    function precoExibicao(item) {
+      return promoDo(item) && valorPromoQtdDo(item) > 0 ? valorPromoQtdDo(item) : valorDo(item);
+    }
+
+    function textoPromo(item) {
+      if (!promoDo(item)) return '';
+      if (promoQtdDo(item) > 0 && valorPromoQtdDo(item) > 0) {
+        return `Na compra de ${promoQtdDo(item)} ou mais: ${dinheiro(valorPromoQtdDo(item))}`;
       }
-    
-      const n = Number(s);
-      return isNaN(n) ? 0 : n;
-    }
-    
-    function obterVenda(item) {
-      return toNumeroBR(
-        item.venda ??
-        item.valor_venda ??
-        item.preco ??
-        item.valor ??
-        item.consumidor ??
-        0
-      );
-    }
-    
-    function obterPromo(item) {
-      return toNumeroBR(
-        item.promo ??
-        item.valor_promo ??
-        item.preco_promocional ??
-        item.promocao ??
-        0
-      );
-    }
-    
-    function obterPreco(item) {
-      const promo = obterPromo(item);
-      const venda = obterVenda(item);
-      return promo > 0 ? promo : venda;
-    }
-    
-    function estaEmPromocao(item) {
-      return obterPromo(item) > 0;
+      return 'Produto em oferta';
     }
 
-    
-    function estaEmPromocao(item) {
-      return Number(item.promo || 0) > 0;
-    }
-
-    function categoriaDo(item) {
-      return item.categoria || item.fornecedor || 'Geral';
-    }
-
-    function imagemDo(item) {
-      return item.imagem || item.url_ibb || item.link || 'https://placehold.co/600x600?text=Sem+Imagem';
-    }
-
-    function tituloDo(item) {
-      return item.nome || item.descricao || 'Produto';
-    }
-
-    function codigoDo(item) {
-      return String(item.codigo || item.cod || '');
+    function precoUnidade(item) {
+      const und = unidadesDo(item);
+      const preco = precoExibicao(item);
+      if (!und) return 0;
+      return preco / und;
     }
 
     async function carregarProdutos() {
       try {
-        const resp = await fetch(CONFIG.jsonUrl, { cache: 'no-store' });
+        const resp = await fetch(`${CONFIG.jsonUrl}?v=${Date.now()}`, { cache: 'no-store' });
         const data = await resp.json();
-        produtos = Array.isArray(data) ? data : (data.produtos || []);
-        preencherCategorias();
+        produtos = Array.isArray(data) ? data : [];
+        preencherMarcas();
         aplicarFiltros();
       } catch (e) {
-        elGrid.innerHTML = '<div class="vazio">Não foi possível carregar o produtos.json.<br>Verifique se o arquivo existe e está no formato correto.</div>';
+        elGridOfertas.innerHTML = '<div class="empty-state">Não foi possível carregar o arquivo produtos.json.</div>';
+        elGridProdutos.innerHTML = '';
         console.error(e);
       }
     }
 
-    function preencherCategorias() {
-      const cats = [...new Set(produtos.map(categoriaDo).filter(Boolean))].sort((a, b) => a.localeCompare(b));
-      elFiltroCategoria.innerHTML = '<option value="">Todas as categorias</option>' +
-        cats.map(cat => `<option value="${cat}">${cat}</option>`).join('');
+    function preencherMarcas() {
+      const marcas = [...new Set(produtos.map(marcaDo).filter(Boolean))].sort((a, b) => a.localeCompare(b));
+      elFiltroMarca.innerHTML = '<option value="">Todas as marcas</option>' + marcas.map(m => `<option value="${m}">${m}</option>`).join('');
     }
 
     function aplicarFiltros() {
-      const busca = normalizarTexto(elBusca.value);
-      const cat = elFiltroCategoria.value;
+      const busca = normalizar(elBusca.value);
+      const marca = elFiltroMarca.value;
+      const filtroOferta = elFiltroOferta.value;
 
-      produtosFiltrados = produtos.filter(item => {
-        const texto = normalizarTexto([
+      filtrados = produtos.filter(item => {
+        const okBusca = !busca || normalizar([
+          codigoDo(item),
           tituloDo(item),
-          categoriaDo(item),
-          item.fornecedor,
-          item.marca,
-          codigoDo(item)
-        ].join(' '));
+          marcaDo(item)
+        ].join(' ')).includes(busca);
 
-        const okBusca = !busca || texto.includes(busca);
-        const okCat = !cat || categoriaDo(item) === cat;
-        return okBusca && okCat;
+        const okMarca = !marca || marcaDo(item) === marca;
+        const okOferta = !filtroOferta || (filtroOferta === 'promo' ? promoDo(item) : !promoDo(item));
+
+        return okBusca && okMarca && okOferta;
       });
 
-      produtosFiltrados.sort((a, b) => {
-        const ap = estaEmPromocao(a) ? 0 : 1;
-        const bp = estaEmPromocao(b) ? 0 : 1;
-        if (ap !== bp) return ap - bp;
+      filtrados.sort((a, b) => {
+        if (promoDo(a) !== promoDo(b)) return promoDo(a) ? -1 : 1;
         return tituloDo(a).localeCompare(tituloDo(b));
       });
 
       renderProdutos();
     }
 
-    function renderProdutos() {
-      elContador.textContent = `${produtosFiltrados.length} produtos`;
+    function cardProduto(item) {
+      const preco = precoExibicao(item);
+      const precoBase = valorDo(item);
+      const promo = promoDo(item);
+      const unidades = unidadesDo(item);
+      const unitario = precoUnidade(item);
+      const validade = validadeDo(item);
+      const frasePromo = textoPromo(item);
 
-      if (!produtosFiltrados.length) {
-        elGrid.innerHTML = '<div class="vazio">Nenhum produto encontrado.</div>';
-        return;
-      }
-
-      elGrid.innerHTML = produtosFiltrados.map(item => {
-        const precoAtual = obterPreco(item);
-        const precoAntigo = Number(item.venda || item.valor || 0);
-        const promo = estaEmPromocao(item);
-        const validade = item.validade_promo || item.validade || '';
-        const codigo = codigoDo(item);
-
-        return `
-          <article class="produto">
-            <div class="produto-img">
-              ${promo ? '<div class="tag-promo">OFERTA</div>' : ''}
-              <img src="${imagemDo(item)}" alt="${tituloDo(item)}" loading="lazy">
+      return `
+        <article class="produto">
+          <div class="produto-img">
+            ${promo ? '<div class="oferta-tag">OFERTA</div>' : ''}
+            <div class="codigo-tag">Cód. ${codigoDo(item)}</div>
+            <img src="${imagemDo(item)}" alt="${tituloDo(item)}" loading="lazy" onerror="this.src='https://placehold.co/500x500?text=Sem+Imagem'" />
+          </div>
+          <div class="produto-body">
+            <div class="marca">${marcaDo(item)}</div>
+            <h3>${tituloDo(item)}</h3>
+            <div class="meta-line">
+              <span>${unidades} un.</span>
+              <span>${dinheiro(unitario)}/un</span>
             </div>
-            <div class="produto-body">
-              <h4>${tituloDo(item)}</h4>
-              <div class="meta">${categoriaDo(item)} • Cód. ${codigo || '-'}</div>
-              <div class="precos">
-                <div class="preco-atual">${formatarMoeda(precoAtual)}</div>
-                ${promo && precoAntigo > 0 ? `<div class="preco-antigo">${formatarMoeda(precoAntigo)}</div>` : ''}
+            <div class="price-box">
+              <div class="price-top">
+                <span class="price-label">Preço da caixa</span>
+                <span class="unit-chip">${unidades} unid.</span>
               </div>
-              ${promo && validade ? `<div class="validade">Oferta válida até ${validade}</div>` : '<div class="validade">&nbsp;</div>'}
-              <div class="produto-actions">
-                <button class="qtd-btn" onclick="adicionarCarrinho('${codigo}', -1)">-</button>
-                <button class="add-btn" onclick="adicionarCarrinho('${codigo}', 1)">Adicionar</button>
-                <button class="qtd-btn" onclick="adicionarCarrinho('${codigo}', 1)">+</button>
+              <div class="price-main">
+                <strong>${dinheiro(preco)}</strong>
+                ${promo && valorPromoQtdDo(item) > 0 ? `<small>de ${dinheiro(precoBase)}</small>` : ''}
               </div>
+              <div class="validade">${promo ? (frasePromo + (validade ? ` • Validade: ${validade}` : '')) : '&nbsp;'}</div>
             </div>
-          </article>
-        `;
-      }).join('');
+            <div class="actions">
+              <button class="qty-btn" onclick="alterarCarrinho('${codigoDo(item)}', -1)">-</button>
+              <button class="add-btn" onclick="alterarCarrinho('${codigoDo(item)}', 1)">Adicionar</button>
+              <button class="qty-btn" onclick="alterarCarrinho('${codigoDo(item)}', 1)">+</button>
+            </div>
+          </div>
+        </article>
+      `;
     }
 
-    function adicionarCarrinho(codigo, delta) {
+    function renderProdutos() {
+      const ofertas = filtrados.filter(promoDo);
+      const normais = filtrados.filter(item => !promoDo(item));
+
+      elContador.textContent = `${filtrados.length} produtos encontrados`;
+      elGridOfertas.innerHTML = ofertas.length ? ofertas.map(cardProduto).join('') : '<div class="empty-state">Nenhuma oferta encontrada.</div>';
+      elGridProdutos.innerHTML = normais.length ? normais.map(cardProduto).join('') : '<div class="empty-state">Nenhum produto encontrado.</div>';
+    }
+
+    function alterarCarrinho(codigo, delta) {
       const item = produtos.find(p => codigoDo(p) === codigo);
       if (!item) return;
 
-      const achou = carrinho.find(p => codigoDo(p) === codigo);
-      if (!achou && delta < 0) return;
+      const atual = carrinho.find(p => codigoDo(p) === codigo);
+      if (!atual && delta < 0) return;
 
-      if (!achou) {
+      if (!atual) {
         carrinho.push({ ...item, quantidade: 1 });
       } else {
-        achou.quantidade += delta;
-        if (achou.quantidade <= 0) {
+        atual.quantidade += delta;
+        if (atual.quantidade <= 0) {
           carrinho = carrinho.filter(p => codigoDo(p) !== codigo);
         }
       }
@@ -812,49 +1102,48 @@
 
     function renderCarrinho() {
       const totalItens = carrinho.reduce((acc, item) => acc + Number(item.quantidade || 0), 0);
-      elCartBtn.textContent = `Pedido (${totalItens})`;
+      elCartBtn.textContent = `Carrinho (${totalItens})`;
 
       if (!carrinho.length) {
-        elCartList.innerHTML = '<div class="vazio">Seu pedido está vazio.</div>';
-        elSubtotal.textContent = formatarMoeda(0);
-        elTotal.textContent = formatarMoeda(0);
+        elCartList.innerHTML = '<div class="empty-state">Seu carrinho está vazio.</div>';
+        elSubtotal.textContent = dinheiro(0);
+        elTotal.textContent = dinheiro(0);
         return;
       }
 
       let subtotal = 0;
       elCartList.innerHTML = carrinho.map(item => {
-        const valor = obterPreco(item);
         const qtd = Number(item.quantidade || 0);
-        const totalItem = valor * qtd;
+        const preco = precoExibicao(item);
+        const totalItem = preco * qtd;
         subtotal += totalItem;
-
         return `
           <div class="cart-item">
-            <img src="${imagemDo(item)}" alt="${tituloDo(item)}">
+            <img src="${imagemDo(item)}" alt="${tituloDo(item)}" onerror="this.src='https://placehold.co/120x120?text=Sem+Imagem'" />
             <div>
-              <div class="cart-title">${tituloDo(item)}</div>
-              <div class="cart-meta">${formatarMoeda(valor)} cada</div>
+              <div class="cart-name">${tituloDo(item)}</div>
+              <div class="cart-meta">${marcaDo(item)} • ${dinheiro(preco)} cada</div>
               <div class="cart-controls">
-                <button onclick="adicionarCarrinho('${codigoDo(item)}', -1)">-</button>
+                <button onclick="alterarCarrinho('${codigoDo(item)}', -1)">-</button>
                 <strong>${qtd}</strong>
-                <button onclick="adicionarCarrinho('${codigoDo(item)}', 1)">+</button>
+                <button onclick="alterarCarrinho('${codigoDo(item)}', 1)">+</button>
               </div>
             </div>
-            <strong>${formatarMoeda(totalItem)}</strong>
+            <div class="cart-total-item">${dinheiro(totalItem)}</div>
           </div>
         `;
       }).join('');
 
-      elSubtotal.textContent = formatarMoeda(subtotal);
-      elTotal.textContent = formatarMoeda(subtotal);
+      elSubtotal.textContent = dinheiro(subtotal);
+      elTotal.textContent = dinheiro(subtotal);
     }
 
     function gerarMensagemWhatsApp() {
-      const nome = document.getElementById('clienteNome').value.trim();
-      const telefone = document.getElementById('clienteTelefone').value.trim();
-      const data = document.getElementById('dataRetirada').value;
-      const hora = document.getElementById('horaRetirada').value;
-      const obs = document.getElementById('observacoes').value.trim();
+      const nome = texto(document.getElementById('clienteNome').value);
+      const telefone = texto(document.getElementById('clienteTelefone').value);
+      const data = texto(document.getElementById('dataRetirada').value);
+      const hora = texto(document.getElementById('horaRetirada').value);
+      const obs = texto(document.getElementById('observacoes').value);
 
       if (!nome) {
         alert('Informe o nome do cliente.');
@@ -862,127 +1151,101 @@
       }
 
       if (!carrinho.length) {
-        alert('Adicione pelo menos um item ao pedido.');
+        alert('Adicione pelo menos um item ao carrinho.');
         return '';
       }
 
-      let subtotal = 0;
-      const linhas = carrinho.map((item, i) => {
-        const valor = obterPreco(item);
+      let total = 0;
+      const linhas = carrinho.map((item, idx) => {
         const qtd = Number(item.quantidade || 0);
-        const totalItem = valor * qtd;
-        subtotal += totalItem;
-        return `${i + 1}. ${tituloDo(item)} | Qtd: ${qtd} | Unit: ${formatarMoeda(valor)} | Total: ${formatarMoeda(totalItem)}`;
+        const preco = precoExibicao(item);
+        const totalItem = preco * qtd;
+        total += totalItem;
+        return `${idx + 1}. ${tituloDo(item)} | Marca: ${marcaDo(item)} | Qtd: ${qtd} | Caixa: ${dinheiro(preco)} | Total: ${dinheiro(totalItem)}`;
       });
 
-      const texto = [
+      return [
         `*Novo pedido - ${CONFIG.lojaNome}*`,
         '',
         `*Cliente:* ${nome}`,
-        `*Telefone:* ${telefone || '-'} `,
+        `*Telefone:* ${telefone || '-'}`,
         `*Recebimento:* Retirada na loja`,
-        `*Data desejada:* ${data || '-'} `,
-        `*Horário desejado:* ${hora || '-'} `,
+        `*Data desejada:* ${data || '-'}`,
+        `*Horário desejado:* ${hora || '-'}`,
         '',
-        '*Itens do pedido:*',
+        '*Itens:*',
         ...linhas,
         '',
-        `*Total:* ${formatarMoeda(subtotal)}`,
+        `*Total do pedido:* ${dinheiro(total)}`,
         '',
         `*Observações:* ${obs || '-'}`
       ].join('\n');
-
-      return texto;
     }
 
     function enviarWhatsApp() {
-      const texto = gerarMensagemWhatsApp();
-      if (!texto) return;
-      const url = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(texto)}`;
-      window.open(url, '_blank');
+      const msg = gerarMensagemWhatsApp();
+      if (!msg) return;
+      window.open(`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(msg)}`, '_blank');
+    }
+
+    function gerarMegaSena() {
+      const nums = new Set();
+      while (nums.size < 6) nums.add(Math.floor(Math.random() * 60) + 1);
+      const lista = [...nums].sort((a, b) => a - b).map(n => String(n).padStart(2, '0'));
+      document.getElementById('megaResultado').textContent = `Sugestão: ${lista.join(' - ')}`;
+    }
+
+    const horoscopos = {
+      'Áries': 'Hoje é um bom dia para agir rápido, negociar bem e aproveitar oportunidades que aparecem sem muito aviso.',
+      'Touro': 'Você tende a buscar segurança. Ótimo momento para compras pensadas, organização da rotina e pequenas vitórias.',
+      'Gêmeos': 'Conversas fluem melhor. Um dia favorável para falar com clientes, resolver pendências e experimentar novidades.',
+      'Câncer': 'Valorize o conforto e o cuidado com a família. Uma pausa leve e boas escolhas podem trazer mais tranquilidade.',
+      'Leão': 'Seu brilho chama atenção. Aproveite para liderar decisões, mas sem exagerar na impulsividade.',
+      'Virgem': 'Dia bom para revisar detalhes, calcular melhor e deixar tudo mais prático. O simples funciona muito bem hoje.',
+      'Libra': 'Busque equilíbrio nas relações e nas decisões. O que for feito com leveza tende a render mais.',
+      'Escorpião': 'Intuição forte. Confie no seu olhar para perceber oportunidades e evitar desperdícios.',
+      'Sagitário': 'Energia alta para abrir caminhos e pensar grande. Aproveite para planejar os próximos passos.',
+      'Capricórnio': 'Disciplina e foco favorecem suas escolhas. Bom dia para estruturar metas e fechar compromissos.',
+      'Aquário': 'Idéias diferentes podem render boas saídas. Um toque criativo vai fazer diferença hoje.',
+      'Peixes': 'Sensibilidade em alta. Use isso para entender melhor as pessoas e fazer escolhas com mais calma.'
+    };
+
+    function mostrarHoroscopo() {
+      const signo = document.getElementById('signoSelect').value;
+      document.getElementById('horoscopoResultado').textContent = horoscopos[signo] || 'Escolha um signo.';
+    }
+
+    const receitas = [
+      'Vitamina rápida: bata leite gelado, banana, aveia e canela. Fica cremosa e ótima para o café da manhã.',
+      'Sobremesa fácil: misture iogurte, morangos picados e leite condensado. Sirva gelado.',
+      'Creme de frutas: bata bebida láctea com mamão e gelo. Finalize com chia.',
+      'Lanche doce rápido: use flan gelado com pedaços de banana e um toque de canela por cima.',
+      'Taça gelada: faça camadas de sobremesa, bolacha triturada e frutas picadas.'
+    ];
+
+    function gerarReceita() {
+      const i = Math.floor(Math.random() * receitas.length);
+      document.getElementById('receitaResultado').textContent = receitas[i];
     }
 
     document.getElementById('btnWhats').addEventListener('click', enviarWhatsApp);
-    document.getElementById('abrirPedido').addEventListener('click', () => {
-      document.querySelector('.pedido-box').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
+    document.getElementById('scrollPedido').addEventListener('click', () => document.getElementById('pedidoSection').scrollIntoView({ behavior: 'smooth' }));
+    document.getElementById('cartBtn').addEventListener('click', () => document.getElementById('pedidoSection').scrollIntoView({ behavior: 'smooth' }));
     elBusca.addEventListener('input', aplicarFiltros);
-    elFiltroCategoria.addEventListener('change', aplicarFiltros);
+    elFiltroMarca.addEventListener('change', aplicarFiltros);
+    elFiltroOferta.addEventListener('change', aplicarFiltros);
+
+    document.getElementById('toggleFun').addEventListener('click', () => {
+      elFunPanel.classList.toggle('open');
+      document.getElementById('toggleFun').textContent = elFunPanel.classList.contains('open') ? 'Fechar entretenimento' : 'Abrir entretenimento';
+    });
+
+    document.getElementById('gerarMega').addEventListener('click', gerarMegaSena);
+    document.getElementById('verHoroscopo').addEventListener('click', mostrarHoroscopo);
+    document.getElementById('gerarReceita').addEventListener('click', gerarReceita);
 
     carregarProdutos();
     renderCarrinho();
   </script>
-</body>
-</html>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial;
-      background: #f5f5f5;
-    }
-
-    header {
-      background: #2b7bba;
-      color: white;
-      padding: 20px;
-      text-align: center;
-      font-size: 24px;
-    }
-
-    .container {
-      padding: 20px;
-      text-align: center;
-    }
-
-    .card {
-      background: white;
-      padding: 20px;
-      margin: 10px;
-      border-radius: 10px;
-      display: inline-block;
-      width: 260px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-
-    .btn {
-      display: inline-block;
-      padding: 10px 15px;
-      background: #25d366;
-      color: white;
-      border-radius: 8px;
-      text-decoration: none;
-      margin-top: 10px;
-    }
-
-    .btn2 {
-      background: #2b7bba;
-    }
-  </style>
-</head>
-<body>
-
-<header>🚀 Master Pedidos</header>
-
-<div class="container">
-
-  <div class="card">
-    <h3>📦 Catálogo Online</h3>
-    <p>Visualize produtos e faça pedidos direto pelo WhatsApp</p>
-    <a class="btn btn2" href="#">Ver Catálogo</a>
-  </div>
-
-  <div class="card">
-    <h3>⚡ Sistema Rápido</h3>
-    <p>Leve, rápido e funciona em qualquer celular</p>
-  </div>
-
-  <div class="card">
-    <h3>📲 Solicitar Sistema</h3>
-    <p>Quer ter isso na sua empresa?</p>
-    <a class="btn" href="https://wa.me/5519999999999">Falar no WhatsApp</a>
-  </div>
-
-</div>
-
 </body>
 </html>
