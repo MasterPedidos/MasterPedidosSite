@@ -633,12 +633,57 @@
         .replace(/[\u0300-\u036f]/g, '');
     }
 
+    function toNumeroBR(v) {
+      if (v === null || v === undefined) return 0;
+      if (typeof v === 'number') return isNaN(v) ? 0 : v;
+    
+      let s = String(v).trim();
+      if (!s) return 0;
+    
+      s = s.replace(/\s/g, '');
+    
+      if (s.includes(',') && s.includes('.')) {
+        s = s.replace(/\./g, '').replace(',', '.');
+      } else if (s.includes(',')) {
+        s = s.replace(',', '.');
+      }
+    
+      const n = Number(s);
+      return isNaN(n) ? 0 : n;
+    }
+    
+    function obterVenda(item) {
+      return toNumeroBR(
+        item.venda ??
+        item.valor_venda ??
+        item.preco ??
+        item.valor ??
+        item.consumidor ??
+        0
+      );
+    }
+    
+    function obterPromo(item) {
+      return toNumeroBR(
+        item.promo ??
+        item.valor_promo ??
+        item.preco_promocional ??
+        item.promocao ??
+        0
+      );
+    }
+    
     function obterPreco(item) {
-      const promo = Number(item.promo || 0);
-      const venda = Number(item.venda || item.valor || 0);
+      const promo = obterPromo(item);
+      const venda = obterVenda(item);
       return promo > 0 ? promo : venda;
     }
+    
+    function estaEmPromocao(item) {
+      return obterPromo(item) > 0;
+    }
 
+    
     function estaEmPromocao(item) {
       return Number(item.promo || 0) > 0;
     }
