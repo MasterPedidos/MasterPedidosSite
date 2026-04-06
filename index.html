@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Master Pedidos Atacadão</title>
+  <title>Master Pedidos - Delivery e Jornal</title>
   <style>
     :root {
       --bg: #f3f4f6;
@@ -14,10 +14,8 @@
       --blue: #0057b8;
       --blue-2: #0b67d1;
       --yellow: #ffd500;
-      --yellow-2: #ffef80;
       --green: #16a34a;
       --red: #d61f1f;
-      --red-2: #ef4444;
       --shadow: 0 10px 24px rgba(17, 24, 39, 0.08);
       --radius: 16px;
       --max: 1380px;
@@ -108,12 +106,13 @@
 
     .cart-btn,
     .menu-btn,
+    .nav-btn,
     .whats-btn,
-    .submit-btn,
     .qty-btn,
     .add-btn,
     .fun-toggle,
-    .fun-card button {
+    .fun-card button,
+    .journal-tab {
       border: none;
       cursor: pointer;
       font-weight: 700;
@@ -121,7 +120,7 @@
       transition: .18s ease;
     }
 
-    .cart-btn, .menu-btn {
+    .cart-btn, .menu-btn, .nav-btn {
       padding: 13px 16px;
       background: #fff;
       color: var(--blue);
@@ -134,32 +133,13 @@
       color: #111827;
     }
 
-    .hero-mini {
+    .nav-row {
       max-width: var(--max);
-      margin: 16px auto 0;
+      margin: 14px auto 0;
       padding: 0 16px;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-    }
-
-    .mini-box {
-      background: var(--card);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      border: 1px solid rgba(229, 231, 235, 0.9);
-      padding: 14px;
-    }
-
-    .mini-box strong {
-      display: block;
-      margin-bottom: 4px;
-      font-size: 15px;
-    }
-
-    .mini-box span {
-      font-size: 13px;
-      color: var(--muted);
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
     }
 
     .section {
@@ -221,19 +201,17 @@
       overflow: hidden;
       border: 1px solid var(--line);
       box-shadow: var(--shadow);
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      grid-template-rows: 210px 1fr;
       min-height: 100%;
     }
 
-    .produto:hover {
-      transform: translateY(-2px);
-    }
+    .produto:hover { transform: translateY(-2px); }
 
     .produto-img {
       position: relative;
       background: #fff;
-      height: 210px;              /* altura fixa */
+      height: 210px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -241,18 +219,13 @@
       border-bottom: 1px solid var(--line);
       overflow: hidden;
     }
-    
+
     .produto-img img {
       width: 100%;
       height: 100%;
-      object-fit: contain;        /* mantém inteira sem cortar */
+      object-fit: contain;
       object-position: center;
       display: block;
-    }
-
-    .produto {
-      display: grid;
-      grid-template-rows: 210px 1fr;
     }
 
     .oferta-tag {
@@ -395,19 +368,67 @@
       padding: 10px 12px;
     }
 
+    .journal-box,
+    .box,
+    .fun-panel {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--line);
+    }
+
+    .journal-box { padding: 18px; }
+
+    .journal-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .journal-tab {
+      background: #e5eefc;
+      color: var(--blue);
+      padding: 11px 14px;
+    }
+
+    .journal-tab.active {
+      background: var(--blue);
+      color: white;
+    }
+
+    .journal-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .journal-card {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .journal-card img {
+      width: 100%;
+      display: block;
+      background: #fff;
+    }
+
+    .journal-info {
+      padding: 12px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
     .pedido-layout {
       display: grid;
       grid-template-columns: 1fr 420px;
       gap: 16px;
     }
 
-    .box {
-      background: var(--card);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      border: 1px solid var(--line);
-      padding: 18px;
-    }
+    .box { padding: 18px; }
 
     .field-grid {
       display: grid;
@@ -518,22 +539,13 @@
       border-bottom: none;
     }
 
-    .whats-btn,
-    .submit-btn {
+    .whats-btn {
       width: 100%;
       padding: 14px 16px;
       color: white;
       font-size: 15px;
-    }
-
-    .whats-btn {
       background: #25d366;
       margin-top: 12px;
-    }
-
-    .submit-btn {
-      background: var(--blue);
-      margin-top: 10px;
     }
 
     .fun-toggle {
@@ -545,16 +557,12 @@
 
     .fun-panel {
       display: none;
-      background: #f8fafc;
-      border: 1px solid var(--line);
-      border-radius: 16px;
       padding: 14px;
       margin-top: 12px;
+      background: #f8fafc;
     }
 
-    .fun-panel.open {
-      display: block;
-    }
+    .fun-panel.open { display: block; }
 
     .fun-grid {
       display: grid;
@@ -636,6 +644,8 @@
       background: #fff;
     }
 
+    .hide { display: none !important; }
+
     footer {
       max-width: var(--max);
       margin: 24px auto 40px;
@@ -648,8 +658,8 @@
     @media (max-width: 1180px) {
       .header-inner,
       .pedido-layout,
-      .hero-mini,
-      .fun-grid {
+      .fun-grid,
+      .journal-grid {
         grid-template-columns: 1fr 1fr;
       }
 
@@ -660,59 +670,35 @@
 
     @media (max-width: 900px) {
       .header-inner,
-      .hero-mini,
       .pedido-layout,
       .field-grid,
-      .fun-grid {
+      .fun-grid,
+      .journal-grid {
         grid-template-columns: 1fr;
       }
 
-      .busca-row {
-        grid-template-columns: 1fr;
-      }
-
-      .right-actions {
-        flex-wrap: wrap;
-      }
+      .busca-row { grid-template-columns: 1fr; }
+      .right-actions { flex-wrap: wrap; }
     }
 
     @media (max-width: 560px) {
-      .grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .section-title {
-        align-items: start;
-        flex-direction: column;
-      }
-
-      .title-side {
-        text-align: left;
-      }
-
-      .price-main strong {
-        font-size: 24px;
-      }
-
-      .crossword {
-        grid-template-columns: repeat(7, 28px);
-      }
-
-      .crossword div {
-        width: 28px;
-        height: 28px;
-      }
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .section-title { align-items: start; flex-direction: column; }
+      .title-side { text-align: left; }
+      .price-main strong { font-size: 24px; }
+      .crossword { grid-template-columns: repeat(7, 28px); }
+      .crossword div { width: 28px; height: 28px; }
     }
   </style>
 </head>
 <body>
-  <div class="top-strip">🛒 Ofertas atualizadas por JSON • Pedido rápido no WhatsApp • Retirada na loja</div>
+  <div class="top-strip">🛒 Delivery por JSON • Jornal com imagens • Pedido rápido no WhatsApp • Retirada na loja</div>
 
   <header class="header">
     <div class="wrap header-inner">
       <div class="logo-box">
         <div class="logo-title">MASTER PEDIDOS</div>
-        <div class="logo-sub">Seu atacadão digital com ofertas, pedido e entretenimento</div>
+        <div class="logo-sub">Delivery e jornal de ofertas no mesmo site</div>
       </div>
 
       <div class="busca-row">
@@ -734,31 +720,19 @@
     </div>
   </header>
 
-  <section class="hero-mini">
-    <div class="mini-box">
-      <strong>Preço de atacado</strong>
-      <span>Ofertas com visual forte e fácil de enxergar no celular.</span>
-    </div>
-    <div class="mini-box">
-      <strong>Pedido rápido</strong>
-      <span>Escolha os itens e envie o pedido pronto no WhatsApp.</span>
-    </div>
-    <div class="mini-box">
-      <strong>Retirada na loja</strong>
-      <span>Fluxo simples, sem complicação e sem taxa de entrega.</span>
-    </div>
-    <div class="mini-box">
-      <strong>Área divertida</strong>
-      <span>Receitas, horóscopo, palavras cruzadas e números da sorte.</span>
-    </div>
-  </section>
+  <div class="nav-row wrap">
+    <button class="nav-btn" onclick="document.getElementById('deliverySection').scrollIntoView({behavior:'smooth'})">Delivery</button>
+    <button class="nav-btn" onclick="document.getElementById('jornalSection').scrollIntoView({behavior:'smooth'})">Jornal</button>
+    <button class="nav-btn" onclick="document.getElementById('pedidoSection').scrollIntoView({behavior:'smooth'})">Pedido</button>
+    <button class="nav-btn" onclick="document.getElementById('extraSection').scrollIntoView({behavior:'smooth'})">Entretenimento</button>
+  </div>
 
-  <section class="section">
+  <section class="section" id="deliverySection">
     <div class="section-title">
       <div class="title-left">
-        <span class="title-badge">ATACADÃO</span>
+        <span class="title-badge">DELIVERY</span>
         <div>
-          <h2>Jornal de Ofertas</h2>
+          <h2>Ofertas para Pedido</h2>
           <p>Produtos puxados automaticamente do seu JSON</p>
         </div>
       </div>
@@ -777,19 +751,37 @@
           <p>Lista geral organizada por marca e descrição</p>
         </div>
       </div>
-      <div class="title-side">Visual limpo, compacto e comercial</div>
+      <div class="title-side">Visual limpo e compacto</div>
     </div>
 
     <div id="gridProdutos" class="grid"></div>
   </section>
 
-  <section class="section">
+  <section class="section" id="jornalSection">
+    <div class="section-title">
+      <div class="title-left">
+        <span class="title-badge">JORNAL</span>
+        <div>
+          <h2>Jornal de Ofertas em Imagens</h2>
+          <p>Dois tipos de jornal visual, por imagens inseridas</p>
+        </div>
+      </div>
+      <div class="title-side">Troque as imagens nos caminhos do array JORNAIS</div>
+    </div>
+
+    <div class="journal-box">
+      <div class="journal-tabs" id="journalTabs"></div>
+      <div class="journal-grid" id="journalGrid"></div>
+    </div>
+  </section>
+
+  <section class="section" id="extraSection">
     <div class="section-title">
       <div class="title-left">
         <span class="title-badge">EXTRA</span>
         <div>
           <h2>Entretenimento</h2>
-          <p>Abra uma área leve para engajar quem está vendo as ofertas</p>
+          <p>Área opcional para engajar quem está navegando</p>
         </div>
       </div>
       <button class="fun-toggle" id="toggleFun">Abrir entretenimento</button>
@@ -918,7 +910,7 @@
   </section>
 
   <footer>
-    Master Pedidos • Layout atacadão sem banner gigante • Integrado ao seu modelo de JSON
+    Master Pedidos • Delivery por JSON + Jornal por imagens • Visual atacadão limpo
   </footer>
 
   <script>
@@ -930,9 +922,27 @@
       locale: 'pt-BR'
     };
 
+    const JORNAIS = [
+      {
+        tipo: 'Jornal Tipo 1',
+        paginas: [
+          { titulo: 'Página 1', imagem: './jornal-tipo1-pagina1.jpg' },
+          { titulo: 'Página 2', imagem: './jornal-tipo1-pagina2.jpg' }
+        ]
+      },
+      {
+        tipo: 'Jornal Tipo 2',
+        paginas: [
+          { titulo: 'Página 1', imagem: './jornal-tipo2-pagina1.jpg' },
+          { titulo: 'Página 2', imagem: './jornal-tipo2-pagina2.jpg' }
+        ]
+      }
+    ];
+
     let produtos = [];
     let filtrados = [];
     let carrinho = [];
+    let jornalAtivo = 0;
 
     const elBusca = document.getElementById('busca');
     const elFiltroMarca = document.getElementById('filtroMarca');
@@ -945,20 +955,17 @@
     const elTotal = document.getElementById('total');
     const elCartBtn = document.getElementById('cartBtn');
     const elFunPanel = document.getElementById('funPanel');
+    const elJournalTabs = document.getElementById('journalTabs');
+    const elJournalGrid = document.getElementById('journalGrid');
 
     function dinheiro(v) {
       return Number(v || 0).toLocaleString(CONFIG.locale, { style: 'currency', currency: CONFIG.moeda });
     }
 
-    function texto(t) {
-      return String(t || '').trim();
-    }
+    function texto(t) { return String(t || '').trim(); }
 
     function normalizar(t) {
-      return texto(t)
-        .toLowerCase()
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '');
+      return texto(t).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
     }
 
     function codigoDo(item) { return texto(item.codigo); }
@@ -987,8 +994,7 @@
     function precoUnidade(item) {
       const und = unidadesDo(item);
       const preco = precoExibicao(item);
-      if (!und) return 0;
-      return preco / und;
+      return und ? preco / und : 0;
     }
 
     async function carregarProdutos() {
@@ -1016,15 +1022,9 @@
       const filtroOferta = elFiltroOferta.value;
 
       filtrados = produtos.filter(item => {
-        const okBusca = !busca || normalizar([
-          codigoDo(item),
-          tituloDo(item),
-          marcaDo(item)
-        ].join(' ')).includes(busca);
-
+        const okBusca = !busca || normalizar([codigoDo(item), tituloDo(item), marcaDo(item)].join(' ')).includes(busca);
         const okMarca = !marca || marcaDo(item) === marca;
         const okOferta = !filtroOferta || (filtroOferta === 'promo' ? promoDo(item) : !promoDo(item));
-
         return okBusca && okMarca && okOferta;
       });
 
@@ -1083,30 +1083,47 @@
     function renderProdutos() {
       const ofertas = filtrados.filter(promoDo);
       const normais = filtrados.filter(item => !promoDo(item));
-
       elContador.textContent = `${filtrados.length} produtos encontrados`;
       elGridOfertas.innerHTML = ofertas.length ? ofertas.map(cardProduto).join('') : '<div class="empty-state">Nenhuma oferta encontrada.</div>';
       elGridProdutos.innerHTML = normais.length ? normais.map(cardProduto).join('') : '<div class="empty-state">Nenhum produto encontrado.</div>';
     }
 
+    function renderJornais() {
+      elJournalTabs.innerHTML = JORNAIS.map((j, i) => `
+        <button class="journal-tab ${i === jornalAtivo ? 'active' : ''}" onclick="selecionarJornal(${i})">${j.tipo}</button>
+      `).join('');
+
+      const ativo = JORNAIS[jornalAtivo];
+      elJournalGrid.innerHTML = ativo.paginas.map(p => `
+        <div class="journal-card">
+          <img src="${p.imagem}" alt="${p.titulo}" onerror="this.src='https://placehold.co/900x1200?text=Inserir+Imagem+do+Jornal'" />
+          <div class="journal-info">${p.titulo}</div>
+        </div>
+      `).join('');
+    }
+
+    function selecionarJornal(i) {
+      jornalAtivo = i;
+      renderJornais();
+    }
+
+    window.selecionarJornal = selecionarJornal;
+
     function alterarCarrinho(codigo, delta) {
       const item = produtos.find(p => codigoDo(p) === codigo);
       if (!item) return;
-
       const atual = carrinho.find(p => codigoDo(p) === codigo);
       if (!atual && delta < 0) return;
 
-      if (!atual) {
-        carrinho.push({ ...item, quantidade: 1 });
-      } else {
+      if (!atual) carrinho.push({ ...item, quantidade: 1 });
+      else {
         atual.quantidade += delta;
-        if (atual.quantidade <= 0) {
-          carrinho = carrinho.filter(p => codigoDo(p) !== codigo);
-        }
+        if (atual.quantidade <= 0) carrinho = carrinho.filter(p => codigoDo(p) !== codigo);
       }
-
       renderCarrinho();
     }
+
+    window.alterarCarrinho = alterarCarrinho;
 
     function renderCarrinho() {
       const totalItens = carrinho.reduce((acc, item) => acc + Number(item.quantidade || 0), 0);
@@ -1153,15 +1170,8 @@
       const hora = texto(document.getElementById('horaRetirada').value);
       const obs = texto(document.getElementById('observacoes').value);
 
-      if (!nome) {
-        alert('Informe o nome do cliente.');
-        return '';
-      }
-
-      if (!carrinho.length) {
-        alert('Adicione pelo menos um item ao carrinho.');
-        return '';
-      }
+      if (!nome) { alert('Informe o nome do cliente.'); return ''; }
+      if (!carrinho.length) { alert('Adicione pelo menos um item ao carrinho.'); return ''; }
 
       let total = 0;
       const linhas = carrinho.map((item, idx) => {
@@ -1252,6 +1262,7 @@
     document.getElementById('verHoroscopo').addEventListener('click', mostrarHoroscopo);
     document.getElementById('gerarReceita').addEventListener('click', gerarReceita);
 
+    renderJornais();
     carregarProdutos();
     renderCarrinho();
   </script>
