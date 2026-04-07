@@ -382,7 +382,10 @@
       border: 1px solid var(--line);
     }
 
-    .journal-box { padding: 18px; }
+    .journal-box {
+      padding: 18px;
+      overflow-x: auto;
+    }
 
     .journal-actions {
       display: flex;
@@ -412,10 +415,12 @@
     .journal-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 18px;
+      gap: 20px;
+      justify-items: center;
     }
 
     .journal-card {
+      width: 100%;
       border: 1px solid var(--line);
       border-radius: 14px;
       overflow: hidden;
@@ -423,59 +428,143 @@
     }
 
     .journal-page {
-      width: 210mm;
-      min-height: 297mm;
+      width: 100%;
+      max-width: 1120px;
       margin: 0 auto;
-      background: white;
-      padding: 14px;
+      background: #ffffff;
+      padding: 0;
       box-shadow: 0 0 10px rgba(0,0,0,0.15);
       page-break-after: always;
     }
 
+    .journal-page.modelo-1 {
+      background: #f6f4f1;
+    }
+
+    .journal-page.modelo-2 {
+      background: #ffffff;
+    }
+
     .journal-page-header {
+      position: relative;
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      margin-bottom: 12px;
-      padding: 10px 12px;
-      background: linear-gradient(135deg, #166534, #15803d);
-      color: white;
-      border-radius: 12px;
-      font-size: 14px;
+      justify-content: space-between;
+      gap: 18px;
+      min-height: 136px;
+      padding: 16px 24px;
+      color: #fff;
+      overflow: hidden;
+    }
+
+    .journal-page.modelo-1 .journal-page-header {
+      background: linear-gradient(90deg, #0c7b2b 0%, #17913b 60%, #f7f7f7 60%, #f7f7f7 100%);
     }
 
     .journal-page.modelo-2 .journal-page-header {
-      background: linear-gradient(135deg, #b45309, #ea580c);
+      background: linear-gradient(90deg, #a55117 0%, #d97522 58%, #f7f7f7 58%, #f7f7f7 100%);
     }
 
-    .journal-item {
-      border: 1px solid #e5e7eb;
-      border-radius: 10px;
-      padding: 6px;
-      background: #fff;
-      height: 170px;
+    .journal-brand {
+      width: 130px;
+      min-width: 130px;
+      height: 92px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.92);
+      color: #c86f1d;
       display: flex;
-      align-items: center;
+      flex-direction: column;
       justify-content: center;
+      align-items: center;
+      text-align: center;
+      font-weight: 900;
+      box-shadow: 0 8px 24px rgba(0,0,0,.08);
+    }
+
+    .journal-brand strong {
+      font-size: 30px;
+      line-height: 1;
+      letter-spacing: -1px;
+    }
+
+    .journal-brand small {
+      font-size: 11px;
+      color: #4b5563;
+      margin-top: 4px;
+      font-weight: 700;
+    }
+
+    .journal-head-copy {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .journal-head-copy .journal-mini {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.18);
+      margin-bottom: 8px;
+      letter-spacing: .4px;
+      text-transform: uppercase;
+    }
+
+    .journal-head-copy h3 {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 52px);
+      line-height: .95;
+      font-weight: 900;
+      letter-spacing: -1.5px;
+      text-transform: uppercase;
+      max-width: 680px;
+    }
+
+    .journal-head-copy p {
+      margin: 8px 0 0;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      opacity: .95;
+    }
+
+    .journal-body {
+      padding: 12px 14px 0;
+    }
+
+    .journal-items {
+      display: grid;
+      gap: 0;
+      border-top: 1px solid #d6b7a7;
+      border-left: 1px solid #d6b7a7;
+      background: #fff;
     }
 
     .journal-items.cols-3 {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
     .journal-items.cols-5 {
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(5, minmax(0, 1fr));
     }
 
     .journal-item {
-      border: 1px solid #e5e7eb;
-      border-radius: 12px;
-      padding: 8px;
+      position: relative;
+      border-right: 1px solid #d6b7a7;
+      border-bottom: 1px solid #d6b7a7;
       background: #fff;
-      min-height: 160px;
+      min-height: 255px;
       display: flex;
       align-items: center;
       justify-content: center;
+      padding: 10px;
+      overflow: hidden;
+    }
+
+    .journal-page.modelo-2 .journal-item {
+      min-height: 220px;
+      padding: 8px;
     }
 
     .journal-item img {
@@ -487,19 +576,29 @@
     }
 
     .journal-page-footer {
-      margin-top: 12px;
-      padding: 10px 12px;
-      background: #f3f4f6;
-      border-radius: 10px;
+      margin-top: 0;
+      padding: 12px 18px;
       text-align: center;
       font-size: 12px;
-      color: var(--muted);
+      font-weight: 800;
+      color: #f8fafc;
+      letter-spacing: .3px;
+      text-transform: uppercase;
+    }
+
+    .journal-page.modelo-1 .journal-page-footer {
+      background: linear-gradient(90deg, #1e7f29, #0f5f1b);
+    }
+
+    .journal-page.modelo-2 .journal-page-footer {
+      background: linear-gradient(90deg, #155f20, #0d4b18);
     }
 
     .journal-info {
-      padding: 12px;
+      padding: 12px 14px;
       font-size: 13px;
       color: var(--muted);
+      background: #fff;
     }
 
     .pedido-layout {
@@ -736,13 +835,16 @@
     @media (max-width: 1180px) {
       .header-inner,
       .pedido-layout,
-      .fun-grid,
-      .journal-grid {
+      .fun-grid {
         grid-template-columns: 1fr 1fr;
       }
 
       .busca-row {
         grid-template-columns: 1fr 180px 130px;
+      }
+
+      .journal-items.cols-5 {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
       }
     }
 
@@ -750,29 +852,25 @@
       .header-inner,
       .pedido-layout,
       .field-grid,
-      .fun-grid,
-      .journal-grid {
+      .fun-grid {
         grid-template-columns: 1fr;
       }
 
       .busca-row { grid-template-columns: 1fr; }
       .right-actions { flex-wrap: wrap; }
-    }
 
-    @media (max-width: 900px) {
-      .journal-items.cols-5 {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-
-    @media (max-width: 560px) {
-      .journal-items.cols-3,
-      .journal-items.cols-5 {
-        grid-template-columns: repeat(2, 1fr);
+      .journal-page-header {
+        min-height: auto;
+        flex-direction: column;
+        align-items: flex-start;
       }
 
-      .journal-item img {
-        height: 120px;
+      .journal-brand {
+        align-self: flex-end;
+      }
+
+      .journal-items.cols-5 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
       }
     }
 
@@ -783,6 +881,29 @@
       .price-main strong { font-size: 24px; }
       .crossword { grid-template-columns: repeat(7, 28px); }
       .crossword div { width: 28px; height: 28px; }
+
+      .journal-box {
+        padding: 10px;
+      }
+
+      .journal-body {
+        padding: 8px 8px 0;
+      }
+
+      .journal-items.cols-3,
+      .journal-items.cols-5 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .journal-item,
+      .journal-page.modelo-2 .journal-item {
+        min-height: 180px;
+        padding: 6px;
+      }
+
+      .journal-head-copy h3 {
+        font-size: 28px;
+      }
     }
   </style>
 </head>
@@ -858,10 +979,10 @@
         <span class="title-badge">JORNAL</span>
         <div>
           <h2>Jornal de Ofertas em Imagens</h2>
-          <p>Usa o arquivo jornal.json, sem precisar editar o index</p>
+          <p>Tipo 1 no estilo grade 3 colunas • Tipo 2 no estilo grade compacta</p>
         </div>
       </div>
-      <div class="title-side">Cada imagem vira uma página do PDF</div>
+      <div class="title-side">Layout ajustado para encarte comercial</div>
     </div>
 
     <div class="journal-box">
@@ -1024,8 +1145,8 @@
 
     let JORNAIS = [];
     const MODELOS = {
-      1: { itensPorPagina: 12, colunas: 3 },
-      2: { itensPorPagina: 20, colunas: 5 }
+      1: { itensPorPagina: 12, colunas: 3, titulo: 'Atacadão, o parceirão do Brasil.' },
+      2: { itensPorPagina: 20, colunas: 5, titulo: 'É festa de prêmios no aniversário Atacadão!' }
     };
 
     let produtos = [];
@@ -1183,27 +1304,11 @@
         const data = await resp.json();
         JORNAIS = Array.isArray(data) ? data : [];
       } catch (e) {
-        JORNAIS = [
-          {
-            tipo: 'Jornal Tipo 1',
-            paginas: [
-              { titulo: 'Página 1', imagem: './jornal-tipo1-pagina1.jpg' },
-              { titulo: 'Página 2', imagem: './jornal-tipo1-pagina2.jpg' }
-            ]
-          },
-          {
-            tipo: 'Jornal Tipo 2',
-            paginas: [
-              { titulo: 'Página 1', imagem: './jornal-tipo2-pagina1.jpg' },
-              { titulo: 'Página 2', imagem: './jornal-tipo2-pagina2.jpg' }
-            ]
-          }
-        ];
+        JORNAIS = [];
       }
 
       renderJornais();
     }
-
 
     function dividirPaginas(itens, itensPorPagina) {
       const paginas = [];
@@ -1213,12 +1318,40 @@
       return paginas;
     }
 
+    function montarCabecalhoJornal(ativo, idx, totalPaginas) {
+      const conf = MODELOS[ativo.modelo] || MODELOS[1];
+      const mini = ativo.modelo === 1 ? 'Ofertas válidas' : 'Prêmios todos os dias';
+      const textoRodape = ativo.modelo === 1
+        ? 'Ofertas válidas enquanto durarem os estoques'
+        : 'Escolhas equilibradas e oportunidades especiais';
+
+      return {
+        cabecalho: `
+          <div class="journal-page-header">
+            <div class="journal-head-copy">
+              <span class="journal-mini">${mini}</span>
+              <h3>${conf.titulo}</h3>
+              <p>${ativo.tipo} • Página ${idx + 1} de ${totalPaginas}</p>
+            </div>
+            <div class="journal-brand">
+              <strong>A</strong>
+              <div>ATACADÃO</div>
+              <small>Lugar de comprar bem</small>
+            </div>
+          </div>
+        `,
+        rodape: textoRodape
+      };
+    }
+
     function renderJornais() {
       if (!JORNAIS.length) {
         elJournalTabs.innerHTML = '';
         elJournalGrid.innerHTML = '<div class="empty-state">Nenhum jornal encontrado.</div>';
         return;
       }
+
+      if (jornalAtivo >= JORNAIS.length) jornalAtivo = 0;
 
       elJournalTabs.innerHTML = JORNAIS.map((j, i) => {
         return `<button class="journal-tab ${i === jornalAtivo ? 'active' : ''}" onclick="selecionarJornal(${i})">${j.tipo}</button>`;
@@ -1232,28 +1365,26 @@
         const itensHtml = pagina.map(item => {
           return `
             <div class="journal-item">
-              <img src="${item.imagem}" alt="Item do jornal" onerror="this.src='https://placehold.co/500x500?text=Sem+Imagem'">
+              <img src="${item.imagem}" alt="Item do jornal" loading="lazy" onerror="this.src='https://placehold.co/500x500?text=Sem+Imagem'">
             </div>
           `;
         }).join('');
 
+        const bloco = montarCabecalhoJornal(ativo, idx, paginas.length);
+
         return `
           <div class="journal-card">
             <div class="journal-page modelo-${ativo.modelo}">
-              <div class="journal-page-header">
-                <strong>${ativo.tipo}</strong>
-                <span>Página ${idx + 1}</span>
+              ${bloco.cabecalho}
+              <div class="journal-body">
+                <div class="journal-items cols-${conf.colunas}">
+                  ${itensHtml}
+                </div>
               </div>
-
-              <div class="journal-items cols-${conf.colunas}">
-                ${itensHtml}
-              </div>
-
               <div class="journal-page-footer">
-                Ofertas válidas enquanto durarem os estoques
+                ${bloco.rodape}
               </div>
             </div>
-
             <div class="journal-info">${ativo.tipo} • Página ${idx + 1}</div>
           </div>
         `;
@@ -1278,7 +1409,6 @@
       });
     }
 
-
     async function gerarPdfJornal(indice, nomeArquivo) {
       if (!JORNAIS.length || !JORNAIS[indice]) {
         alert('Nenhum jornal disponível para gerar PDF.');
@@ -1300,28 +1430,28 @@
         pdf.setFillColor(255, 255, 255);
         pdf.rect(0, 0, pageW, pageH, 'F');
 
-        pdf.setFillColor(jornal.modelo === 2 ? 234 : 22, jornal.modelo === 2 ? 88 : 101, jornal.modelo === 2 ? 12 : 52);
-        pdf.roundedRect(8, 8, pageW - 16, 14, 3, 3, 'F');
+        const corHeader = jornal.modelo === 2 ? [203, 109, 33] : [25, 131, 48];
+        pdf.setFillColor(...corHeader);
+        pdf.rect(0, 0, pageW, 28, 'F');
 
         pdf.setTextColor(255, 255, 255);
-        pdf.setFontSize(14);
-        pdf.text(jornal.tipo, 12, 17);
-
+        pdf.setFontSize(18);
+        pdf.text((MODELOS[jornal.modelo] || MODELOS[1]).titulo, 8, 16, { maxWidth: pageW - 50 });
         pdf.setFontSize(10);
-        pdf.text(`Página ${p + 1} de ${paginas.length}`, pageW - 40, 17);
+        pdf.text(`Página ${p + 1} de ${paginas.length}`, pageW - 36, 8);
+        pdf.text(jornal.tipo, pageW - 36, 14);
 
         const itens = paginas[p];
-
         const cols = conf.colunas;
-        const gap = 4;
-        const margemX = 10;
-        const topoY = 28;
+        const gap = 0;
+        const margemX = 7;
+        const topoY = 34;
         const rodapeH = 10;
         const disponivelW = pageW - margemX * 2;
         const boxW = (disponivelW - gap * (cols - 1)) / cols;
 
         const rows = Math.ceil(itens.length / cols);
-        const disponivelH = pageH - topoY - 14 - rodapeH;
+        const disponivelH = pageH - topoY - rodapeH - 6;
         const boxH = (disponivelH - gap * (rows - 1)) / rows;
 
         for (let i = 0; i < itens.length; i++) {
@@ -1332,8 +1462,8 @@
           const x = margemX + col * (boxW + gap);
           const y = topoY + row * (boxH + gap);
 
-          pdf.setDrawColor(220, 220, 220);
-          pdf.roundedRect(x, y, boxW, boxH, 2, 2);
+          pdf.setDrawColor(214, 183, 167);
+          pdf.rect(x, y, boxW, boxH);
 
           try {
             const dataUrl = await carregarImagemComoDataURL(item.imagem);
@@ -1347,29 +1477,27 @@
 
             const iw = img.width;
             const ih = img.height;
-
-            const areaW = boxW - 4;
-            const areaH = boxH - 4;
-
+            const areaW = boxW - 2;
+            const areaH = boxH - 2;
             const ratio = Math.min(areaW / iw, areaH / ih);
             const drawW = iw * ratio;
             const drawH = ih * ratio;
-
             const dx = x + (boxW - drawW) / 2;
             const dy = y + (boxH - drawH) / 2;
-
             const formato = dataUrl.includes('image/png') ? 'PNG' : 'JPEG';
             pdf.addImage(dataUrl, formato, dx, dy, drawW, drawH);
           } catch (e) {
-            pdf.setTextColor(120);
-            pdf.setFontSize(10);
-            pdf.text('Imagem indisponível', x + 4, y + 10);
+            pdf.setTextColor(100);
+            pdf.setFontSize(9);
+            pdf.text('Imagem indisponível', x + 4, y + 8);
           }
         }
 
-        pdf.setTextColor(120);
-        pdf.setFontSize(9);
-        pdf.text('Ofertas válidas enquanto durarem os estoques', 10, pageH - 6);
+        pdf.setFillColor(17, 94, 34);
+        pdf.rect(0, pageH - 10, pageW, 10, 'F');
+        pdf.setTextColor(255, 255, 255);
+        pdf.setFontSize(8);
+        pdf.text('Ofertas válidas enquanto durarem os estoques', 8, pageH - 4);
       }
 
       pdf.save(nomeArquivo || `${jornal.tipo.toLowerCase().replace(/\s+/g, '-')}.pdf`);
@@ -1396,47 +1524,44 @@
 
           const pageW = pdf.internal.pageSize.getWidth();
           const pageH = pdf.internal.pageSize.getHeight();
-
           pdf.setFillColor(255, 255, 255);
           pdf.rect(0, 0, pageW, pageH, 'F');
 
-          pdf.setFillColor(jornal.modelo === 2 ? 234 : 22, jornal.modelo === 2 ? 88 : 101, jornal.modelo === 2 ? 12 : 52);
-          pdf.roundedRect(8, 8, pageW - 16, 14, 3, 3, 'F');
+          const corHeader = jornal.modelo === 2 ? [203, 109, 33] : [25, 131, 48];
+          pdf.setFillColor(...corHeader);
+          pdf.rect(0, 0, pageW, 28, 'F');
 
           pdf.setTextColor(255, 255, 255);
-          pdf.setFontSize(14);
-          pdf.text(jornal.tipo, 12, 17);
-
+          pdf.setFontSize(18);
+          pdf.text((MODELOS[jornal.modelo] || MODELOS[1]).titulo, 8, 16, { maxWidth: pageW - 50 });
           pdf.setFontSize(10);
-          pdf.text(`Página ${p + 1} de ${paginas.length}`, pageW - 40, 17);
+          pdf.text(`Página ${p + 1} de ${paginas.length}`, pageW - 36, 8);
+          pdf.text(jornal.tipo, pageW - 36, 14);
 
           const itens = paginas[p];
           const cols = conf.colunas;
-          const gap = 4;
-          const margemX = 10;
-          const topoY = 28;
+          const gap = 0;
+          const margemX = 7;
+          const topoY = 34;
           const rodapeH = 10;
           const disponivelW = pageW - margemX * 2;
           const boxW = (disponivelW - gap * (cols - 1)) / cols;
-
           const rows = Math.ceil(itens.length / cols);
-          const disponivelH = pageH - topoY - 14 - rodapeH;
+          const disponivelH = pageH - topoY - rodapeH - 6;
           const boxH = (disponivelH - gap * (rows - 1)) / rows;
 
           for (let i = 0; i < itens.length; i++) {
             const item = itens[i];
             const col = i % cols;
             const row = Math.floor(i / cols);
-
             const x = margemX + col * (boxW + gap);
             const y = topoY + row * (boxH + gap);
 
-            pdf.setDrawColor(220, 220, 220);
-            pdf.roundedRect(x, y, boxW, boxH, 2, 2);
+            pdf.setDrawColor(214, 183, 167);
+            pdf.rect(x, y, boxW, boxH);
 
             try {
               const dataUrl = await carregarImagemComoDataURL(item.imagem);
-
               const img = new Image();
               img.src = dataUrl;
               await new Promise((resolve, reject) => {
@@ -1446,29 +1571,27 @@
 
               const iw = img.width;
               const ih = img.height;
-
-              const areaW = boxW - 4;
-              const areaH = boxH - 4;
-
+              const areaW = boxW - 2;
+              const areaH = boxH - 2;
               const ratio = Math.min(areaW / iw, areaH / ih);
               const drawW = iw * ratio;
               const drawH = ih * ratio;
-
               const dx = x + (boxW - drawW) / 2;
               const dy = y + (boxH - drawH) / 2;
-
               const formato = dataUrl.includes('image/png') ? 'PNG' : 'JPEG';
               pdf.addImage(dataUrl, formato, dx, dy, drawW, drawH);
             } catch (e) {
-              pdf.setTextColor(120);
-              pdf.setFontSize(10);
-              pdf.text('Imagem indisponível', x + 4, y + 10);
+              pdf.setTextColor(100);
+              pdf.setFontSize(9);
+              pdf.text('Imagem indisponível', x + 4, y + 8);
             }
           }
 
-          pdf.setTextColor(120);
-          pdf.setFontSize(9);
-          pdf.text('Ofertas válidas enquanto durarem os estoques', 10, pageH - 6);
+          pdf.setFillColor(17, 94, 34);
+          pdf.rect(0, pageH - 10, pageW, 10, 'F');
+          pdf.setTextColor(255, 255, 255);
+          pdf.setFontSize(8);
+          pdf.text('Ofertas válidas enquanto durarem os estoques', 8, pageH - 4);
         }
       }
 
@@ -1637,7 +1760,6 @@
     carregarJornais();
     carregarProdutos();
     renderCarrinho();
-
   </script>
 </body>
 </html>
