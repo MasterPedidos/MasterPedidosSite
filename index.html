@@ -383,8 +383,12 @@
     }
 
     .journal-box {
-      padding: 18px;
+      padding: 10px;
       overflow-x: auto;
+      background: #f2f2f2;
+      border-radius: 0;
+      box-shadow: none;
+      border: 1px solid #d1d5db;
     }
 
     .journal-actions {
@@ -415,16 +419,17 @@
     .journal-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 20px;
+      gap: 12px;
       justify-items: center;
     }
 
     .journal-card {
       width: 100%;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      overflow: hidden;
-      background: #fff;
+      border: none;
+      border-radius: 0;
+      overflow: visible;
+      background: transparent;
+      box-shadow: none;
     }
 
     .journal-page {
@@ -433,8 +438,9 @@
       margin: 0 auto;
       background: #ffffff;
       padding: 0;
-      box-shadow: 0 0 10px rgba(0,0,0,0.15);
+      box-shadow: none;
       page-break-after: always;
+      border: 1px solid #d1d5db;
     }
 
     .journal-page.modelo-1 {
@@ -451,26 +457,18 @@
       align-items: center;
       justify-content: space-between;
       gap: 18px;
-      min-height: 136px;
-      padding: 16px 24px;
+      min-height: 112px;
+      padding: 10px 18px;
       color: #fff;
       overflow: hidden;
     }
 
-    .journal-page.modelo-1 .journal-page-header {
-      background: linear-gradient(90deg, #0c7b2b 0%, #17913b 60%, #f7f7f7 60%, #f7f7f7 100%);
-    }
-
-    .journal-page.modelo-2 .journal-page-header {
-      background: linear-gradient(90deg, #a55117 0%, #d97522 58%, #f7f7f7 58%, #f7f7f7 100%);
-    }
-
     .journal-brand {
-      width: 130px;
-      min-width: 130px;
-      height: 92px;
-      border-radius: 16px;
-      background: rgba(255,255,255,.92);
+      width: 112px;
+      min-width: 112px;
+      height: 78px;
+      border-radius: 0;
+      background: rgba(255,255,255,.96);
       color: #c86f1d;
       display: flex;
       flex-direction: column;
@@ -478,7 +476,7 @@
       align-items: center;
       text-align: center;
       font-weight: 900;
-      box-shadow: 0 8px 24px rgba(0,0,0,.08);
+      box-shadow: none;
     }
 
     .journal-brand strong {
@@ -513,12 +511,12 @@
 
     .journal-head-copy h3 {
       margin: 0;
-      font-size: clamp(28px, 4vw, 52px);
+      font-size: clamp(24px, 3.7vw, 46px);
       line-height: .95;
       font-weight: 900;
-      letter-spacing: -1.5px;
+      letter-spacing: -1.3px;
       text-transform: uppercase;
-      max-width: 680px;
+      max-width: 720px;
     }
 
     .journal-head-copy p {
@@ -530,14 +528,14 @@
     }
 
     .journal-body {
-      padding: 12px 14px 0;
+      padding: 0;
     }
 
     .journal-items {
       display: grid;
       gap: 0;
-      border-top: 1px solid #d6b7a7;
-      border-left: 1px solid #d6b7a7;
+      border-top: 1px solid #d3aa92;
+      border-left: 1px solid #d3aa92;
       background: #fff;
     }
 
@@ -551,20 +549,20 @@
 
     .journal-item {
       position: relative;
-      border-right: 1px solid #d6b7a7;
-      border-bottom: 1px solid #d6b7a7;
+      border-right: 1px solid #d3aa92;
+      border-bottom: 1px solid #d3aa92;
       background: #fff;
-      min-height: 255px;
+      min-height: 170px;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 10px;
+      padding: 6px;
       overflow: hidden;
     }
 
     .journal-page.modelo-2 .journal-item {
-      min-height: 220px;
-      padding: 8px;
+      min-height: 140px;
+      padding: 4px;
     }
 
     .journal-item img {
@@ -573,16 +571,17 @@
       object-fit: contain;
       object-position: center;
       display: block;
+      background: #fff;
     }
 
     .journal-page-footer {
       margin-top: 0;
-      padding: 12px 18px;
+      padding: 10px 18px;
       text-align: center;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 800;
       color: #f8fafc;
-      letter-spacing: .3px;
+      letter-spacing: .2px;
       text-transform: uppercase;
     }
 
@@ -595,10 +594,10 @@
     }
 
     .journal-info {
-      padding: 12px 14px;
-      font-size: 13px;
+      padding: 8px 0 0;
+      font-size: 12px;
       color: var(--muted);
-      background: #fff;
+      background: transparent;
     }
 
     .pedido-layout {
@@ -883,11 +882,7 @@
       .crossword div { width: 28px; height: 28px; }
 
       .journal-box {
-        padding: 10px;
-      }
-
-      .journal-body {
-        padding: 8px 8px 0;
+        padding: 6px;
       }
 
       .journal-items.cols-3,
@@ -897,8 +892,8 @@
 
       .journal-item,
       .journal-page.modelo-2 .journal-item {
-        min-height: 180px;
-        padding: 6px;
+        min-height: 135px;
+        padding: 4px;
       }
 
       .journal-head-copy h3 {
@@ -1323,7 +1318,7 @@
       const mini = ativo.modelo === 1 ? 'Ofertas válidas' : 'Prêmios todos os dias';
       const textoRodape = ativo.modelo === 1
         ? 'Ofertas válidas enquanto durarem os estoques'
-        : 'Escolhas equilibradas e oportunidades especiais';
+        : 'Ofertas válidas enquanto durarem os estoques';
 
       return {
         cabecalho: `
@@ -1331,7 +1326,7 @@
             <div class="journal-head-copy">
               <span class="journal-mini">${mini}</span>
               <h3>${conf.titulo}</h3>
-              <p>${ativo.tipo} • Página ${idx + 1} de ${totalPaginas}</p>
+              <p>Página ${idx + 1} de ${totalPaginas}</p>
             </div>
             <div class="journal-brand">
               <strong>A</strong>
@@ -1365,7 +1360,7 @@
         const itensHtml = pagina.map(item => {
           return `
             <div class="journal-item">
-              <img src="${item.imagem}" alt="Item do jornal" loading="lazy" onerror="this.src='https://placehold.co/500x500?text=Sem+Imagem'">
+              <img src="${encodeURI(item.imagem)}" alt="Item do jornal" loading="lazy" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"500\" height=\"500\"><rect width=\"100%\" height=\"100%\" fill=\"white\"/><text x=\"50%\" y=\"50%\" dominant-baseline=\"middle\" text-anchor=\"middle\" fill=\"%236b7280\" font-family=\"Arial\" font-size=\"24\">Imagem indisponível</text></svg>'">
             </div>
           `;
         }).join('');
@@ -1466,7 +1461,7 @@
           pdf.rect(x, y, boxW, boxH);
 
           try {
-            const dataUrl = await carregarImagemComoDataURL(item.imagem);
+            const dataUrl = await carregarImagemComoDataURL(encodeURI(item.imagem));
 
             const img = new Image();
             img.src = dataUrl;
@@ -1561,7 +1556,7 @@
             pdf.rect(x, y, boxW, boxH);
 
             try {
-              const dataUrl = await carregarImagemComoDataURL(item.imagem);
+              const dataUrl = await carregarImagemComoDataURL(encodeURI(item.imagem));
               const img = new Image();
               img.src = dataUrl;
               await new Promise((resolve, reject) => {
