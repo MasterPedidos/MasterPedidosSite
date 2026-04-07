@@ -543,8 +543,13 @@
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
+    .journal-page.modelo-1 .journal-items.cols-3 {
+      grid-auto-rows: 1fr;
+    }
+
     .journal-items.cols-5 {
       grid-template-columns: repeat(5, minmax(0, 1fr));
+      grid-auto-rows: 150px;
     }
 
     .journal-item {
@@ -553,25 +558,30 @@
       border-bottom: 1px solid #d3aa92;
       background: #fff;
       min-height: 170px;
+      aspect-ratio: 1 / 1;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 6px;
+      padding: 10px;
       overflow: hidden;
     }
 
     .journal-page.modelo-2 .journal-item {
       min-height: 140px;
-      padding: 4px;
+      aspect-ratio: 1 / 1;
+      padding: 8px;
     }
 
     .journal-item img {
       width: 100%;
       height: 100%;
+      max-width: 100%;
+      max-height: 100%;
       object-fit: contain;
-      object-position: center;
+      object-position: center center;
       display: block;
       background: #fff;
+      margin: 0 auto;
     }
 
     .journal-page-footer {
@@ -598,6 +608,12 @@
       font-size: 12px;
       color: var(--muted);
       background: transparent;
+    }
+
+    .journal-item img[src*="data:image/svg+xml"] {
+      width: 90%;
+      height: auto;
+      object-fit: contain;
     }
 
     .pedido-layout {
@@ -844,6 +860,7 @@
 
       .journal-items.cols-5 {
         grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-auto-rows: 145px;
       }
     }
 
@@ -871,6 +888,11 @@
       .journal-items.cols-5 {
         grid-template-columns: repeat(3, minmax(0, 1fr));
       }
+
+      .journal-item,
+      .journal-page.modelo-2 .journal-item {
+        aspect-ratio: 1 / 1;
+      }
     }
 
     @media (max-width: 560px) {
@@ -893,7 +915,8 @@
       .journal-item,
       .journal-page.modelo-2 .journal-item {
         min-height: 135px;
-        padding: 4px;
+        aspect-ratio: 1 / 1;
+        padding: 6px;
       }
 
       .journal-head-copy h3 {
