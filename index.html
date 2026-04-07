@@ -411,8 +411,8 @@
 
     .journal-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 14px;
+      grid-template-columns: 1fr;
+      gap: 18px;
     }
 
     .journal-card {
@@ -422,10 +422,67 @@
       background: #fff;
     }
 
-    .journal-card img {
-      width: 100%;
-      display: block;
+    .journal-page {
+      background: white;
+      padding: 14px;
+    }
+
+    .journal-page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      padding: 10px 12px;
+      background: linear-gradient(135deg, #166534, #15803d);
+      color: white;
+      border-radius: 12px;
+      font-size: 14px;
+    }
+
+    .journal-page.modelo-2 .journal-page-header {
+      background: linear-gradient(135deg, #b45309, #ea580c);
+    }
+
+    .journal-items {
+      display: grid;
+      gap: 10px;
+    }
+
+    .journal-items.cols-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .journal-items.cols-5 {
+      grid-template-columns: repeat(5, 1fr);
+    }
+
+    .journal-item {
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 8px;
       background: #fff;
+      min-height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .journal-item img {
+      width: 100%;
+      height: 150px;
+      object-fit: contain;
+      object-position: center;
+      display: block;
+    }
+
+    .journal-page-footer {
+      margin-top: 12px;
+      padding: 10px 12px;
+      background: #f3f4f6;
+      border-radius: 10px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
     }
 
     .journal-info {
@@ -691,6 +748,23 @@
       .right-actions { flex-wrap: wrap; }
     }
 
+    @media (max-width: 900px) {
+      .journal-items.cols-5 {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 560px) {
+      .journal-items.cols-3,
+      .journal-items.cols-5 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .journal-item img {
+        height: 120px;
+      }
+    }
+
     @media (max-width: 560px) {
       .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .section-title { align-items: start; flex-direction: column; }
@@ -938,6 +1012,11 @@
     };
 
     let JORNAIS = [];
+    const MODELOS = {
+      1: { itensPorPagina: 12, colunas: 3 },
+      2: { itensPorPagina: 20, colunas: 5 }
+    };
+
     let produtos = [];
     let filtrados = [];
     let carrinho = [];
@@ -1114,6 +1193,15 @@
       renderJornais();
     }
 
+
+    function dividirPaginas(itens, itensPorPagina) {
+      const paginas = [];
+      for (let i = 0; i < itens.length; i += itensPorPagina) {
+        paginas.push(itens.slice(i, i + itensPorPagina));
+      }
+      return paginas;
+    }
+
     function renderJornais() {
       if (!JORNAIS.length) {
         elJournalTabs.innerHTML = '';
@@ -1126,12 +1214,36 @@
       }).join('');
 
       const ativo = JORNAIS[jornalAtivo];
-      elJournalGrid.innerHTML = ativo.paginas.map((p, idx) => {
-        const titulo = p.titulo || `Página ${idx + 1}`;
+      const conf = MODELOS[ativo.modelo] || MODELOS[1];
+      const paginas = dividirPaginas(ativo.itens || [], conf.itensPorPagina);
+
+      elJournalGrid.innerHTML = paginas.map((pagina, idx) => {
+        const itensHtml = pagina.map(item => {
+          return `
+            <div class="journal-item">
+              <img src="${item.imagem}" alt="Item do jornal" onerror="this.src='https://placehold.co/500x500?text=Sem+Imagem'">
+            </div>
+          `;
+        }).join('');
+
         return `
           <div class="journal-card">
-            <img src="${p.imagem}" alt="${titulo}" onerror="this.src='https://placehold.co/900x1200?text=Inserir+Imagem+do+Jornal'" />
-            <div class="journal-info">${titulo}</div>
+            <div class="journal-page modelo-${ativo.modelo}">
+              <div class="journal-page-header">
+                <strong>${ativo.tipo}</strong>
+                <span>Página ${idx + 1}</span>
+              </div>
+
+              <div class="journal-items cols-${conf.colunas}">
+                ${itensHtml}
+              </div>
+
+              <div class="journal-page-footer">
+                Ofertas válidas enquanto durarem os estoques
+              </div>
+            </div>
+
+            <div class="journal-info">${ativo.tipo} • Página ${idx + 1}</div>
           </div>
         `;
       }).join('');
@@ -1155,6 +1267,7 @@
       });
     }
 
+
     async function gerarPdfJornal(indice, nomeArquivo) {
       if (!JORNAIS.length || !JORNAIS[indice]) {
         alert('Nenhum jornal disponível para gerar PDF.');
@@ -1163,38 +1276,89 @@
 
       const { jsPDF } = window.jspdf;
       const jornal = JORNAIS[indice];
+      const conf = MODELOS[jornal.modelo] || MODELOS[1];
+      const paginas = dividirPaginas(jornal.itens || [], conf.itensPorPagina);
+
       const pdf = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
       const pageW = pdf.internal.pageSize.getWidth();
       const pageH = pdf.internal.pageSize.getHeight();
 
-      for (let i = 0; i < jornal.paginas.length; i++) {
-        const pagina = jornal.paginas[i];
-        const dataUrl = await carregarImagemComoDataURL(pagina.imagem);
-
-        const img = new Image();
-        img.src = dataUrl;
-        await new Promise((resolve, reject) => {
-          img.onload = resolve;
-          img.onerror = reject;
-        });
-
-        if (i > 0) pdf.addPage();
-
-        const iw = img.width;
-        const ih = img.height;
-        const ratio = Math.min(pageW / iw, pageH / ih);
-        const drawW = iw * ratio;
-        const drawH = ih * ratio;
-        const x = (pageW - drawW) / 2;
-        const y = (pageH - drawH) / 2;
-        const formato = dataUrl.includes('image/png') ? 'PNG' : 'JPEG';
+      for (let p = 0; p < paginas.length; p++) {
+        if (p > 0) pdf.addPage();
 
         pdf.setFillColor(255, 255, 255);
         pdf.rect(0, 0, pageW, pageH, 'F');
-        pdf.addImage(dataUrl, formato, x, y, drawW, drawH);
-        pdf.setFontSize(9);
+
+        pdf.setFillColor(jornal.modelo === 2 ? 234 : 22, jornal.modelo === 2 ? 88 : 101, jornal.modelo === 2 ? 12 : 52);
+        pdf.roundedRect(8, 8, pageW - 16, 14, 3, 3, 'F');
+
+        pdf.setTextColor(255, 255, 255);
+        pdf.setFontSize(14);
+        pdf.text(jornal.tipo, 12, 17);
+
+        pdf.setFontSize(10);
+        pdf.text(`Página ${p + 1} de ${paginas.length}`, pageW - 40, 17);
+
+        const itens = paginas[p];
+
+        const cols = conf.colunas;
+        const gap = 4;
+        const margemX = 10;
+        const topoY = 28;
+        const rodapeH = 10;
+        const disponivelW = pageW - margemX * 2;
+        const boxW = (disponivelW - gap * (cols - 1)) / cols;
+
+        const rows = Math.ceil(itens.length / cols);
+        const disponivelH = pageH - topoY - 14 - rodapeH;
+        const boxH = (disponivelH - gap * (rows - 1)) / rows;
+
+        for (let i = 0; i < itens.length; i++) {
+          const item = itens[i];
+          const col = i % cols;
+          const row = Math.floor(i / cols);
+
+          const x = margemX + col * (boxW + gap);
+          const y = topoY + row * (boxH + gap);
+
+          pdf.setDrawColor(220, 220, 220);
+          pdf.roundedRect(x, y, boxW, boxH, 2, 2);
+
+          try {
+            const dataUrl = await carregarImagemComoDataURL(item.imagem);
+
+            const img = new Image();
+            img.src = dataUrl;
+            await new Promise((resolve, reject) => {
+              img.onload = resolve;
+              img.onerror = reject;
+            });
+
+            const iw = img.width;
+            const ih = img.height;
+
+            const areaW = boxW - 4;
+            const areaH = boxH - 4;
+
+            const ratio = Math.min(areaW / iw, areaH / ih);
+            const drawW = iw * ratio;
+            const drawH = ih * ratio;
+
+            const dx = x + (boxW - drawW) / 2;
+            const dy = y + (boxH - drawH) / 2;
+
+            const formato = dataUrl.includes('image/png') ? 'PNG' : 'JPEG';
+            pdf.addImage(dataUrl, formato, dx, dy, drawW, drawH);
+          } catch (e) {
+            pdf.setTextColor(120);
+            pdf.setFontSize(10);
+            pdf.text('Imagem indisponível', x + 4, y + 10);
+          }
+        }
+
         pdf.setTextColor(120);
-        pdf.text(`${jornal.tipo} • Página ${i + 1} de ${jornal.paginas.length}`, 10, pageH - 6);
+        pdf.setFontSize(9);
+        pdf.text('Ofertas válidas enquanto durarem os estoques', 10, pageH - 6);
       }
 
       pdf.save(nomeArquivo || `${jornal.tipo.toLowerCase().replace(/\s+/g, '-')}.pdf`);
@@ -1208,40 +1372,92 @@
 
       const { jsPDF } = window.jspdf;
       const pdf = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
-      const pageW = pdf.internal.pageSize.getWidth();
-      const pageH = pdf.internal.pageSize.getHeight();
-      let primeira = true;
+      let primeiraPagina = true;
 
-      for (const jornal of JORNAIS) {
-        for (let i = 0; i < jornal.paginas.length; i++) {
-          const pagina = jornal.paginas[i];
-          const dataUrl = await carregarImagemComoDataURL(pagina.imagem);
+      for (let j = 0; j < JORNAIS.length; j++) {
+        const jornal = JORNAIS[j];
+        const conf = MODELOS[jornal.modelo] || MODELOS[1];
+        const paginas = dividirPaginas(jornal.itens || [], conf.itensPorPagina);
 
-          const img = new Image();
-          img.src = dataUrl;
-          await new Promise((resolve, reject) => {
-            img.onload = resolve;
-            img.onerror = reject;
-          });
+        for (let p = 0; p < paginas.length; p++) {
+          if (!primeiraPagina) pdf.addPage();
+          primeiraPagina = false;
 
-          if (!primeira) pdf.addPage();
-          primeira = false;
-
-          const iw = img.width;
-          const ih = img.height;
-          const ratio = Math.min(pageW / iw, pageH / ih);
-          const drawW = iw * ratio;
-          const drawH = ih * ratio;
-          const x = (pageW - drawW) / 2;
-          const y = (pageH - drawH) / 2;
-          const formato = dataUrl.includes('image/png') ? 'PNG' : 'JPEG';
+          const pageW = pdf.internal.pageSize.getWidth();
+          const pageH = pdf.internal.pageSize.getHeight();
 
           pdf.setFillColor(255, 255, 255);
           pdf.rect(0, 0, pageW, pageH, 'F');
-          pdf.addImage(dataUrl, formato, x, y, drawW, drawH);
-          pdf.setFontSize(9);
+
+          pdf.setFillColor(jornal.modelo === 2 ? 234 : 22, jornal.modelo === 2 ? 88 : 101, jornal.modelo === 2 ? 12 : 52);
+          pdf.roundedRect(8, 8, pageW - 16, 14, 3, 3, 'F');
+
+          pdf.setTextColor(255, 255, 255);
+          pdf.setFontSize(14);
+          pdf.text(jornal.tipo, 12, 17);
+
+          pdf.setFontSize(10);
+          pdf.text(`Página ${p + 1} de ${paginas.length}`, pageW - 40, 17);
+
+          const itens = paginas[p];
+          const cols = conf.colunas;
+          const gap = 4;
+          const margemX = 10;
+          const topoY = 28;
+          const rodapeH = 10;
+          const disponivelW = pageW - margemX * 2;
+          const boxW = (disponivelW - gap * (cols - 1)) / cols;
+
+          const rows = Math.ceil(itens.length / cols);
+          const disponivelH = pageH - topoY - 14 - rodapeH;
+          const boxH = (disponivelH - gap * (rows - 1)) / rows;
+
+          for (let i = 0; i < itens.length; i++) {
+            const item = itens[i];
+            const col = i % cols;
+            const row = Math.floor(i / cols);
+
+            const x = margemX + col * (boxW + gap);
+            const y = topoY + row * (boxH + gap);
+
+            pdf.setDrawColor(220, 220, 220);
+            pdf.roundedRect(x, y, boxW, boxH, 2, 2);
+
+            try {
+              const dataUrl = await carregarImagemComoDataURL(item.imagem);
+
+              const img = new Image();
+              img.src = dataUrl;
+              await new Promise((resolve, reject) => {
+                img.onload = resolve;
+                img.onerror = reject;
+              });
+
+              const iw = img.width;
+              const ih = img.height;
+
+              const areaW = boxW - 4;
+              const areaH = boxH - 4;
+
+              const ratio = Math.min(areaW / iw, areaH / ih);
+              const drawW = iw * ratio;
+              const drawH = ih * ratio;
+
+              const dx = x + (boxW - drawW) / 2;
+              const dy = y + (boxH - drawH) / 2;
+
+              const formato = dataUrl.includes('image/png') ? 'PNG' : 'JPEG';
+              pdf.addImage(dataUrl, formato, dx, dy, drawW, drawH);
+            } catch (e) {
+              pdf.setTextColor(120);
+              pdf.setFontSize(10);
+              pdf.text('Imagem indisponível', x + 4, y + 10);
+            }
+          }
+
           pdf.setTextColor(120);
-          pdf.text(`${jornal.tipo} • Página ${i + 1} de ${jornal.paginas.length}`, 10, pageH - 6);
+          pdf.setFontSize(9);
+          pdf.text('Ofertas válidas enquanto durarem os estoques', 10, pageH - 6);
         }
       }
 
