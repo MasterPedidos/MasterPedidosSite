@@ -112,7 +112,8 @@
     .add-btn,
     .fun-toggle,
     .fun-card button,
-    .journal-tab {
+    .journal-tab,
+    .pdf-btn {
       border: none;
       cursor: pointer;
       font-weight: 700;
@@ -120,7 +121,7 @@
       transition: .18s ease;
     }
 
-    .cart-btn, .menu-btn, .nav-btn {
+    .cart-btn, .menu-btn, .nav-btn, .pdf-btn {
       padding: 13px 16px;
       background: #fff;
       color: var(--blue);
@@ -131,6 +132,10 @@
     .menu-btn {
       background: var(--yellow);
       color: #111827;
+    }
+
+    .pdf-btn {
+      background: #e5eefc;
     }
 
     .nav-row {
@@ -378,6 +383,13 @@
     }
 
     .journal-box { padding: 18px; }
+
+    .journal-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
 
     .journal-tabs {
       display: flex;
@@ -644,8 +656,6 @@
       background: #fff;
     }
 
-    .hide { display: none !important; }
-
     footer {
       max-width: var(--max);
       margin: 24px auto 40px;
@@ -692,7 +702,7 @@
   </style>
 </head>
 <body>
-  <div class="top-strip">🛒 Delivery por JSON • Jornal com imagens • Pedido rápido no WhatsApp • Retirada na loja</div>
+  <div class="top-strip">🛒 Delivery por JSON • Jornal com imagens • PDF automático • Retirada na loja</div>
 
   <header class="header">
     <div class="wrap header-inner">
@@ -763,14 +773,18 @@
         <span class="title-badge">JORNAL</span>
         <div>
           <h2>Jornal de Ofertas em Imagens</h2>
-          <p>Dois tipos de jornal visual, por imagens inseridas</p>
+          <p>Usa o arquivo jornal.json, sem precisar editar o index</p>
         </div>
       </div>
-      <div class="title-side">Troque as imagens nos caminhos do array JORNAIS</div>
+      <div class="title-side">Cada imagem vira uma página do PDF</div>
     </div>
 
     <div class="journal-box">
       <div class="journal-tabs" id="journalTabs"></div>
+      <div class="journal-actions">
+        <button class="pdf-btn" id="btnPdfAtual">Gerar PDF do jornal atual</button>
+        <button class="pdf-btn" id="btnPdfTodos">Gerar PDF com todos os jornais</button>
+      </div>
       <div class="journal-grid" id="journalGrid"></div>
     </div>
   </section>
@@ -910,9 +924,10 @@
   </section>
 
   <footer>
-    Master Pedidos • Delivery por JSON + Jornal por imagens • Visual atacadão limpo
+    Master Pedidos • Delivery por JSON + Jornal por imagens + PDF automático
   </footer>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
     const CONFIG = {
       lojaNome: 'Master Pedidos',
@@ -922,23 +937,7 @@
       locale: 'pt-BR'
     };
 
-    const JORNAIS = [
-      {
-        tipo: 'Jornal Tipo 1',
-        paginas: [
-          { titulo: 'Página 1', imagem: './jornal-tipo1-pagina1.jpg' },
-          { titulo: 'Página 2', imagem: './jornal-tipo1-pagina2.jpg' }
-        ]
-      },
-      {
-        tipo: 'Jornal Tipo 2',
-        paginas: [
-          { titulo: 'Página 1', imagem: './jornal-tipo2-pagina1.jpg' },
-          { titulo: 'Página 2', imagem: './jornal-tipo2-pagina2.jpg' }
-        ]
-      }
-    ];
-
+    let JORNAIS = [];
     let produtos = [];
     let filtrados = [];
     let carrinho = [];
@@ -1088,18 +1087,54 @@
       elGridProdutos.innerHTML = normais.length ? normais.map(cardProduto).join('') : '<div class="empty-state">Nenhum produto encontrado.</div>';
     }
 
+    async function carregarJornais() {
+      try {
+        const resp = await fetch('./jornal.json?v=' + Date.now(), { cache: 'no-store' });
+        const data = await resp.json();
+        JORNAIS = Array.isArray(data) ? data : [];
+      } catch (e) {
+        JORNAIS = [
+          {
+            tipo: 'Jornal Tipo 1',
+            paginas: [
+              { titulo: 'Página 1', imagem: './jornal-tipo1-pagina1.jpg' },
+              { titulo: 'Página 2', imagem: './jornal-tipo1-pagina2.jpg' }
+            ]
+          },
+          {
+            tipo: 'Jornal Tipo 2',
+            paginas: [
+              { titulo: 'Página 1', imagem: './jornal-tipo2-pagina1.jpg' },
+              { titulo: 'Página 2', imagem: './jornal-tipo2-pagina2.jpg' }
+            ]
+          }
+        ];
+      }
+
+      renderJornais();
+    }
+
     function renderJornais() {
-      elJournalTabs.innerHTML = JORNAIS.map((j, i) => `
-        <button class="journal-tab ${i === jornalAtivo ? 'active' : ''}" onclick="selecionarJornal(${i})">${j.tipo}</button>
-      `).join('');
+      if (!JORNAIS.length) {
+        elJournalTabs.innerHTML = '';
+        elJournalGrid.innerHTML = '<div class="empty-state">Nenhum jornal encontrado.</div>';
+        return;
+      }
+
+      elJournalTabs.innerHTML = JORNAIS.map((j, i) => {
+        return `<button class="journal-tab ${i === jornalAtivo ? 'active' : ''}" onclick="selecionarJornal(${i})">${j.tipo}</button>`;
+      }).join('');
 
       const ativo = JORNAIS[jornalAtivo];
-      elJournalGrid.innerHTML = ativo.paginas.map(p => `
-        <div class="journal-card">
-          <img src="${p.imagem}" alt="${p.titulo}" onerror="this.src='https://placehold.co/900x1200?text=Inserir+Imagem+do+Jornal'" />
-          <div class="journal-info">${p.titulo}</div>
-        </div>
-      `).join('');
+      elJournalGrid.innerHTML = ativo.paginas.map((p, idx) => {
+        const titulo = p.titulo || `Página ${idx + 1}`;
+        return `
+          <div class="journal-card">
+            <img src="${p.imagem}" alt="${titulo}" onerror="this.src='https://placehold.co/900x1200?text=Inserir+Imagem+do+Jornal'" />
+            <div class="journal-info">${titulo}</div>
+          </div>
+        `;
+      }).join('');
     }
 
     function selecionarJornal(i) {
@@ -1108,6 +1143,110 @@
     }
 
     window.selecionarJornal = selecionarJornal;
+
+    async function carregarImagemComoDataURL(url) {
+      const resp = await fetch(url, { cache: 'no-store' });
+      const blob = await resp.blob();
+      return await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+    }
+
+    async function gerarPdfJornal(indice, nomeArquivo) {
+      if (!JORNAIS.length || !JORNAIS[indice]) {
+        alert('Nenhum jornal disponível para gerar PDF.');
+        return;
+      }
+
+      const { jsPDF } = window.jspdf;
+      const jornal = JORNAIS[indice];
+      const pdf = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
+      const pageW = pdf.internal.pageSize.getWidth();
+      const pageH = pdf.internal.pageSize.getHeight();
+
+      for (let i = 0; i < jornal.paginas.length; i++) {
+        const pagina = jornal.paginas[i];
+        const dataUrl = await carregarImagemComoDataURL(pagina.imagem);
+
+        const img = new Image();
+        img.src = dataUrl;
+        await new Promise((resolve, reject) => {
+          img.onload = resolve;
+          img.onerror = reject;
+        });
+
+        if (i > 0) pdf.addPage();
+
+        const iw = img.width;
+        const ih = img.height;
+        const ratio = Math.min(pageW / iw, pageH / ih);
+        const drawW = iw * ratio;
+        const drawH = ih * ratio;
+        const x = (pageW - drawW) / 2;
+        const y = (pageH - drawH) / 2;
+        const formato = dataUrl.includes('image/png') ? 'PNG' : 'JPEG';
+
+        pdf.setFillColor(255, 255, 255);
+        pdf.rect(0, 0, pageW, pageH, 'F');
+        pdf.addImage(dataUrl, formato, x, y, drawW, drawH);
+        pdf.setFontSize(9);
+        pdf.setTextColor(120);
+        pdf.text(`${jornal.tipo} • Página ${i + 1} de ${jornal.paginas.length}`, 10, pageH - 6);
+      }
+
+      pdf.save(nomeArquivo || `${jornal.tipo.toLowerCase().replace(/\s+/g, '-')}.pdf`);
+    }
+
+    async function gerarPdfTodosJornais() {
+      if (!JORNAIS.length) {
+        alert('Nenhum jornal disponível para gerar PDF.');
+        return;
+      }
+
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
+      const pageW = pdf.internal.pageSize.getWidth();
+      const pageH = pdf.internal.pageSize.getHeight();
+      let primeira = true;
+
+      for (const jornal of JORNAIS) {
+        for (let i = 0; i < jornal.paginas.length; i++) {
+          const pagina = jornal.paginas[i];
+          const dataUrl = await carregarImagemComoDataURL(pagina.imagem);
+
+          const img = new Image();
+          img.src = dataUrl;
+          await new Promise((resolve, reject) => {
+            img.onload = resolve;
+            img.onerror = reject;
+          });
+
+          if (!primeira) pdf.addPage();
+          primeira = false;
+
+          const iw = img.width;
+          const ih = img.height;
+          const ratio = Math.min(pageW / iw, pageH / ih);
+          const drawW = iw * ratio;
+          const drawH = ih * ratio;
+          const x = (pageW - drawW) / 2;
+          const y = (pageH - drawH) / 2;
+          const formato = dataUrl.includes('image/png') ? 'PNG' : 'JPEG';
+
+          pdf.setFillColor(255, 255, 255);
+          pdf.rect(0, 0, pageW, pageH, 'F');
+          pdf.addImage(dataUrl, formato, x, y, drawW, drawH);
+          pdf.setFontSize(9);
+          pdf.setTextColor(120);
+          pdf.text(`${jornal.tipo} • Página ${i + 1} de ${jornal.paginas.length}`, 10, pageH - 6);
+        }
+      }
+
+      pdf.save('jornais-completos.pdf');
+    }
 
     function alterarCarrinho(codigo, delta) {
       const item = produtos.find(p => codigoDo(p) === codigo);
@@ -1249,6 +1388,12 @@
     document.getElementById('btnWhats').addEventListener('click', enviarWhatsApp);
     document.getElementById('scrollPedido').addEventListener('click', () => document.getElementById('pedidoSection').scrollIntoView({ behavior: 'smooth' }));
     document.getElementById('cartBtn').addEventListener('click', () => document.getElementById('pedidoSection').scrollIntoView({ behavior: 'smooth' }));
+    document.getElementById('btnPdfAtual').addEventListener('click', () => {
+      const nome = ((JORNAIS[jornalAtivo] && JORNAIS[jornalAtivo].tipo) || 'jornal').toLowerCase().replace(/\s+/g, '-') + '.pdf';
+      gerarPdfJornal(jornalAtivo, nome);
+    });
+    document.getElementById('btnPdfTodos').addEventListener('click', gerarPdfTodosJornais);
+
     elBusca.addEventListener('input', aplicarFiltros);
     elFiltroMarca.addEventListener('change', aplicarFiltros);
     elFiltroOferta.addEventListener('change', aplicarFiltros);
@@ -1262,9 +1407,10 @@
     document.getElementById('verHoroscopo').addEventListener('click', mostrarHoroscopo);
     document.getElementById('gerarReceita').addEventListener('click', gerarReceita);
 
-    renderJornais();
+    carregarJornais();
     carregarProdutos();
     renderCarrinho();
+
   </script>
 </body>
 </html>
