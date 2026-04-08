@@ -4,7 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Master Pedidos - Delivery e Jornal</title>
-  <style>
+
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=40XPw-vHC7q96TTzVu1FMLSwAUcTj8Kyyltu11PRJi3RsUJr68iyKjBmXi4dSJDAqSDFts4HKmnc0LEjMpLgH5XIog-0XHiP0HKhztTp7Rx-gs9U24-eKqlzk_1lMx7J1wUOPDP4gEJaORULSu9qdcA0VkXjbkpQ9jKyr3IXVjlVSxmbQxYu5GxuYPvadnArnioFOjEnmOgyEaD3W7ab0RffJvW8zn5ygGA8_2nzlkw7uZErHofAt1hwIXEpC9t4j1NyyxWVqG8nma9Jru1UuA" charset="UTF-8"></script><style>
     :root {
       --bg: #f3f4f6;
       --card: #ffffff;
@@ -16,6 +17,7 @@
       --yellow: #ffd500;
       --green: #16a34a;
       --red: #d61f1f;
+      --orange: #d97706;
       --shadow: 0 10px 24px rgba(17, 24, 39, 0.08);
       --radius: 16px;
       --max: 1380px;
@@ -23,6 +25,7 @@
 
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
+
     body {
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
@@ -373,7 +376,6 @@
       padding: 10px 12px;
     }
 
-    .journal-box,
     .box,
     .fun-panel {
       background: var(--card);
@@ -382,33 +384,36 @@
       border: 1px solid var(--line);
     }
 
+    /* =========================
+      JORNAL
+    ========================= */
+
     .journal-box {
-      padding: 10px;
+      padding: 8px;
       overflow-x: auto;
-      background: #f2f2f2;
-      border-radius: 0;
-      box-shadow: none;
+      background: #efefef;
       border: 1px solid #d1d5db;
+      box-shadow: none;
     }
 
     .journal-actions {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
     .journal-tabs {
       display: flex;
       gap: 10px;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
       flex-wrap: wrap;
     }
 
     .journal-tab {
       background: #e5eefc;
       color: var(--blue);
-      padding: 11px 14px;
+      padding: 10px 14px;
     }
 
     .journal-tab.active {
@@ -419,32 +424,28 @@
     .journal-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 12px;
+      gap: 14px;
       justify-items: center;
     }
 
     .journal-card {
       width: 100%;
-      border: none;
-      border-radius: 0;
-      overflow: visible;
       background: transparent;
-      box-shadow: none;
+      break-inside: avoid;
+      page-break-inside: avoid;
+      margin-bottom: 12px;
     }
 
     .journal-page {
       width: 100%;
-      max-width: 1120px;
+      max-width: 1100px;
       margin: 0 auto;
-      background: #ffffff;
-      padding: 0;
-      box-shadow: none;
-      page-break-after: always;
-      border: 1px solid #d1d5db;
+      background: #fff;
+      border: 1px solid #cfcfcf;
     }
 
     .journal-page.modelo-1 {
-      background: #f6f4f1;
+      background: #f7f5f2;
     }
 
     .journal-page.modelo-2 {
@@ -452,22 +453,27 @@
     }
 
     .journal-page-header {
-      position: relative;
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      gap: 18px;
-      min-height: 112px;
-      padding: 10px 18px;
+      align-items: center;
+      gap: 16px;
+      min-height: 90px;
+      padding: 10px 14px;
       color: #fff;
-      overflow: hidden;
+    }
+
+    .journal-page.modelo-1 .journal-page-header {
+      background: linear-gradient(90deg, #178236 0%, #1d9c42 58%, #f4f4f4 58%, #f4f4f4 100%);
+    }
+
+    .journal-page.modelo-2 .journal-page-header {
+      background: linear-gradient(90deg, #b55f1f 0%, #d77725 58%, #f4f4f4 58%, #f4f4f4 100%);
     }
 
     .journal-brand {
-      width: 112px;
-      min-width: 112px;
-      height: 78px;
-      border-radius: 0;
+      width: 96px;
+      min-width: 96px;
+      height: 64px;
       background: rgba(255,255,255,.96);
       color: #c86f1d;
       display: flex;
@@ -476,19 +482,18 @@
       align-items: center;
       text-align: center;
       font-weight: 900;
-      box-shadow: none;
     }
 
     .journal-brand strong {
-      font-size: 30px;
+      font-size: 24px;
       line-height: 1;
       letter-spacing: -1px;
     }
 
     .journal-brand small {
-      font-size: 11px;
+      font-size: 10px;
       color: #4b5563;
-      margin-top: 4px;
+      margin-top: 2px;
       font-weight: 700;
     }
 
@@ -499,29 +504,29 @@
 
     .journal-head-copy .journal-mini {
       display: inline-block;
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 800;
-      padding: 6px 10px;
+      padding: 5px 9px;
       border-radius: 999px;
       background: rgba(255,255,255,.18);
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       letter-spacing: .4px;
       text-transform: uppercase;
     }
 
     .journal-head-copy h3 {
       margin: 0;
-      font-size: clamp(24px, 3.7vw, 46px);
+      font-size: clamp(20px, 3vw, 38px);
       line-height: .95;
       font-weight: 900;
-      letter-spacing: -1.3px;
+      letter-spacing: -1px;
       text-transform: uppercase;
-      max-width: 720px;
+      max-width: 620px;
     }
 
     .journal-head-copy p {
-      margin: 8px 0 0;
-      font-size: 12px;
+      margin: 6px 0 0;
+      font-size: 11px;
       font-weight: 700;
       text-transform: uppercase;
       opacity: .95;
@@ -534,8 +539,8 @@
     .journal-items {
       display: grid;
       gap: 0;
-      border-top: 1px solid #d3aa92;
-      border-left: 1px solid #d3aa92;
+      border-top: 1px solid #cfa68e;
+      border-left: 1px solid #cfa68e;
       background: #fff;
     }
 
@@ -548,37 +553,140 @@
     }
 
     .journal-item {
-      position: relative;
-      border-right: 1px solid #d3aa92;
-      border-bottom: 1px solid #d3aa92;
+      border-right: 1px solid #cfa68e;
+      border-bottom: 1px solid #cfa68e;
       background: #fff;
-      min-height: 170px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 6px;
+      min-height: 320px;
+      display: grid;
+      grid-template-rows: 160px auto auto auto auto auto;
+      align-content: start;
+      padding: 8px;
+      gap: 6px;
       overflow: hidden;
     }
 
-    .journal-page.modelo-2 .journal-item {
-      min-height: 140px;
-      padding: 4px;
+    .journal-page.modelo-1 .journal-item {
+      min-height: 340px;
+      grid-template-rows: 160px auto auto auto auto auto;
     }
 
-    .journal-item img {
+    .journal-page.modelo-2 .journal-item {
+      min-height: 285px;
+      grid-template-rows: 130px auto auto auto auto auto;
+      padding: 6px;
+      gap: 4px;
+    }
+
+    .journal-item-image {
       width: 100%;
-      height: 100%;
-      object-fit: contain;
-      object-position: center;
-      display: block;
+      height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
       background: #fff;
     }
 
-    .journal-page-footer {
-      margin-top: 0;
-      padding: 10px 18px;
-      text-align: center;
+    .journal-page.modelo-2 .journal-item-image {
+      height: 130px;
+    }
+
+    .journal-item-image img {
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      object-position: center;
+      display: block;
+    }
+
+    .journal-item-desc {
+      font-size: 13px;
+      line-height: 1.2;
+      font-weight: 800;
+      color: #111827;
+      min-height: 32px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-transform: uppercase;
+    }
+
+    .journal-page.modelo-2 .journal-item-desc {
       font-size: 11px;
+      min-height: 28px;
+    }
+
+    .journal-item-meta {
+      font-size: 10px;
+      color: #6b7280;
+      font-weight: 700;
+      min-height: 12px;
+      text-transform: uppercase;
+    }
+
+    .journal-item-price-box {
+      margin-top: auto;
+      border-radius: 10px;
+      background: linear-gradient(180deg, #fff7d6 0%, #ffe9a3 100%);
+      border: 1px solid #f2d26b;
+      padding: 6px 8px;
+      display: grid;
+      gap: 2px;
+    }
+
+    .journal-item-price-label {
+      font-size: 9px;
+      color: #7c2d12;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .journal-item-price {
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .journal-item-price strong {
+      font-size: 26px;
+      line-height: 1;
+      color: #d61f1f;
+      letter-spacing: -1px;
+    }
+
+    .journal-item-price small {
+      font-size: 11px;
+      color: #6b7280;
+      font-weight: 700;
+      text-decoration: line-through;
+    }
+
+    .journal-item-cod {
+      font-size: 10px;
+      font-weight: 900;
+      color: #374151;
+      text-transform: uppercase;
+    }
+
+    .journal-page.modelo-2 .journal-item-price strong {
+      font-size: 20px;
+    }
+
+    .journal-item-extra {
+      font-size: 10px;
+      color: #b91c1c;
+      font-weight: 800;
+      min-height: 12px;
+    }
+
+    .journal-page-footer {
+      padding: 8px 14px;
+      text-align: center;
+      font-size: 10px;
       font-weight: 800;
       color: #f8fafc;
       letter-spacing: .2px;
@@ -594,8 +702,8 @@
     }
 
     .journal-info {
-      padding: 8px 0 0;
-      font-size: 12px;
+      padding: 6px 0 0;
+      font-size: 11px;
       color: var(--muted);
       background: transparent;
     }
@@ -859,13 +967,8 @@
       .right-actions { flex-wrap: wrap; }
 
       .journal-page-header {
-        min-height: auto;
         flex-direction: column;
         align-items: flex-start;
-      }
-
-      .journal-brand {
-        align-self: flex-end;
       }
 
       .journal-items.cols-5 {
@@ -891,16 +994,26 @@
       }
 
       .journal-item,
-      .journal-page.modelo-2 .journal-item {
-        min-height: 135px;
-        padding: 4px;
+      .journal-page.modelo-2 .journal-item,
+      .journal-page.modelo-1 .journal-item {
+        min-height: 240px;
+        grid-template-rows: 110px auto auto auto;
+        padding: 6px;
       }
 
       .journal-head-copy h3 {
-        font-size: 28px;
+        font-size: 24px;
+      }
+
+      .journal-item-price strong {
+        font-size: 18px;
       }
     }
   </style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+
 </head>
 <body>
   <div class="top-strip">🛒 Delivery por JSON • Jornal com imagens • PDF automático • Retirada na loja</div>
@@ -984,6 +1097,14 @@
       <div class="journal-tabs" id="journalTabs"></div>
       <div class="journal-actions">
         <button class="pdf-btn" id="btnPdfAtual">Gerar PDF do jornal atual</button>
+
+
+
+
+
+
+
+        
         <button class="pdf-btn" id="btnPdfTodos">Gerar PDF com todos os jornais</button>
       </div>
       <div class="journal-grid" id="journalGrid"></div>
@@ -1339,6 +1460,109 @@
       };
     }
 
+    function montarPaginaJornalHtml(ativo, pagina, idx, totalPaginas) {
+      const conf = MODELOS[ativo.modelo] || MODELOS[1];
+      const validade = ativo.validade || 'Promoções válidas de 07/04 a 14/04';
+
+      const itensHtml = (pagina || []).map(item => {
+        const codigo = item.codigo || '';
+        const descricao = item.descricao || 'Produto';
+
+        let imagem = item.imagem || '';
+        if (imagem) {
+          imagem = encodeURI(String(imagem).trim());
+        } else {
+          imagem = 'https://placehold.co/500x500/png?text=Sem+Imagem';
+        }
+
+        const meta = item.meta || '';
+        const preco = item.preco || '';
+        const precoAntigo = item.preco_antigo || '';
+        const extra = item.extra || validade;
+
+        return `
+          <div class="journal-item">
+            <div class="journal-item-image">
+              <img
+                src="${imagem}"
+                alt="${descricao}"
+                loading="lazy"
+                crossorigin="anonymous"
+                onerror="this.onerror=null;this.src='https://placehold.co/500x500/png?text=Sem+Imagem';"
+              >
+            </div>
+
+            <div class="journal-item-cod">
+              Cód: ${codigo}
+            </div>
+
+            <div class="journal-item-desc">
+              ${descricao}
+            </div>
+
+            <div class="journal-item-meta">
+              ${meta}
+            </div>
+
+            <div class="journal-item-price-box">
+              <div class="journal-item-price-label">
+                Preço oferta
+              </div>
+
+              <div class="journal-item-price">
+                <strong>R$ ${preco}</strong>
+                ${precoAntigo ? `<small>R$ ${precoAntigo}</small>` : ''}
+              </div>
+            </div>
+
+            <div class="journal-item-extra">
+              ${extra}
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      return `
+        <div class="journal-card">
+          <div class="journal-page modelo-${ativo.modelo}" id="area-impressao-${idx}">
+            <div class="journal-page-header">
+              <div class="journal-head-copy">
+                <span class="journal-mini">Ofertas da semana</span>
+                <h3>${ativo.tipo}</h3>
+                <p>${validade}</p>
+              </div>
+
+              <div class="journal-brand">
+                <strong>A</strong>
+                <small>ATACADÃO</small>
+              </div>
+            </div>
+
+            <div class="journal-body">
+              <div class="journal-items cols-${conf.colunas}">
+                ${itensHtml}
+              </div>
+            </div>
+
+            <div class="journal-page-footer">
+              ${validade} • Enquanto durarem os estoques
+            </div>
+          </div>
+
+          <div class="journal-info">${ativo.tipo} • Página ${idx + 1} de ${totalPaginas}</div>
+        </div>
+      `;
+    }
+
+    function montarJornalHtml(ativo) {
+      const conf = MODELOS[ativo.modelo] || MODELOS[1];
+      const paginas = dividirPaginas(ativo.itens || [], conf.itensPorPagina);
+
+      return paginas.map((pagina, idx) => {
+        return montarPaginaJornalHtml(ativo, pagina, idx, paginas.length);
+      }).join('');
+    }
+
     function renderJornais() {
       if (!JORNAIS.length) {
         elJournalTabs.innerHTML = '';
@@ -1353,37 +1577,7 @@
       }).join('');
 
       const ativo = JORNAIS[jornalAtivo];
-      const conf = MODELOS[ativo.modelo] || MODELOS[1];
-      const paginas = dividirPaginas(ativo.itens || [], conf.itensPorPagina);
-
-      elJournalGrid.innerHTML = paginas.map((pagina, idx) => {
-        const itensHtml = pagina.map(item => {
-          return `
-            <div class="journal-item">
-              <img src="${encodeURI(item.imagem)}" alt="Item do jornal" loading="lazy" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"500\" height=\"500\"><rect width=\"100%\" height=\"100%\" fill=\"white\"/><text x=\"50%\" y=\"50%\" dominant-baseline=\"middle\" text-anchor=\"middle\" fill=\"%236b7280\" font-family=\"Arial\" font-size=\"24\">Imagem indisponível</text></svg>'">
-            </div>
-          `;
-        }).join('');
-
-        const bloco = montarCabecalhoJornal(ativo, idx, paginas.length);
-
-        return `
-          <div class="journal-card">
-            <div class="journal-page modelo-${ativo.modelo}">
-              ${bloco.cabecalho}
-              <div class="journal-body">
-                <div class="journal-items cols-${conf.colunas}">
-                  ${itensHtml}
-                </div>
-              </div>
-              <div class="journal-page-footer">
-                ${bloco.rodape}
-              </div>
-            </div>
-            <div class="journal-info">${ativo.tipo} • Página ${idx + 1}</div>
-          </div>
-        `;
-      }).join('');
+      elJournalGrid.innerHTML = montarJornalHtml(ativo);
     }
 
     function selecionarJornal(i) {
@@ -1393,12 +1587,230 @@
 
     window.selecionarJornal = selecionarJornal;
 
+    async function esperarImagens(container) {
+      const imagens = Array.from(container.querySelectorAll('img'));
+      await Promise.all(imagens.map(img => {
+        if (img.complete && img.naturalWidth > 0) return Promise.resolve();
+        return new Promise(resolve => {
+          const finalizar = () => resolve();
+          img.addEventListener('load', finalizar, { once: true });
+          img.addEventListener('error', finalizar, { once: true });
+          setTimeout(finalizar, 5000);
+        });
+      }));
+    }
+
+    function aplicarLayoutFixoPdf(container, largura = 930) {
+      const root = container.querySelector('.pdf-root') || container;
+      root.style.width = `${largura}px`;
+      root.style.minWidth = `${largura}px`;
+      root.style.maxWidth = `${largura}px`;
+      root.style.margin = '0';
+      root.style.padding = '0';
+      root.style.background = '#ffffff';
+
+      root.querySelectorAll('.journal-grid').forEach(el => {
+        el.style.display = 'grid';
+        el.style.gridTemplateColumns = '1fr';
+        el.style.gap = '14px';
+        el.style.justifyItems = 'center';
+        el.style.width = `${largura}px`;
+      });
+
+      root.querySelectorAll('.journal-card').forEach(el => {
+        el.style.width = `${largura}px`;
+        el.style.maxWidth = `${largura}px`;
+      });
+
+      root.querySelectorAll('.journal-page').forEach(el => {
+        el.style.width = `${largura}px`;
+        el.style.maxWidth = `${largura}px`;
+        el.style.margin = '0 auto';
+      });
+
+      root.querySelectorAll('.journal-items.cols-3').forEach(el => {
+        el.style.display = 'grid';
+        el.style.gridTemplateColumns = 'repeat(3, minmax(0, 1fr))';
+      });
+
+      root.querySelectorAll('.journal-items.cols-5').forEach(el => {
+        el.style.display = 'grid';
+        el.style.gridTemplateColumns = 'repeat(5, minmax(0, 1fr))';
+      });
+
+      root.querySelectorAll('.journal-item-image').forEach(el => {
+        if (el.closest('.modelo-2')) {
+          el.style.height = '98px';
+        } else {
+          el.style.height = '128px';
+        }
+      });
+
+      root.querySelectorAll('.journal-item').forEach(el => {
+        el.style.minHeight = el.closest('.modelo-2') ? '238px' : '280px';
+        el.style.padding = '5px';
+        el.style.gap = '3px';
+        if (el.closest('.modelo-2')) {
+          el.style.gridTemplateRows = '98px auto auto auto auto auto';
+        } else {
+          el.style.gridTemplateRows = '128px auto auto auto auto auto';
+        }
+      });
+
+      root.querySelectorAll('.journal-page-header').forEach(el => {
+        el.style.minHeight = '74px';
+        el.style.padding = '8px 12px';
+      });
+
+      root.querySelectorAll('.journal-head-copy h3').forEach(el => {
+        el.style.fontSize = '30px';
+      });
+
+      root.querySelectorAll('.journal-item-price strong').forEach(el => {
+        el.style.fontSize = el.closest('.modelo-2') ? '18px' : '22px';
+      });
+
+      return root;
+    }
+
+    function criarContainerPdf(html, largura = '860px') {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'pdf-root-wrapper';
+      wrapper.style.position = 'fixed';
+      wrapper.style.left = '-20000px';
+      wrapper.style.top = '0';
+      wrapper.style.width = largura;
+      wrapper.style.minWidth = largura;
+      wrapper.style.maxWidth = largura;
+      wrapper.style.padding = '0';
+      wrapper.style.margin = '0';
+      wrapper.style.background = '#ffffff';
+      wrapper.style.pointerEvents = 'none';
+      wrapper.style.zIndex = '0';
+      wrapper.innerHTML = `
+        <style>
+          .pdf-root { width:${largura} !important; min-width:${largura} !important; max-width:${largura} !important; background:#fff !important; }
+          .pdf-root .journal-grid { display:grid !important; grid-template-columns:1fr !important; width:${largura} !important; justify-items:center !important; }
+          .pdf-root .journal-card { width:${largura} !important; max-width:${largura} !important; }
+          .pdf-root .journal-page { width:${largura} !important; min-width:${largura} !important; max-width:${largura} !important; margin:0 auto !important; }
+          .pdf-root .journal-items.cols-3 { display:grid !important; grid-template-columns:repeat(3, minmax(0, 1fr)) !important; gap:0 !important; }
+          .pdf-root .journal-items.cols-5 { display:grid !important; grid-template-columns:repeat(5, minmax(0, 1fr)) !important; gap:0 !important; }
+          .pdf-root .journal-item { width:auto !important; min-width:0 !important; min-height:248px !important; padding:4px !important; gap:2px !important; }
+          .pdf-root .modelo-1 .journal-item { min-height:248px !important; grid-template-rows:108px auto auto auto auto auto !important; }
+          .pdf-root .modelo-2 .journal-item { min-height:214px !important; grid-template-rows:84px auto auto auto auto auto !important; }
+          .pdf-root .journal-item-image { height:108px !important; }
+          .pdf-root .modelo-2 .journal-item-image { height:84px !important; }
+          .pdf-root .journal-item-desc { font-size:10px !important; min-height:24px !important; }
+          .pdf-root .modelo-2 .journal-item-desc { font-size:9px !important; min-height:22px !important; }
+          .pdf-root .journal-item-meta, .pdf-root .journal-item-cod, .pdf-root .journal-item-extra { font-size:8px !important; }
+          .pdf-root .journal-item-price-box { padding:4px 6px !important; }
+          .pdf-root .journal-item-price strong { font-size:16px !important; }
+          .pdf-root .modelo-2 .journal-item-price strong { font-size:13px !important; }
+          .pdf-root .journal-page-header { min-height:56px !important; padding:5px 8px !important; gap:8px !important; }
+          .pdf-root .journal-brand { width:70px !important; min-width:70px !important; height:44px !important; }
+          .pdf-root .journal-brand strong { font-size:18px !important; }
+          .pdf-root .journal-brand small { font-size:8px !important; }
+          .pdf-root .journal-head-copy .journal-mini { font-size:8px !important; padding:3px 6px !important; margin-bottom:4px !important; }
+          .pdf-root .journal-head-copy h3 { font-size:20px !important; }
+          .pdf-root .journal-head-copy p { font-size:8px !important; margin-top:3px !important; }
+        </style>
+        <div class="pdf-root">${html}</div>`;
+      document.body.appendChild(wrapper);
+      aplicarLayoutFixoPdf(wrapper, parseInt(largura, 10) || 860);
+      return wrapper;
+    }
+
+    async function transformarImagensEmDataURL(container) {
+      const imagens = Array.from(container.querySelectorAll('img'));
+
+      await Promise.all(imagens.map(async img => {
+        const srcOriginal = (img.getAttribute('src') || '').trim();
+        if (!srcOriginal || srcOriginal.startsWith('data:')) return;
+
+        img.loading = 'eager';
+        img.decoding = 'sync';
+        img.removeAttribute('srcset');
+        img.removeAttribute('sizes');
+
+        try {
+          const dataUrl = await carregarImagemComoDataURL(srcOriginal);
+          img.setAttribute('src', dataUrl);
+          img.removeAttribute('crossorigin');
+        } catch (e) {
+          img.setAttribute('src', 'https://placehold.co/500x500/png?text=Sem+Imagem');
+          img.removeAttribute('crossorigin');
+        }
+      }));
+    }
+
+    async function exportarElementoParaPdf(element, nomeArquivo) {
+      const alvo = element.querySelector('.pdf-root') || element;
+      aplicarLayoutFixoPdf(alvo, 860);
+
+      await transformarImagensEmDataURL(alvo);
+      await esperarImagens(alvo);
+
+      const opt = {
+        margin: [2, 2, 2, 2],
+        filename: nomeArquivo,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: {
+          scale: 2.0,
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: '#ffffff',
+          scrollX: 0,
+          scrollY: 0,
+          windowWidth: 860,
+          windowHeight: Math.max(alvo.scrollHeight || 1800, 1800),
+          width: 860
+        },
+        jsPDF: {
+          unit: 'mm',
+          format: 'a4',
+          orientation: 'portrait'
+        },
+        pagebreak: {
+          mode: ['css', 'legacy', 'avoid-all']
+        }
+      };
+
+      await html2pdf().set(opt).from(alvo).save();
+    }
+
     async function carregarImagemComoDataURL(url) {
-      const resp = await fetch(url, { cache: 'no-store' });
+
+      const resp = await fetch(encodeURI(url), { cache: 'no-store', mode: 'cors' });
+      if (!resp.ok) throw new Error('Falha ao carregar imagem: ' + url);
       const blob = await resp.blob();
+
       return await new Promise((resolve, reject) => {
         const reader = new FileReader();
-        reader.onloadend = () => resolve(reader.result);
+
+        reader.onloadend = async () => {
+          try {
+            const img = new Image();
+            img.onload = () => {
+              const canvas = document.createElement('canvas');
+              canvas.width = img.width;
+              canvas.height = img.height;
+
+              const ctx = canvas.getContext('2d');
+              ctx.fillStyle = '#ffffff';
+              ctx.fillRect(0, 0, canvas.width, canvas.height);
+              ctx.drawImage(img, 0, 0);
+
+              const dataUrlFinal = canvas.toDataURL('image/jpeg', 0.95);
+              resolve(dataUrlFinal);
+            };
+
+            img.onerror = reject;
+            img.src = reader.result;
+          } catch (err) {
+            reject(err);
+          }
+        };
+
         reader.onerror = reject;
         reader.readAsDataURL(blob);
       });
@@ -1410,92 +1822,18 @@
         return;
       }
 
-      const { jsPDF } = window.jspdf;
       const jornal = JORNAIS[indice];
-      const conf = MODELOS[jornal.modelo] || MODELOS[1];
-      const paginas = dividirPaginas(jornal.itens || [], conf.itensPorPagina);
+      const nome = nomeArquivo || `${(jornal.tipo || 'jornal').toLowerCase().replace(/\s+/g, '-')}.pdf`;
+      const wrapper = criarContainerPdf(montarJornalHtml(jornal));
 
-      const pdf = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
-      const pageW = pdf.internal.pageSize.getWidth();
-      const pageH = pdf.internal.pageSize.getHeight();
-
-      for (let p = 0; p < paginas.length; p++) {
-        if (p > 0) pdf.addPage();
-
-        pdf.setFillColor(255, 255, 255);
-        pdf.rect(0, 0, pageW, pageH, 'F');
-
-        const corHeader = jornal.modelo === 2 ? [203, 109, 33] : [25, 131, 48];
-        pdf.setFillColor(...corHeader);
-        pdf.rect(0, 0, pageW, 28, 'F');
-
-        pdf.setTextColor(255, 255, 255);
-        pdf.setFontSize(18);
-        pdf.text((MODELOS[jornal.modelo] || MODELOS[1]).titulo, 8, 16, { maxWidth: pageW - 50 });
-        pdf.setFontSize(10);
-        pdf.text(`Página ${p + 1} de ${paginas.length}`, pageW - 36, 8);
-        pdf.text(jornal.tipo, pageW - 36, 14);
-
-        const itens = paginas[p];
-        const cols = conf.colunas;
-        const gap = 0;
-        const margemX = 7;
-        const topoY = 34;
-        const rodapeH = 10;
-        const disponivelW = pageW - margemX * 2;
-        const boxW = (disponivelW - gap * (cols - 1)) / cols;
-
-        const rows = Math.ceil(itens.length / cols);
-        const disponivelH = pageH - topoY - rodapeH - 6;
-        const boxH = (disponivelH - gap * (rows - 1)) / rows;
-
-        for (let i = 0; i < itens.length; i++) {
-          const item = itens[i];
-          const col = i % cols;
-          const row = Math.floor(i / cols);
-
-          const x = margemX + col * (boxW + gap);
-          const y = topoY + row * (boxH + gap);
-
-          pdf.setDrawColor(214, 183, 167);
-          pdf.rect(x, y, boxW, boxH);
-
-          try {
-            const dataUrl = await carregarImagemComoDataURL(encodeURI(item.imagem));
-
-            const img = new Image();
-            img.src = dataUrl;
-            await new Promise((resolve, reject) => {
-              img.onload = resolve;
-              img.onerror = reject;
-            });
-
-            const iw = img.width;
-            const ih = img.height;
-            const areaW = boxW - 2;
-            const areaH = boxH - 2;
-            const ratio = Math.min(areaW / iw, areaH / ih);
-            const drawW = iw * ratio;
-            const drawH = ih * ratio;
-            const dx = x + (boxW - drawW) / 2;
-            const dy = y + (boxH - drawH) / 2;
-            const formato = dataUrl.includes('image/png') ? 'PNG' : 'JPEG';
-            pdf.addImage(dataUrl, formato, dx, dy, drawW, drawH);
-          } catch (e) {
-            pdf.setTextColor(100);
-            pdf.setFontSize(9);
-            pdf.text('Imagem indisponível', x + 4, y + 8);
-          }
-        }
-
-        pdf.setFillColor(17, 94, 34);
-        pdf.rect(0, pageH - 10, pageW, 10, 'F');
-        pdf.setTextColor(255, 255, 255);
-        pdf.setFontSize(8);
-        pdf.text('Ofertas válidas enquanto durarem os estoques', 8, pageH - 4);
+      try {
+        await exportarElementoParaPdf(wrapper, nome);
+      } catch (e) {
+        console.error(e);
+        alert('Não foi possível gerar o PDF deste jornal.');
+      } finally {
+        wrapper.remove();
       }
-
-      pdf.save(nomeArquivo || `${jornal.tipo.toLowerCase().replace(/\s+/g, '-')}.pdf`);
     }
 
     async function gerarPdfTodosJornais() {
@@ -1504,95 +1842,18 @@
         return;
       }
 
-      const { jsPDF } = window.jspdf;
-      const pdf = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
-      let primeiraPagina = true;
+      const html = JORNAIS.map(jornal => montarJornalHtml(jornal)).join('');
+      const wrapper = criarContainerPdf(html);
 
-      for (let j = 0; j < JORNAIS.length; j++) {
-        const jornal = JORNAIS[j];
-        const conf = MODELOS[jornal.modelo] || MODELOS[1];
-        const paginas = dividirPaginas(jornal.itens || [], conf.itensPorPagina);
-
-        for (let p = 0; p < paginas.length; p++) {
-          if (!primeiraPagina) pdf.addPage();
-          primeiraPagina = false;
-
-          const pageW = pdf.internal.pageSize.getWidth();
-          const pageH = pdf.internal.pageSize.getHeight();
-          pdf.setFillColor(255, 255, 255);
-          pdf.rect(0, 0, pageW, pageH, 'F');
-
-          const corHeader = jornal.modelo === 2 ? [203, 109, 33] : [25, 131, 48];
-          pdf.setFillColor(...corHeader);
-          pdf.rect(0, 0, pageW, 28, 'F');
-
-          pdf.setTextColor(255, 255, 255);
-          pdf.setFontSize(18);
-          pdf.text((MODELOS[jornal.modelo] || MODELOS[1]).titulo, 8, 16, { maxWidth: pageW - 50 });
-          pdf.setFontSize(10);
-          pdf.text(`Página ${p + 1} de ${paginas.length}`, pageW - 36, 8);
-          pdf.text(jornal.tipo, pageW - 36, 14);
-
-          const itens = paginas[p];
-          const cols = conf.colunas;
-          const gap = 0;
-          const margemX = 7;
-          const topoY = 34;
-          const rodapeH = 10;
-          const disponivelW = pageW - margemX * 2;
-          const boxW = (disponivelW - gap * (cols - 1)) / cols;
-          const rows = Math.ceil(itens.length / cols);
-          const disponivelH = pageH - topoY - rodapeH - 6;
-          const boxH = (disponivelH - gap * (rows - 1)) / rows;
-
-          for (let i = 0; i < itens.length; i++) {
-            const item = itens[i];
-            const col = i % cols;
-            const row = Math.floor(i / cols);
-            const x = margemX + col * (boxW + gap);
-            const y = topoY + row * (boxH + gap);
-
-            pdf.setDrawColor(214, 183, 167);
-            pdf.rect(x, y, boxW, boxH);
-
-            try {
-              const dataUrl = await carregarImagemComoDataURL(encodeURI(item.imagem));
-              const img = new Image();
-              img.src = dataUrl;
-              await new Promise((resolve, reject) => {
-                img.onload = resolve;
-                img.onerror = reject;
-              });
-
-              const iw = img.width;
-              const ih = img.height;
-              const areaW = boxW - 2;
-              const areaH = boxH - 2;
-              const ratio = Math.min(areaW / iw, areaH / ih);
-              const drawW = iw * ratio;
-              const drawH = ih * ratio;
-              const dx = x + (boxW - drawW) / 2;
-              const dy = y + (boxH - drawH) / 2;
-              const formato = dataUrl.includes('image/png') ? 'PNG' : 'JPEG';
-              pdf.addImage(dataUrl, formato, dx, dy, drawW, drawH);
-            } catch (e) {
-              pdf.setTextColor(100);
-              pdf.setFontSize(9);
-              pdf.text('Imagem indisponível', x + 4, y + 8);
-            }
-          }
-
-          pdf.setFillColor(17, 94, 34);
-          pdf.rect(0, pageH - 10, pageW, 10, 'F');
-          pdf.setTextColor(255, 255, 255);
-          pdf.setFontSize(8);
-          pdf.text('Ofertas válidas enquanto durarem os estoques', 8, pageH - 4);
-        }
+      try {
+        await exportarElementoParaPdf(wrapper, 'jornais-completos.pdf');
+      } catch (e) {
+        console.error(e);
+        alert('Não foi possível gerar o PDF com todos os jornais.');
+      } finally {
+        wrapper.remove();
       }
-
-      pdf.save('jornais-completos.pdf');
     }
-
     function alterarCarrinho(codigo, delta) {
       const item = produtos.find(p => codigoDo(p) === codigo);
       if (!item) return;
@@ -1730,13 +1991,37 @@
       document.getElementById('receitaResultado').textContent = receitas[i];
     }
 
+    async function gerarPDFTela() {
+      if (!JORNAIS.length || !JORNAIS[jornalAtivo]) {
+        alert('Nenhum jornal disponível para gerar PDF.');
+        return;
+      }
+
+      const nome =
+        ((JORNAIS[jornalAtivo] && JORNAIS[jornalAtivo].tipo) || 'jornal')
+          .toLowerCase()
+          .replace(/\s+/g, '-') + '.pdf';
+
+      const wrapper = criarContainerPdf(montarJornalHtml(JORNAIS[jornalAtivo]));
+
+      try {
+        await exportarElementoParaPdf(wrapper, nome);
+      } catch (e) {
+        console.error(e);
+        alert('Não foi possível gerar o PDF do jornal atual.');
+      } finally {
+        wrapper.remove();
+      }
+    }
+
     document.getElementById('btnWhats').addEventListener('click', enviarWhatsApp);
     document.getElementById('scrollPedido').addEventListener('click', () => document.getElementById('pedidoSection').scrollIntoView({ behavior: 'smooth' }));
     document.getElementById('cartBtn').addEventListener('click', () => document.getElementById('pedidoSection').scrollIntoView({ behavior: 'smooth' }));
+    
     document.getElementById('btnPdfAtual').addEventListener('click', () => {
-      const nome = ((JORNAIS[jornalAtivo] && JORNAIS[jornalAtivo].tipo) || 'jornal').toLowerCase().replace(/\s+/g, '-') + '.pdf';
-      gerarPdfJornal(jornalAtivo, nome);
+      gerarPDFTela();
     });
+
     document.getElementById('btnPdfTodos').addEventListener('click', gerarPdfTodosJornais);
 
     elBusca.addEventListener('input', aplicarFiltros);
