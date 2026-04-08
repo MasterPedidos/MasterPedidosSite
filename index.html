@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Master Pedidos - Delivery e Jornal</title>
+
   <style>
     :root {
       --bg: #f3f4f6;
@@ -16,6 +17,7 @@
       --yellow: #ffd500;
       --green: #16a34a;
       --red: #d61f1f;
+      --orange: #d97706;
       --shadow: 0 10px 24px rgba(17, 24, 39, 0.08);
       --radius: 16px;
       --max: 1380px;
@@ -23,6 +25,7 @@
 
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
+
     body {
       margin: 0;
       font-family: Arial, Helvetica, sans-serif;
@@ -373,23 +376,55 @@
       padding: 10px 12px;
     }
 
-    /* =========================
-      CONTAINER
-    ========================= */
-    .journal-box {
-      padding: 10px;
-      overflow-x: auto;
-      background: #f2f2f2;
-      border: 1px solid #d1d5db;
+    .box,
+    .fun-panel {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--line);
     }
 
     /* =========================
-      GRID PRINCIPAL
+      JORNAL
     ========================= */
+
+    .journal-box {
+      padding: 8px;
+      overflow-x: auto;
+      background: #efefef;
+      border: 1px solid #d1d5db;
+      box-shadow: none;
+    }
+
+    .journal-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .journal-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .journal-tab {
+      background: #e5eefc;
+      color: var(--blue);
+      padding: 10px 14px;
+    }
+
+    .journal-tab.active {
+      background: var(--blue);
+      color: white;
+    }
+
     .journal-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 12px;
+      gap: 14px;
       justify-items: center;
     }
 
@@ -398,108 +433,262 @@
       background: transparent;
     }
 
-    /* =========================
-      PÁGINA
-    ========================= */
     .journal-page {
       width: 100%;
-      max-width: 1120px;
+      max-width: 1100px;
       margin: 0 auto;
-      background: #ffffff;
-      border: 1px solid #d1d5db;
+      background: #fff;
+      border: 1px solid #cfcfcf;
     }
 
-    /* =========================
-      CABEÇALHO
-    ========================= */
+    .journal-page.modelo-1 {
+      background: #f7f5f2;
+    }
+
+    .journal-page.modelo-2 {
+      background: #ffffff;
+    }
+
     .journal-page-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 12px 18px;
+      gap: 16px;
+      min-height: 90px;
+      padding: 10px 14px;
       color: #fff;
     }
 
-    /* =========================
-      GRID DOS PRODUTOS
-    ========================= */
+    .journal-page.modelo-1 .journal-page-header {
+      background: linear-gradient(90deg, #178236 0%, #1d9c42 58%, #f4f4f4 58%, #f4f4f4 100%);
+    }
+
+    .journal-page.modelo-2 .journal-page-header {
+      background: linear-gradient(90deg, #b55f1f 0%, #d77725 58%, #f4f4f4 58%, #f4f4f4 100%);
+    }
+
+    .journal-brand {
+      width: 96px;
+      min-width: 96px;
+      height: 64px;
+      background: rgba(255,255,255,.96);
+      color: #c86f1d;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      font-weight: 900;
+    }
+
+    .journal-brand strong {
+      font-size: 24px;
+      line-height: 1;
+      letter-spacing: -1px;
+    }
+
+    .journal-brand small {
+      font-size: 10px;
+      color: #4b5563;
+      margin-top: 2px;
+      font-weight: 700;
+    }
+
+    .journal-head-copy {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .journal-head-copy .journal-mini {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 800;
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.18);
+      margin-bottom: 6px;
+      letter-spacing: .4px;
+      text-transform: uppercase;
+    }
+
+    .journal-head-copy h3 {
+      margin: 0;
+      font-size: clamp(20px, 3vw, 38px);
+      line-height: .95;
+      font-weight: 900;
+      letter-spacing: -1px;
+      text-transform: uppercase;
+      max-width: 620px;
+    }
+
+    .journal-head-copy p {
+      margin: 6px 0 0;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      opacity: .95;
+    }
+
+    .journal-body {
+      padding: 0;
+    }
+
     .journal-items {
       display: grid;
-      border-top: 1px solid #d3aa92;
-      border-left: 1px solid #d3aa92;
-    }
-
-    /* 🟩 TIPO 1 */
-    .journal-items.cols-3 {
-      grid-template-columns: repeat(3, 1fr);
-    }
-
-    /* 🟧 TIPO 2 */
-    .journal-items.cols-5 {
-      grid-template-columns: repeat(5, 1fr);
-    }
-
-    /* =========================
-      ITEM (AQUI ESTÁ O SEGREDO)
-    ========================= */
-    .journal-item {
-      border-right: 1px solid #d3aa92;
-      border-bottom: 1px solid #d3aa92;
+      gap: 0;
+      border-top: 1px solid #cfa68e;
+      border-left: 1px solid #cfa68e;
       background: #fff;
+    }
 
-      aspect-ratio: 1 / 1; /* 🔥 controla tudo */
+    .journal-items.cols-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
 
+    .journal-items.cols-5 {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+
+    .journal-item {
+      border-right: 1px solid #cfa68e;
+      border-bottom: 1px solid #cfa68e;
+      background: #fff;
+      min-height: 320px;
+      display: grid;
+      grid-template-rows: 160px auto auto auto;
+      align-content: start;
+      padding: 8px;
+      gap: 6px;
+      overflow: hidden;
+    }
+
+    .journal-page.modelo-1 .journal-item {
+      min-height: 340px;
+    }
+
+    .journal-page.modelo-2 .journal-item {
+      min-height: 285px;
+      grid-template-rows: 130px auto auto auto;
+      padding: 6px;
+      gap: 4px;
+    }
+
+    .journal-item-image {
+      width: 100%;
+      height: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 8px;
+      overflow: hidden;
+      background: #fff;
     }
 
-    /* =========================
-      IMAGEM (PROPORÇÃO PERFEITA)
-    ========================= */
-    .journal-item img {
-      max-width: 90%;
-      max-height: 90%;
+    .journal-item-image img {
+      max-width: 100%;
+      max-height: 100%;
       object-fit: contain;
       object-position: center;
       display: block;
     }
 
-    /* =========================
-      FOOTER
-    ========================= */
-    .journal-page-footer {
-      padding: 10px;
-      text-align: center;
-      font-size: 11px;
-      font-weight: bold;
-      color: #fff;
+    .journal-item-desc {
+      font-size: 13px;
+      line-height: 1.2;
+      font-weight: 800;
+      color: #111827;
+      min-height: 32px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-transform: uppercase;
     }
 
-    /* CORES POR MODELO */
+    .journal-page.modelo-2 .journal-item-desc {
+      font-size: 11px;
+      min-height: 28px;
+    }
+
+    .journal-item-meta {
+      font-size: 10px;
+      color: #6b7280;
+      font-weight: 700;
+      min-height: 12px;
+      text-transform: uppercase;
+    }
+
+    .journal-item-price-box {
+      margin-top: auto;
+      border-radius: 10px;
+      background: linear-gradient(180deg, #fff7d6 0%, #ffe9a3 100%);
+      border: 1px solid #f2d26b;
+      padding: 6px 8px;
+      display: grid;
+      gap: 2px;
+    }
+
+    .journal-item-price-label {
+      font-size: 9px;
+      color: #7c2d12;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .journal-item-price {
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .journal-item-price strong {
+      font-size: 26px;
+      line-height: 1;
+      color: #d61f1f;
+      letter-spacing: -1px;
+    }
+
+    .journal-item-price small {
+      font-size: 11px;
+      color: #6b7280;
+      font-weight: 700;
+      text-decoration: line-through;
+    }
+
+    .journal-page.modelo-2 .journal-item-price strong {
+      font-size: 20px;
+    }
+
+    .journal-item-extra {
+      font-size: 10px;
+      color: #b91c1c;
+      font-weight: 800;
+      min-height: 12px;
+    }
+
+    .journal-page-footer {
+      padding: 8px 14px;
+      text-align: center;
+      font-size: 10px;
+      font-weight: 800;
+      color: #f8fafc;
+      letter-spacing: .2px;
+      text-transform: uppercase;
+    }
+
     .journal-page.modelo-1 .journal-page-footer {
-      background: #1e7f29;
+      background: linear-gradient(90deg, #1e7f29, #0f5f1b);
     }
 
     .journal-page.modelo-2 .journal-page-footer {
-      background: #0d4b18;
+      background: linear-gradient(90deg, #155f20, #0d4b18);
     }
 
-    /* =========================
-      RESPONSIVO
-    ========================= */
-    @media (max-width: 900px) {
-      .journal-items.cols-5 {
-        grid-template-columns: repeat(3, 1fr);
-      }
-    }
-
-    @media (max-width: 560px) {
-      .journal-items.cols-3,
-      .journal-items.cols-5 {
-        grid-template-columns: repeat(2, 1fr);
-      }
+    .journal-info {
+      padding: 6px 0 0;
+      font-size: 11px;
+      color: var(--muted);
+      background: transparent;
     }
 
     .pedido-layout {
@@ -746,7 +935,6 @@
 
       .journal-items.cols-5 {
         grid-template-columns: repeat(4, minmax(0, 1fr));
-        grid-auto-rows: 145px;
       }
     }
 
@@ -762,22 +950,12 @@
       .right-actions { flex-wrap: wrap; }
 
       .journal-page-header {
-        min-height: auto;
         flex-direction: column;
         align-items: flex-start;
       }
 
-      .journal-brand {
-        align-self: flex-end;
-      }
-
       .journal-items.cols-5 {
         grid-template-columns: repeat(3, minmax(0, 1fr));
-      }
-
-      .journal-item,
-      .journal-page.modelo-2 .journal-item {
-        aspect-ratio: 1 / 1;
       }
     }
 
@@ -799,17 +977,32 @@
       }
 
       .journal-item,
-      .journal-page.modelo-2 .journal-item {
-        min-height: 135px;
-        aspect-ratio: 1 / 1;
+      .journal-page.modelo-2 .journal-item,
+      .journal-page.modelo-1 .journal-item {
+        min-height: 240px;
+        grid-template-rows: 110px auto auto auto;
         padding: 6px;
       }
 
       .journal-head-copy h3 {
-        font-size: 28px;
+        font-size: 24px;
+      }
+
+      .journal-item-price strong {
+        font-size: 18px;
       }
     }
   </style>
+
+
+
+
+
+
+
+
+
+
 </head>
 <body>
   <div class="top-strip">🛒 Delivery por JSON • Jornal com imagens • PDF automático • Retirada na loja</div>
@@ -1269,7 +1462,23 @@
         const itensHtml = pagina.map(item => {
           return `
             <div class="journal-item">
-              <img src="${encodeURI(item.imagem)}" alt="Item do jornal" loading="lazy" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"500\" height=\"500\"><rect width=\"100%\" height=\"100%\" fill=\"white\"/><text x=\"50%\" y=\"50%\" dominant-baseline=\"middle\" text-anchor=\"middle\" fill=\"%236b7280\" font-family=\"Arial\" font-size=\"24\">Imagem indisponível</text></svg>'">
+              <div class="journal-item-image">
+                <img src="..." alt="">
+              </div>
+
+              <div class="journal-item-desc">Nome / descrição do produto</div>
+
+              <div class="journal-item-meta">Caixa com 12 unidades</div>
+
+              <div class="journal-item-price-box">
+                <div class="journal-item-price-label">Preço oferta</div>
+                <div class="journal-item-price">
+                  <strong>R$ 19,90</strong>
+                  <small>R$ 22,90</small>
+                </div>
+              </div>
+
+              <div class="journal-item-extra">Válido enquanto durarem os estoques</div>
             </div>
           `;
         }).join('');
