@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Master Pedidos - Delivery e Jornal</title>
 
-  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=QEx1Hhafmhl_6q0e_e5_BHlQrajjn-TRiKgl2f09S5i_nnbmt2VXEs85X9PGsGNICgT4oIkTkyngIAM-hi5Dtzmyj5SGRnfA9TkVTbB-wRCQyMn-czVG-O5_EfpWPKChWR2rM0B0E8CcwVFEWE58SHTOwUdX9sKtpyXgW160lnXOsisgxWxsMaT4BQVkv2k1vBdgH98JGgCuic8cf5xK6nI_YQZP66ybk4y6WizHpcSiHL264XNiG-GINYjQOzDulzslmN6DElijyXR__hzPdw" charset="UTF-8"></script><style>
+  <style>
     :root {
       --bg: #f3f4f6;
       --card: #ffffff;
@@ -1600,21 +1600,72 @@
       }));
     }
 
+    function aplicarLayoutFixoPdf(container, largura = 1100) {
+      const root = container.querySelector('.pdf-root') || container;
+      root.style.width = `${largura}px`;
+      root.style.minWidth = `${largura}px`;
+      root.style.maxWidth = `${largura}px`;
+      root.style.margin = '0';
+      root.style.padding = '0';
+      root.style.background = '#ffffff';
+
+      root.querySelectorAll('.journal-grid').forEach(el => {
+        el.style.display = 'grid';
+        el.style.gridTemplateColumns = '1fr';
+        el.style.gap = '14px';
+        el.style.justifyItems = 'center';
+        el.style.width = `${largura}px`;
+      });
+
+      root.querySelectorAll('.journal-card').forEach(el => {
+        el.style.width = `${largura}px`;
+        el.style.maxWidth = `${largura}px`;
+      });
+
+      root.querySelectorAll('.journal-page').forEach(el => {
+        el.style.width = `${largura}px`;
+        el.style.maxWidth = `${largura}px`;
+        el.style.margin = '0 auto';
+      });
+
+      root.querySelectorAll('.journal-items.cols-3').forEach(el => {
+        el.style.display = 'grid';
+        el.style.gridTemplateColumns = 'repeat(3, minmax(0, 1fr))';
+      });
+
+      root.querySelectorAll('.journal-items.cols-5').forEach(el => {
+        el.style.display = 'grid';
+        el.style.gridTemplateColumns = 'repeat(5, minmax(0, 1fr))';
+      });
+
+      root.querySelectorAll('.journal-item-image').forEach(el => {
+        if (el.closest('.modelo-2')) {
+          el.style.height = '130px';
+        } else {
+          el.style.height = '160px';
+        }
+      });
+
+      return root;
+    }
+
     function criarContainerPdf(html, largura = '1100px') {
       const wrapper = document.createElement('div');
       wrapper.className = 'pdf-root-wrapper';
-      wrapper.style.position = 'absolute';
-      wrapper.style.left = '0';
+      wrapper.style.position = 'fixed';
+      wrapper.style.left = '-20000px';
       wrapper.style.top = '0';
       wrapper.style.width = largura;
+      wrapper.style.minWidth = largura;
+      wrapper.style.maxWidth = largura;
       wrapper.style.padding = '0';
       wrapper.style.margin = '0';
       wrapper.style.background = '#ffffff';
-      wrapper.style.opacity = '0.01';
       wrapper.style.pointerEvents = 'none';
-      wrapper.style.zIndex = '-1';
+      wrapper.style.zIndex = '0';
       wrapper.innerHTML = `<div class="pdf-root">${html}</div>`;
       document.body.appendChild(wrapper);
+      aplicarLayoutFixoPdf(wrapper, parseInt(largura, 10) || 1100);
       return wrapper;
     }
 
@@ -1643,6 +1694,7 @@
 
     async function exportarElementoParaPdf(element, nomeArquivo) {
       const alvo = element.querySelector('.pdf-root') || element;
+      aplicarLayoutFixoPdf(alvo, 1100);
 
       await transformarImagensEmDataURL(alvo);
       await esperarImagens(alvo);
@@ -1658,8 +1710,8 @@
           backgroundColor: '#ffffff',
           scrollX: 0,
           scrollY: 0,
-          windowWidth: alvo.scrollWidth || 1100,
-          windowHeight: alvo.scrollHeight || 1600
+          windowWidth: 1100,
+          windowHeight: Math.max(alvo.scrollHeight || 1600, 1600)
         },
         jsPDF: {
           unit: 'mm',
@@ -1667,7 +1719,7 @@
           orientation: 'portrait'
         },
         pagebreak: {
-          mode: ['css', 'legacy']
+          mode: ['css', 'legacy', 'avoid-all']
         }
       };
 
