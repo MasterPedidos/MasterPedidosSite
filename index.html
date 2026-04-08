@@ -373,49 +373,19 @@
       padding: 10px 12px;
     }
 
-    .journal-box,
-    .box,
-    .fun-panel {
-      background: var(--card);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      border: 1px solid var(--line);
-    }
-
+    /* =========================
+      CONTAINER
+    ========================= */
     .journal-box {
       padding: 10px;
       overflow-x: auto;
       background: #f2f2f2;
-      border-radius: 0;
-      box-shadow: none;
       border: 1px solid #d1d5db;
     }
 
-    .journal-actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 14px;
-    }
-
-    .journal-tabs {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 14px;
-      flex-wrap: wrap;
-    }
-
-    .journal-tab {
-      background: #e5eefc;
-      color: var(--blue);
-      padding: 11px 14px;
-    }
-
-    .journal-tab.active {
-      background: var(--blue);
-      color: white;
-    }
-
+    /* =========================
+      GRID PRINCIPAL
+    ========================= */
     .journal-grid {
       display: grid;
       grid-template-columns: 1fr;
@@ -425,195 +395,111 @@
 
     .journal-card {
       width: 100%;
-      border: none;
-      border-radius: 0;
-      overflow: visible;
       background: transparent;
-      box-shadow: none;
     }
 
+    /* =========================
+      PÁGINA
+    ========================= */
     .journal-page {
       width: 100%;
       max-width: 1120px;
       margin: 0 auto;
       background: #ffffff;
-      padding: 0;
-      box-shadow: none;
-      page-break-after: always;
       border: 1px solid #d1d5db;
     }
 
-    .journal-page.modelo-1 {
-      background: #f6f4f1;
-    }
-
-    .journal-page.modelo-2 {
-      background: #ffffff;
-    }
-
+    /* =========================
+      CABEÇALHO
+    ========================= */
     .journal-page-header {
-      position: relative;
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      gap: 18px;
-      min-height: 112px;
-      padding: 10px 18px;
-      color: #fff;
-      overflow: hidden;
-    }
-
-    .journal-brand {
-      width: 112px;
-      min-width: 112px;
-      height: 78px;
-      border-radius: 0;
-      background: rgba(255,255,255,.96);
-      color: #c86f1d;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
       align-items: center;
-      text-align: center;
-      font-weight: 900;
-      box-shadow: none;
+      padding: 12px 18px;
+      color: #fff;
     }
 
-    .journal-brand strong {
-      font-size: 30px;
-      line-height: 1;
-      letter-spacing: -1px;
-    }
-
-    .journal-brand small {
-      font-size: 11px;
-      color: #4b5563;
-      margin-top: 4px;
-      font-weight: 700;
-    }
-
-    .journal-head-copy {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .journal-head-copy .journal-mini {
-      display: inline-block;
-      font-size: 11px;
-      font-weight: 800;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.18);
-      margin-bottom: 8px;
-      letter-spacing: .4px;
-      text-transform: uppercase;
-    }
-
-    .journal-head-copy h3 {
-      margin: 0;
-      font-size: clamp(24px, 3.7vw, 46px);
-      line-height: .95;
-      font-weight: 900;
-      letter-spacing: -1.3px;
-      text-transform: uppercase;
-      max-width: 720px;
-    }
-
-    .journal-head-copy p {
-      margin: 8px 0 0;
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      opacity: .95;
-    }
-
-    .journal-body {
-      padding: 0;
-    }
-
+    /* =========================
+      GRID DOS PRODUTOS
+    ========================= */
     .journal-items {
       display: grid;
-      gap: 0;
       border-top: 1px solid #d3aa92;
       border-left: 1px solid #d3aa92;
-      background: #fff;
     }
 
+    /* 🟩 TIPO 1 */
     .journal-items.cols-3 {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(3, 1fr);
     }
 
-    .journal-page.modelo-1 .journal-items.cols-3 {
-      grid-auto-rows: 1fr;
-    }
-
+    /* 🟧 TIPO 2 */
     .journal-items.cols-5 {
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-      grid-auto-rows: 150px;
+      grid-template-columns: repeat(5, 1fr);
     }
 
+    /* =========================
+      ITEM (AQUI ESTÁ O SEGREDO)
+    ========================= */
     .journal-item {
-      position: relative;
       border-right: 1px solid #d3aa92;
       border-bottom: 1px solid #d3aa92;
       background: #fff;
-      min-height: 170px;
-      aspect-ratio: 1 / 1;
+
+      aspect-ratio: 1 / 1; /* 🔥 controla tudo */
+
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 10px;
-      overflow: hidden;
-    }
-
-    .journal-page.modelo-2 .journal-item {
-      min-height: 140px;
-      aspect-ratio: 1 / 1;
       padding: 8px;
     }
 
+    /* =========================
+      IMAGEM (PROPORÇÃO PERFEITA)
+    ========================= */
     .journal-item img {
-      width: 100%;
-      height: 100%;
-      max-width: 100%;
-      max-height: 100%;
+      max-width: 90%;
+      max-height: 90%;
       object-fit: contain;
-      object-position: center center;
+      object-position: center;
       display: block;
-      background: #fff;
-      margin: 0 auto;
     }
 
+    /* =========================
+      FOOTER
+    ========================= */
     .journal-page-footer {
-      margin-top: 0;
-      padding: 10px 18px;
+      padding: 10px;
       text-align: center;
       font-size: 11px;
-      font-weight: 800;
-      color: #f8fafc;
-      letter-spacing: .2px;
-      text-transform: uppercase;
+      font-weight: bold;
+      color: #fff;
     }
 
+    /* CORES POR MODELO */
     .journal-page.modelo-1 .journal-page-footer {
-      background: linear-gradient(90deg, #1e7f29, #0f5f1b);
+      background: #1e7f29;
     }
 
     .journal-page.modelo-2 .journal-page-footer {
-      background: linear-gradient(90deg, #155f20, #0d4b18);
+      background: #0d4b18;
     }
 
-    .journal-info {
-      padding: 8px 0 0;
-      font-size: 12px;
-      color: var(--muted);
-      background: transparent;
+    /* =========================
+      RESPONSIVO
+    ========================= */
+    @media (max-width: 900px) {
+      .journal-items.cols-5 {
+        grid-template-columns: repeat(3, 1fr);
+      }
     }
 
-    .journal-item img[src*="data:image/svg+xml"] {
-      width: 90%;
-      height: auto;
-      object-fit: contain;
+    @media (max-width: 560px) {
+      .journal-items.cols-3,
+      .journal-items.cols-5 {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
 
     .pedido-layout {
