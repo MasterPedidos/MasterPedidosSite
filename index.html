@@ -1010,7 +1010,7 @@
 
 
 
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 
 
@@ -1100,6 +1100,14 @@
       <div class="journal-tabs" id="journalTabs"></div>
       <div class="journal-actions">
         <button class="pdf-btn" id="btnPdfAtual">Gerar PDF do jornal atual</button>
+
+
+
+
+
+
+
+        
         <button class="pdf-btn" id="btnPdfTodos">Gerar PDF com todos os jornais</button>
       </div>
       <div class="journal-grid" id="journalGrid"></div>
@@ -1462,6 +1470,33 @@
         return;
       }
 
+    function gerarPDFTela() {
+      const element = document.getElementById(`area-impressao-0`);
+
+      if (!element) {
+        alert('Área do jornal não encontrada.');
+        return;
+      }
+
+      const opt = {
+        margin: 5,
+        filename: 'jornal.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: {
+          scale: 3,
+          useCORS: true,
+          allowTaint: false
+        },
+        jsPDF: {
+          unit: 'mm',
+          format: 'a4',
+          orientation: 'portrait'
+        }
+      };
+
+  html2pdf().set(opt).from(element).save();
+}
+
       if (jornalAtivo >= JORNAIS.length) jornalAtivo = 0;
 
       elJournalTabs.innerHTML = JORNAIS.map((j, i) => {
@@ -1539,7 +1574,7 @@
 
         return `
           <div class="journal-card">
-            <div class="journal-page modelo-${ativo.modelo}">
+             <div class="journal-page modelo-${ativo.modelo}" id="area-impressao-${idx}">
               <div class="journal-page-header">
                 <div class="journal-head-copy">
                   <span class="journal-mini">Ofertas da semana</span>
@@ -1782,6 +1817,31 @@
         return;
       }
 
+    function gerarPDFTela() {
+
+      const element = document.getElementById('area-impressao');
+
+      const opt = {
+        margin: 5,
+        filename: 'jornal.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+
+        html2canvas: {
+          scale: 3,
+          useCORS: true,
+          allowTaint: false
+        },
+
+        jsPDF: {
+          unit: 'mm',
+          format: 'a4',
+          orientation: 'portrait'
+        }
+      };
+
+      html2pdf().set(opt).from(element).save();
+    }
+
       const { jsPDF } = window.jspdf;
       const pdf = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
       let primeiraPagina = true;
@@ -1943,6 +2003,31 @@
       pdf.save('jornais-completos.pdf');
     }
 
+    function gerarPDFTela() {
+
+      const element = document.getElementById('area-impressao');
+
+      const opt = {
+        margin: 5,
+        filename: 'jornal.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+
+        html2canvas: {
+          scale: 3,
+          useCORS: true,
+          allowTaint: false
+        },
+
+        jsPDF: {
+          unit: 'mm',
+          format: 'a4',
+          orientation: 'portrait'
+        }
+      };
+
+      html2pdf().set(opt).from(element).save();
+    }
+
     function alterarCarrinho(codigo, delta) {
       const item = produtos.find(p => codigoDo(p) === codigo);
       if (!item) return;
@@ -2083,10 +2168,11 @@
     document.getElementById('btnWhats').addEventListener('click', enviarWhatsApp);
     document.getElementById('scrollPedido').addEventListener('click', () => document.getElementById('pedidoSection').scrollIntoView({ behavior: 'smooth' }));
     document.getElementById('cartBtn').addEventListener('click', () => document.getElementById('pedidoSection').scrollIntoView({ behavior: 'smooth' }));
+    
     document.getElementById('btnPdfAtual').addEventListener('click', () => {
-      const nome = ((JORNAIS[jornalAtivo] && JORNAIS[jornalAtivo].tipo) || 'jornal').toLowerCase().replace(/\s+/g, '-') + '.pdf';
-      gerarPdfJornal(jornalAtivo, nome);
+      gerarPDFTela();
     });
+
     document.getElementById('btnPdfTodos').addEventListener('click', gerarPdfTodosJornais);
 
     elBusca.addEventListener('input', aplicarFiltros);
