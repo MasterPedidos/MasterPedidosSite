@@ -1982,27 +1982,47 @@
       document.getElementById('receitaResultado').textContent = receitas[i];
     }
 
+
     async function gerarPDFTela() {
-      if (!JORNAIS.length || !JORNAIS[jornalAtivo]) {
-        alert('Nenhum jornal disponível para gerar PDF.');
+      const pages = document.querySelectorAll('.journal-page');
+
+      if (!pages.length) {
+        alert('Nenhum jornal encontrado.');
         return;
       }
 
-      const nome =
-        ((JORNAIS[jornalAtivo] && JORNAIS[jornalAtivo].tipo) || 'jornal')
-          .toLowerCase()
-          .replace(/\s+/g, '-') + '.pdf';
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF('p', 'mm', 'a4');
 
-      const wrapper = criarContainerPdf(montarJornalHtml(JORNAIS[jornalAtivo]));
+      for (let i = 0; i < pages.length; i++) {
+        const page = pages[i];
 
-      try {
-        await exportarElementoParaPdf(wrapper, nome);
-      } catch (e) {
-        console.error(e);
-        alert('Não foi possível gerar o PDF do jornal atual.');
-      } finally {
-        wrapper.remove();
+        // 🔥 FORÇA LAYOUT DESKTOP (ESSA É A CHAVE)
+        page.style.width = '1200px';
+        page.style.maxWidth = '1200px';
+
+        const canvas = await html2canvas(page, {
+          scale: 2,
+          useCORS: true,
+          backgroundColor: '#ffffff',
+          windowWidth: 1200
+        });
+
+        const imgData = canvas.toDataURL('image/jpeg', 1.0);
+
+        const imgWidth = 210; // A4 largura mm
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+        if (i > 0) pdf.addPage();
+
+        pdf.addImage(imgData, 'JPEG', 0, 0, imgWidth, imgHeight);
+
+        // 🔥 volta ao normal depois (IMPORTANTE)
+        page.style.width = '';
+        page.style.maxWidth = '';
       }
+
+      pdf.save('jornal.pdf');
     }
 
     document.getElementById('btnWhats').addEventListener('click', enviarWhatsApp);
