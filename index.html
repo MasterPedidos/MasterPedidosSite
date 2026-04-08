@@ -1665,7 +1665,7 @@
         if (el.closest('.modelo-2')) {
           el.style.height = '96px';
         } else {
-          el.style.height = '120px';
+          el.style.height = '116px';
         }
         el.style.margin = '0';
         el.style.padding = '0';
@@ -1673,11 +1673,11 @@
 
       root.querySelectorAll('.journal-item').forEach(el => {
         if (el.closest('.modelo-2')) {
-          el.style.minHeight = '228px';
-          el.style.gridTemplateRows = '96px auto auto auto auto auto';
+          el.style.minHeight = '220px';
+          el.style.gridTemplateRows = '92px auto auto auto auto auto';
         } else {
-          el.style.minHeight = '260px';
-          el.style.gridTemplateRows = '120px auto auto auto auto auto';
+          el.style.minHeight = '248px';
+          el.style.gridTemplateRows = '116px auto auto auto auto auto';
         }
 
         el.style.padding = '4px';
@@ -1843,7 +1843,7 @@
       await esperarImagens(alvo);
 
       const opt = {
-        margin: [4, 4, 4, 4],
+        margin: [2, 2, 2, 2],
         filename: nomeArquivo,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: {
