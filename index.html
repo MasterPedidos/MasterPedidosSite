@@ -1806,7 +1806,7 @@
       });
 
       root.querySelectorAll('.journal-page').forEach(el => {
-        el.style.height = '1100px'; // A4 em px (aprox com scale)
+        el.style.height = '1080px'; // A4 em px (aprox com scale)
         el.style.maxHeight = '1122px';
         el.style.overflow = 'hidden';
       });
@@ -1883,7 +1883,7 @@
       await esperarImagens(alvo);
 
       const opt = {
-        margin: [8, 2, 0, 2],
+        margin: [6, 2, 0, 2],
         filename: nomeArquivo,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: {
