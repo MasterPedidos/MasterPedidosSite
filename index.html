@@ -1605,80 +1605,177 @@
       }));
     }
 
-    function aplicarLayoutFixoPdf(container, largura = 980) {
+    function aplicarLayoutFixoPdf(container, largura = 960) {
       const root = container.querySelector('.pdf-root') || container;
+
       root.style.width = `${largura}px`;
       root.style.minWidth = `${largura}px`;
       root.style.maxWidth = `${largura}px`;
       root.style.margin = '0';
       root.style.padding = '0';
       root.style.background = '#ffffff';
+      root.style.boxSizing = 'border-box';
 
       root.querySelectorAll('.journal-grid').forEach(el => {
         el.style.display = 'grid';
         el.style.gridTemplateColumns = '1fr';
-        el.style.gap = '14px';
+        el.style.gap = '10px';
         el.style.justifyItems = 'center';
         el.style.width = `${largura}px`;
+        el.style.margin = '0';
+        el.style.padding = '0';
       });
 
       root.querySelectorAll('.journal-card').forEach(el => {
         el.style.width = `${largura}px`;
         el.style.maxWidth = `${largura}px`;
+        el.style.margin = '0 0 8px 0';
+        el.style.padding = '0';
+        el.style.breakAfter = 'page';
+        el.style.pageBreakAfter = 'always';
       });
+
+      const cards = root.querySelectorAll('.journal-card');
+      if (cards.length) {
+        const last = cards[cards.length - 1];
+        last.style.breakAfter = 'auto';
+        last.style.pageBreakAfter = 'auto';
+      }
 
       root.querySelectorAll('.journal-page').forEach(el => {
         el.style.width = `${largura}px`;
         el.style.maxWidth = `${largura}px`;
         el.style.margin = '0 auto';
+        el.style.boxSizing = 'border-box';
       });
 
       root.querySelectorAll('.journal-items.cols-3').forEach(el => {
         el.style.display = 'grid';
         el.style.gridTemplateColumns = 'repeat(3, minmax(0, 1fr))';
+        el.style.gap = '0';
       });
 
       root.querySelectorAll('.journal-items.cols-5').forEach(el => {
         el.style.display = 'grid';
         el.style.gridTemplateColumns = 'repeat(5, minmax(0, 1fr))';
+        el.style.gap = '0';
       });
 
       root.querySelectorAll('.journal-item-image').forEach(el => {
         if (el.closest('.modelo-2')) {
-          el.style.height = '110px';
+          el.style.height = '100px';
         } else {
-          el.style.height = '140px';
+          el.style.height = '126px';
         }
+        el.style.margin = '0';
+        el.style.padding = '0';
       });
 
       root.querySelectorAll('.journal-item').forEach(el => {
-        el.style.minHeight = el.closest('.modelo-2') ? '255px' : '300px';
-        el.style.padding = '6px';
-        el.style.gap = '4px';
         if (el.closest('.modelo-2')) {
-          el.style.gridTemplateRows = '110px auto auto auto auto auto';
+          el.style.minHeight = '236px';
+          el.style.gridTemplateRows = '100px auto auto auto auto auto';
         } else {
-          el.style.gridTemplateRows = '140px auto auto auto auto auto';
+          el.style.minHeight = '272px';
+          el.style.gridTemplateRows = '126px auto auto auto auto auto';
         }
+
+        el.style.padding = '4px';
+        el.style.gap = '2px';
+        el.style.boxSizing = 'border-box';
+        el.style.alignContent = 'start';
       });
 
       root.querySelectorAll('.journal-page-header').forEach(el => {
-        el.style.minHeight = '74px';
-        el.style.padding = '8px 12px';
+        el.style.minHeight = '62px';
+        el.style.padding = '6px 10px';
+        el.style.margin = '0';
+        el.style.boxSizing = 'border-box';
       });
 
       root.querySelectorAll('.journal-head-copy h3').forEach(el => {
-        el.style.fontSize = '30px';
+        el.style.fontSize = '26px';
+        el.style.lineHeight = '0.95';
+        el.style.margin = '0';
+      });
+
+      root.querySelectorAll('.journal-head-copy p').forEach(el => {
+        el.style.fontSize = '10px';
+        el.style.margin = '4px 0 0';
+      });
+
+      root.querySelectorAll('.journal-mini').forEach(el => {
+        el.style.fontSize = '9px';
+        el.style.padding = '4px 8px';
+        el.style.marginBottom = '4px';
+      });
+
+      root.querySelectorAll('.journal-brand').forEach(el => {
+        el.style.width = '82px';
+        el.style.minWidth = '82px';
+        el.style.height = '54px';
+      });
+
+      root.querySelectorAll('.journal-brand strong').forEach(el => {
+        el.style.fontSize = '20px';
+      });
+
+      root.querySelectorAll('.journal-item-desc').forEach(el => {
+        el.style.fontSize = el.closest('.modelo-2') ? '10px' : '11px';
+        el.style.lineHeight = '1.1';
+        el.style.minHeight = '24px';
+        el.style.margin = '0';
+      });
+
+      root.querySelectorAll('.journal-item-meta').forEach(el => {
+        el.style.fontSize = '9px';
+        el.style.minHeight = '10px';
+        el.style.margin = '0';
+      });
+
+      root.querySelectorAll('.journal-item-price-box').forEach(el => {
+        el.style.padding = '4px 6px';
+        el.style.gap = '1px';
+        el.style.marginTop = '0';
       });
 
       root.querySelectorAll('.journal-item-price strong').forEach(el => {
-        el.style.fontSize = el.closest('.modelo-2') ? '18px' : '22px';
+        el.style.fontSize = el.closest('.modelo-2') ? '16px' : '18px';
+        el.style.lineHeight = '1';
+      });
+
+      root.querySelectorAll('.journal-item-price small').forEach(el => {
+        el.style.fontSize = '9px';
+      });
+
+      root.querySelectorAll('.journal-item-cod').forEach(el => {
+        el.style.fontSize = '9px';
+        el.style.margin = '0';
+      });
+
+      root.querySelectorAll('.journal-item-extra').forEach(el => {
+        el.style.fontSize = '8px';
+        el.style.minHeight = '10px';
+        el.style.margin = '0';
+      });
+
+      root.querySelectorAll('.journal-page-footer').forEach(el => {
+        el.style.padding = '6px 10px';
+        el.style.fontSize = '9px';
+        el.style.margin = '0';
+      });
+
+      root.querySelectorAll('.journal-info').forEach(el => {
+        el.style.fontSize = '10px';
+        el.style.padding = '4px 0 0';
+        el.style.margin = '0';
       });
 
       return root;
     }
 
-    function criarContainerPdf(html, largura = '980px') {
+
+    function criarContainerPdf(html, largura = '960px') {
       const wrapper = document.createElement('div');
       wrapper.className = 'pdf-root-wrapper';
       wrapper.style.position = 'absolute';
