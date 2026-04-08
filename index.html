@@ -555,7 +555,7 @@
       background: #fff;
       min-height: 320px;
       display: grid;
-      grid-template-rows: 160px auto auto auto;
+      grid-template-rows: 160px auto auto auto auto auto;
       align-content: start;
       padding: 8px;
       gap: 6px;
@@ -564,18 +564,19 @@
 
     .journal-page.modelo-1 .journal-item {
       min-height: 340px;
+      grid-template-rows: 160px auto auto auto auto auto;
     }
 
     .journal-page.modelo-2 .journal-item {
       min-height: 285px;
-      grid-template-rows: 130px auto auto auto;
+      grid-template-rows: 130px auto auto auto auto auto;
       padding: 6px;
       gap: 4px;
     }
 
     .journal-item-image {
       width: 100%;
-      height: 100%;
+      height: 160px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -583,7 +584,13 @@
       background: #fff;
     }
 
+    .journal-page.modelo-2 .journal-item-image {
+      height: 130px;
+    }
+
     .journal-item-image img {
+      width: auto;
+      height: auto;
       max-width: 100%;
       max-height: 100%;
       object-fit: contain;
@@ -1467,10 +1474,20 @@
       const validade = ativo.validade || 'Promoções válidas de 07/04 a 14/04';
 
       elJournalGrid.innerHTML = paginas.map((pagina, idx) => {
+        
         const itensHtml = pagina.map(item => {
+
           const codigo = item.codigo || '';
           const descricao = item.descricao || 'Produto';
-          const imagem = item.imagem || 'https://placehold.co/500x500?text=Sem+Imagem';
+
+          // 🔥 CORREÇÃO IMPORTANTE DA IMAGEM
+          let imagem = item.imagem || '';
+          if (imagem) {
+            imagem = encodeURI(String(imagem).trim());
+          } else {
+            imagem = 'https://placehold.co/500x500/png?text=Sem+Imagem';
+          }
+
           const meta = item.meta || '';
           const preco = item.preco || '';
           const precoAntigo = item.preco_antigo || '';
@@ -1478,31 +1495,44 @@
 
           return `
             <div class="journal-item">
+
               <div class="journal-item-image">
                 <img
                   src="${imagem}"
                   alt="${descricao}"
                   loading="lazy"
-                  referrerpolicy="no-referrer"
-                  onerror="this.onerror=null;this.src='https://placehold.co/500x500?text=Sem+Imagem';"
+                  crossorigin="anonymous"
+                  onerror="this.onerror=null;this.src='https://placehold.co/500x500/png?text=Sem+Imagem';"
                 >
               </div>
 
-              <div class="journal-item-cod">Cód: ${codigo}</div>
+              <div class="journal-item-cod">
+                Cód: ${codigo}
+              </div>
 
-              <div class="journal-item-desc">${descricao}</div>
+              <div class="journal-item-desc">
+                ${descricao}
+              </div>
 
-              <div class="journal-item-meta">${meta}</div>
+              <div class="journal-item-meta">
+                ${meta}
+              </div>
 
               <div class="journal-item-price-box">
-                <div class="journal-item-price-label">Preço oferta</div>
+                <div class="journal-item-price-label">
+                  Preço oferta
+                </div>
+
                 <div class="journal-item-price">
                   <strong>R$ ${preco}</strong>
                   ${precoAntigo ? `<small>R$ ${precoAntigo}</small>` : ''}
                 </div>
               </div>
 
-              <div class="journal-item-extra">${extra}</div>
+              <div class="journal-item-extra">
+                ${extra}
+              </div>
+
             </div>
           `;
         }).join('');
