@@ -655,6 +655,13 @@
       text-decoration: line-through;
     }
 
+    .journal-item-cod {
+      font-size: 10px;
+      font-weight: 900;
+      color: #374151;
+      text-transform: uppercase;
+    }
+
     .journal-page.modelo-2 .journal-item-price strong {
       font-size: 20px;
     }
@@ -1457,48 +1464,77 @@
       const ativo = JORNAIS[jornalAtivo];
       const conf = MODELOS[ativo.modelo] || MODELOS[1];
       const paginas = dividirPaginas(ativo.itens || [], conf.itensPorPagina);
+      const validade = ativo.validade || 'Promoções válidas de 07/04 a 14/04';
 
       elJournalGrid.innerHTML = paginas.map((pagina, idx) => {
         const itensHtml = pagina.map(item => {
+          const codigo = item.codigo || '';
+          const descricao = item.descricao || 'Produto';
+          const imagem = item.imagem || 'https://placehold.co/500x500?text=Sem+Imagem';
+          const meta = item.meta || '';
+          const preco = item.preco || '';
+          const precoAntigo = item.preco_antigo || '';
+          const extra = item.extra || validade;
+
           return `
             <div class="journal-item">
               <div class="journal-item-image">
-                <img src="..." alt="">
+                <img
+                  src="${imagem}"
+                  alt="${descricao}"
+                  loading="lazy"
+                  referrerpolicy="no-referrer"
+                  onerror="this.onerror=null;this.src='https://placehold.co/500x500?text=Sem+Imagem';"
+                >
               </div>
 
-              <div class="journal-item-desc">Nome / descrição do produto</div>
+              <div class="journal-item-cod">Cód: ${codigo}</div>
 
-              <div class="journal-item-meta">Caixa com 12 unidades</div>
+              <div class="journal-item-desc">${descricao}</div>
+
+              <div class="journal-item-meta">${meta}</div>
 
               <div class="journal-item-price-box">
                 <div class="journal-item-price-label">Preço oferta</div>
                 <div class="journal-item-price">
-                  <strong>R$ 19,90</strong>
-                  <small>R$ 22,90</small>
+                  <strong>R$ ${preco}</strong>
+                  ${precoAntigo ? `<small>R$ ${precoAntigo}</small>` : ''}
                 </div>
               </div>
 
-              <div class="journal-item-extra">Válido enquanto durarem os estoques</div>
+              <div class="journal-item-extra">${extra}</div>
             </div>
           `;
         }).join('');
 
-        const bloco = montarCabecalhoJornal(ativo, idx, paginas.length);
-
         return `
           <div class="journal-card">
             <div class="journal-page modelo-${ativo.modelo}">
-              ${bloco.cabecalho}
+              <div class="journal-page-header">
+                <div class="journal-head-copy">
+                  <span class="journal-mini">Ofertas da semana</span>
+                  <h3>${ativo.tipo}</h3>
+                  <p>${validade}</p>
+                </div>
+
+                <div class="journal-brand">
+                  <strong>A</strong>
+                  <small>ATACADÃO</small>
+                </div>
+              </div>
+
               <div class="journal-body">
                 <div class="journal-items cols-${conf.colunas}">
                   ${itensHtml}
                 </div>
               </div>
+
               <div class="journal-page-footer">
-                ${bloco.rodape}
+                ${validade} • Enquanto durarem os estoques
               </div>
             </div>
-            <div class="journal-info">${ativo.tipo} • Página ${idx + 1}</div>
+
+            <div class="journal-info">${ativo.tipo} • Página ${idx + 1} de ${paginas.length}</div>
           </div>
         `;
       }).join('');
@@ -1512,8 +1548,9 @@
     window.selecionarJornal = selecionarJornal;
 
     async function carregarImagemComoDataURL(url) {
-      const resp = await fetch(url, { cache: 'no-store' });
+      const resp = await fetch(encodeURI(url), { cache: 'no-store' });
       const blob = await resp.blob();
+
       return await new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.onloadend = () => resolve(reader.result);
