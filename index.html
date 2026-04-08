@@ -1691,6 +1691,12 @@
         el.style.alignContent = 'start';
       });
 
+      root.querySelectorAll('.modelo-2').forEach(el => {
+        el.style.transform = 'scale(0.90) translateX(-10px)';
+        el.style.transformOrigin = 'top center';
+        el.style.marginBottom = '-140px';
+      });
+
       root.querySelectorAll('.journal-card:last-child').forEach(el => {
         el.style.breakAfter = 'auto';
         el.style.pageBreakAfter = 'auto';
