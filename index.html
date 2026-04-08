@@ -1605,7 +1605,7 @@
       }));
     }
 
-    function aplicarLayoutFixoPdf(container, largura = 890) {
+    function aplicarLayoutFixoPdf(container, largura = 800) {
       const root = container.querySelector('.pdf-root') || container;
 
       root.style.width = `${largura}px`;
@@ -1775,7 +1775,7 @@
     }
 
 
-    function criarContainerPdf(html, largura = '890px') {
+    function criarContainerPdf(html, largura = '800px') {
       const wrapper = document.createElement('div');
       wrapper.className = 'pdf-root-wrapper';
       wrapper.style.position = 'absolute';
