@@ -1030,6 +1030,15 @@
         padding: 6px;
       }
 
+      .journal-items.cols-3 {
+        grid-template-columns: repeat(3, 1fr) !important;
+      }
+
+      .journal-page {
+        page-break-after: always;
+        width: 1100px !important;
+      }
+
       .journal-head-copy h3 {
         font-size: 24px;
       }
@@ -1936,11 +1945,6 @@
     }
 
     async function gerarPDFTela() {
-      if (!JORNAIS.length || !JORNAIS[jornalAtivo]) {
-        alert('Nenhum jornal disponível para gerar PDF.');
-        return;
-      }
-
       const element = document.getElementById('journalGrid');
 
       if (!element) {
@@ -1948,26 +1952,36 @@
         return;
       }
 
-      const nome =
-        ((JORNAIS[jornalAtivo] && JORNAIS[jornalAtivo].tipo) || 'jornal')
-          .toLowerCase()
-          .replace(/\s+/g, '-') + '.pdf';
+      // 🔥 força modo "desktop"
+      const originalWidth = document.body.style.width;
+      document.body.style.width = '1400px';
 
-      const oldScrollX = window.scrollX;
-      const oldScrollY = window.scrollY;
+      const opt = {
+        margin: 5,
+        filename: 'jornal.pdf',
 
-      try {
-        document.body.classList.add('pdf-exporting');
-        await esperarImagens(element);
-        await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
-        await html2pdf().set(obterOpcoesPdf(nome)).from(element).save();
-      } catch (e) {
-        console.error(e);
-        alert('Não foi possível gerar o PDF do jornal atual.');
-      } finally {
-        document.body.classList.remove('pdf-exporting');
-        window.scrollTo(oldScrollX, oldScrollY);
-      }
+        image: { type: 'jpeg', quality: 0.98 },
+
+        html2canvas: {
+          scale: 2,
+          useCORS: true,
+          backgroundColor: '#ffffff',
+          windowWidth: 1400 // 🔥 ESSENCIAL
+        },
+
+        jsPDF: {
+          unit: 'mm',
+          format: 'a4',
+          orientation: 'portrait'
+        },
+
+        pagebreak: { mode: ['css', 'legacy'] }
+      };
+
+      await html2pdf().set(opt).from(element).save();
+
+      // volta ao normal
+      document.body.style.width = originalWidth;
     }
 
     document.getElementById('btnWhats').addEventListener('click', enviarWhatsApp);
