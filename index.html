@@ -1606,12 +1606,16 @@
     }
 
     function aplicarLayoutFixoPdf(container, largura = 730) {
-      const root = container.querySelector('.pdf-root') || container;
+      const root = container.classList?.contains('pdf-root')
+        ? container
+        : container.querySelector('.pdf-root');
+
+      if (!root) return;
 
       root.style.width = `${largura}px`;
       root.style.minWidth = `${largura}px`;
       root.style.maxWidth = `${largura}px`;
-      root.style.margin = '0';
+      root.style.margin = '0 auto';
       root.style.padding = '0';
       root.style.background = '#ffffff';
       root.style.boxSizing = 'border-box';
