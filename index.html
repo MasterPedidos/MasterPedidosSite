@@ -197,10 +197,8 @@
       text-align: right;
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-      gap: 12px;
+    .pdf-mode .grid {
+      grid-template-columns: repeat(3, 1fr) !important;
     }
 
     .produto {
@@ -1981,8 +1979,7 @@
       const i = Math.floor(Math.random() * receitas.length);
       document.getElementById('receitaResultado').textContent = receitas[i];
     }
-
-
+    
     async function gerarPDFTela() {
       const pages = document.querySelectorAll('.journal-page');
 
@@ -1994,12 +1991,11 @@
       const { jsPDF } = window.jspdf;
       const pdf = new jsPDF('p', 'mm', 'a4');
 
+      // 🔥 ATIVA MODO PDF
+      document.body.classList.add('pdf-mode');
+
       for (let i = 0; i < pages.length; i++) {
         const page = pages[i];
-
-        // 🔥 FORÇA LAYOUT DESKTOP (ESSA É A CHAVE)
-        page.style.width = '1200px';
-        page.style.maxWidth = '1200px';
 
         const canvas = await html2canvas(page, {
           scale: 2,
@@ -2010,17 +2006,16 @@
 
         const imgData = canvas.toDataURL('image/jpeg', 1.0);
 
-        const imgWidth = 210; // A4 largura mm
+        const imgWidth = 210;
         const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
         if (i > 0) pdf.addPage();
 
         pdf.addImage(imgData, 'JPEG', 0, 0, imgWidth, imgHeight);
-
-        // 🔥 volta ao normal depois (IMPORTANTE)
-        page.style.width = '';
-        page.style.maxWidth = '';
       }
+
+      // 🔥 DESATIVA MODO PDF
+      document.body.classList.remove('pdf-mode');
 
       pdf.save('jornal.pdf');
     }
