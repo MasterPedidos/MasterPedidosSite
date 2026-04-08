@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Master Pedidos - Delivery e Jornal</title>
 
-  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=_ekx_7mJhJsM6S8T9k2riC1x9xXBX7ujItpIc-6mMk6Gw2wtRhESPAaiTRdo4V-8KAp58YgE_UOWB0URRhjubqsYAuapV3PXtCn5L-r6BeHRTicgZeCkIitEL6LF6k2FZ1lMn6uLL8yilmxvIj8J3XYLWbJrxuTjT9ycbYI11VV1tNfaBnD6f_puOMTPojnZGHV-O0fgt9-56mHkEnvYV2LHv136EHKOMVIcxZsdiZZWZHLlVpsZh_ZIUYvKaLz-JrLyNrBmHrrgqpnaiPaNnw" charset="UTF-8"></script><style>
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=QEx1Hhafmhl_6q0e_e5_BHlQrajjn-TRiKgl2f09S5i_nnbmt2VXEs85X9PGsGNICgT4oIkTkyngIAM-hi5Dtzmyj5SGRnfA9TkVTbB-wRCQyMn-czVG-O5_EfpWPKChWR2rM0B0E8CcwVFEWE58SHTOwUdX9sKtpyXgW160lnXOsisgxWxsMaT4BQVkv2k1vBdgH98JGgCuic8cf5xK6nI_YQZP66ybk4y6WizHpcSiHL264XNiG-GINYjQOzDulzslmN6DElijyXR__hzPdw" charset="UTF-8"></script><style>
     :root {
       --bg: #f3f4f6;
       --card: #ffffff;
@@ -431,6 +431,9 @@
     .journal-card {
       width: 100%;
       background: transparent;
+      break-inside: avoid;
+      page-break-inside: avoid;
+      margin-bottom: 12px;
     }
 
     .journal-page {
@@ -1587,30 +1590,62 @@
     async function esperarImagens(container) {
       const imagens = Array.from(container.querySelectorAll('img'));
       await Promise.all(imagens.map(img => {
-        if (img.complete) return Promise.resolve();
+        if (img.complete && img.naturalWidth > 0) return Promise.resolve();
         return new Promise(resolve => {
-          img.addEventListener('load', resolve, { once: true });
-          img.addEventListener('error', resolve, { once: true });
+          const finalizar = () => resolve();
+          img.addEventListener('load', finalizar, { once: true });
+          img.addEventListener('error', finalizar, { once: true });
+          setTimeout(finalizar, 5000);
         });
       }));
     }
 
     function criarContainerPdf(html, largura = '1100px') {
       const wrapper = document.createElement('div');
-      wrapper.style.position = 'fixed';
-      wrapper.style.left = '-99999px';
+      wrapper.className = 'pdf-root-wrapper';
+      wrapper.style.position = 'absolute';
+      wrapper.style.left = '0';
       wrapper.style.top = '0';
       wrapper.style.width = largura;
       wrapper.style.padding = '0';
       wrapper.style.margin = '0';
       wrapper.style.background = '#ffffff';
-      wrapper.innerHTML = html;
+      wrapper.style.opacity = '0.01';
+      wrapper.style.pointerEvents = 'none';
+      wrapper.style.zIndex = '-1';
+      wrapper.innerHTML = `<div class="pdf-root">${html}</div>`;
       document.body.appendChild(wrapper);
       return wrapper;
     }
 
+    async function transformarImagensEmDataURL(container) {
+      const imagens = Array.from(container.querySelectorAll('img'));
+
+      await Promise.all(imagens.map(async img => {
+        const srcOriginal = (img.getAttribute('src') || '').trim();
+        if (!srcOriginal || srcOriginal.startsWith('data:')) return;
+
+        img.loading = 'eager';
+        img.decoding = 'sync';
+        img.removeAttribute('srcset');
+        img.removeAttribute('sizes');
+
+        try {
+          const dataUrl = await carregarImagemComoDataURL(srcOriginal);
+          img.setAttribute('src', dataUrl);
+          img.removeAttribute('crossorigin');
+        } catch (e) {
+          img.setAttribute('src', 'https://placehold.co/500x500/png?text=Sem+Imagem');
+          img.removeAttribute('crossorigin');
+        }
+      }));
+    }
+
     async function exportarElementoParaPdf(element, nomeArquivo) {
-      await esperarImagens(element);
+      const alvo = element.querySelector('.pdf-root') || element;
+
+      await transformarImagensEmDataURL(alvo);
+      await esperarImagens(alvo);
 
       const opt = {
         margin: [4, 4, 4, 4],
@@ -1619,10 +1654,12 @@
         html2canvas: {
           scale: 2,
           useCORS: true,
-          allowTaint: false,
+          allowTaint: true,
           backgroundColor: '#ffffff',
           scrollX: 0,
-          scrollY: 0
+          scrollY: 0,
+          windowWidth: alvo.scrollWidth || 1100,
+          windowHeight: alvo.scrollHeight || 1600
         },
         jsPDF: {
           unit: 'mm',
@@ -1634,11 +1671,13 @@
         }
       };
 
-      await html2pdf().set(opt).from(element).save();
+      await html2pdf().set(opt).from(alvo).save();
     }
 
     async function carregarImagemComoDataURL(url) {
-      const resp = await fetch(encodeURI(url), { cache: 'no-store' });
+
+      const resp = await fetch(encodeURI(url), { cache: 'no-store', mode: 'cors' });
+      if (!resp.ok) throw new Error('Falha ao carregar imagem: ' + url);
       const blob = await resp.blob();
 
       return await new Promise((resolve, reject) => {
