@@ -1698,21 +1698,38 @@
       });
 
       root.querySelectorAll('.journal-page-header').forEach(el => {
-        el.style.minHeight = '62px';
-        el.style.padding = '6px 10px';
+        if (el.closest('.modelo-2')) {
+          el.style.minHeight = '42px';   // 👈 diminui bastante
+          el.style.padding = '4px 8px';
+        } else {
+          el.style.minHeight = '62px';
+          el.style.padding = '6px 10px';
+        }
+
         el.style.margin = '0';
         el.style.boxSizing = 'border-box';
       });
 
       root.querySelectorAll('.journal-head-copy h3').forEach(el => {
-        el.style.fontSize = '26px';
-        el.style.lineHeight = '0.95';
+        if (el.closest('.modelo-2')) {
+          el.style.fontSize = '18px';
+          el.style.lineHeight = '1';
+        } else {
+          el.style.fontSize = '26px';
+          el.style.lineHeight = '0.95';
+        }
+
         el.style.margin = '0';
       });
 
       root.querySelectorAll('.journal-head-copy p').forEach(el => {
-        el.style.fontSize = '10px';
-        el.style.margin = '4px 0 0';
+        if (el.closest('.modelo-2')) {
+          el.style.fontSize = '8px';
+          el.style.margin = '2px 0 0';
+        } else {
+          el.style.fontSize = '10px';
+          el.style.margin = '4px 0 0';
+        }
       });
 
       root.querySelectorAll('.journal-mini').forEach(el => {
@@ -1722,9 +1739,15 @@
       });
 
       root.querySelectorAll('.journal-brand').forEach(el => {
-        el.style.width = '82px';
-        el.style.minWidth = '82px';
-        el.style.height = '54px';
+        if (el.closest('.modelo-2')) {
+          el.style.width = '65px';
+          el.style.minWidth = '65px';
+          el.style.height = '38px';
+        } else {
+          el.style.width = '82px';
+          el.style.minWidth = '82px';
+          el.style.height = '54px';
+        }
       });
 
       root.querySelectorAll('.journal-brand strong').forEach(el => {
