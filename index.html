@@ -1600,7 +1600,7 @@
       }));
     }
 
-    function aplicarLayoutFixoPdf(container, largura = 1100) {
+    function aplicarLayoutFixoPdf(container, largura = 930) {
       const root = container.querySelector('.pdf-root') || container;
       root.style.width = `${largura}px`;
       root.style.minWidth = `${largura}px`;
@@ -1640,40 +1640,40 @@
 
       root.querySelectorAll('.journal-item-image').forEach(el => {
         if (el.closest('.modelo-2')) {
-          el.style.height = '92px';
+          el.style.height = '98px';
         } else {
-          el.style.height = '120px';
+          el.style.height = '128px';
         }
       });
 
       root.querySelectorAll('.journal-item').forEach(el => {
-        el.style.minHeight = el.closest('.modelo-2') ? '226px' : '266px';
+        el.style.minHeight = el.closest('.modelo-2') ? '238px' : '280px';
         el.style.padding = '5px';
         el.style.gap = '3px';
         if (el.closest('.modelo-2')) {
-          el.style.gridTemplateRows = '92px auto auto auto auto auto';
+          el.style.gridTemplateRows = '98px auto auto auto auto auto';
         } else {
-          el.style.gridTemplateRows = '120px auto auto auto auto auto';
+          el.style.gridTemplateRows = '128px auto auto auto auto auto';
         }
       });
 
       root.querySelectorAll('.journal-page-header').forEach(el => {
-        el.style.minHeight = '68px';
-        el.style.padding = '7px 10px';
+        el.style.minHeight = '74px';
+        el.style.padding = '8px 12px';
       });
 
       root.querySelectorAll('.journal-head-copy h3').forEach(el => {
-        el.style.fontSize = '26px';
+        el.style.fontSize = '30px';
       });
 
       root.querySelectorAll('.journal-item-price strong').forEach(el => {
-        el.style.fontSize = el.closest('.modelo-2') ? '16px' : '20px';
+        el.style.fontSize = el.closest('.modelo-2') ? '18px' : '22px';
       });
 
       return root;
     }
 
-    function criarContainerPdf(html, largura = '1100px') {
+    function criarContainerPdf(html, largura = '930px') {
       const wrapper = document.createElement('div');
       wrapper.className = 'pdf-root-wrapper';
       wrapper.style.position = 'fixed';
@@ -1695,19 +1695,19 @@
           .pdf-root .journal-page { width:${largura} !important; min-width:${largura} !important; max-width:${largura} !important; margin:0 auto !important; }
           .pdf-root .journal-items.cols-3 { display:grid !important; grid-template-columns:repeat(3, minmax(0, 1fr)) !important; gap:0 !important; }
           .pdf-root .journal-items.cols-5 { display:grid !important; grid-template-columns:repeat(5, minmax(0, 1fr)) !important; gap:0 !important; }
-          .pdf-root .journal-item { width:auto !important; min-width:0 !important; min-height:266px !important; padding:5px !important; gap:3px !important; }
-          .pdf-root .modelo-1 .journal-item { min-height:266px !important; grid-template-rows:120px auto auto auto auto auto !important; }
-          .pdf-root .modelo-2 .journal-item { min-height:226px !important; grid-template-rows:92px auto auto auto auto auto !important; }
-          .pdf-root .journal-item-image { height:120px !important; }
-          .pdf-root .modelo-2 .journal-item-image { height:92px !important; }
-          .pdf-root .journal-item-price strong { font-size:19px !important; }
-          .pdf-root .modelo-2 .journal-item-price strong { font-size:15px !important; }
-          .pdf-root .journal-page-header { min-height:64px !important; padding:6px 9px !important; }
-          .pdf-root .journal-head-copy h3 { font-size:24px !important; }
+          .pdf-root .journal-item { width:auto !important; min-width:0 !important; min-height:280px !important; padding:5px !important; gap:3px !important; }
+          .pdf-root .modelo-1 .journal-item { min-height:280px !important; grid-template-rows:128px auto auto auto auto auto !important; }
+          .pdf-root .modelo-2 .journal-item { min-height:238px !important; grid-template-rows:98px auto auto auto auto auto !important; }
+          .pdf-root .journal-item-image { height:128px !important; }
+          .pdf-root .modelo-2 .journal-item-image { height:98px !important; }
+          .pdf-root .journal-item-price strong { font-size:20px !important; }
+          .pdf-root .modelo-2 .journal-item-price strong { font-size:16px !important; }
+          .pdf-root .journal-page-header { min-height:68px !important; padding:7px 10px !important; }
+          .pdf-root .journal-head-copy h3 { font-size:26px !important; }
         </style>
         <div class="pdf-root">${html}</div>`;
       document.body.appendChild(wrapper);
-      aplicarLayoutFixoPdf(wrapper, parseInt(largura, 10) || 1100);
+      aplicarLayoutFixoPdf(wrapper, parseInt(largura, 10) || 930);
       return wrapper;
     }
 
@@ -1736,26 +1736,25 @@
 
     async function exportarElementoParaPdf(element, nomeArquivo) {
       const alvo = element.querySelector('.pdf-root') || element;
-      const larguraAlvo = Math.max(Math.ceil(alvo.scrollWidth || alvo.offsetWidth || 1100), 1100);
-      aplicarLayoutFixoPdf(alvo, larguraAlvo);
+      aplicarLayoutFixoPdf(alvo, 930);
 
       await transformarImagensEmDataURL(alvo);
       await esperarImagens(alvo);
 
       const opt = {
-        margin: [2, 2, 2, 2],
+        margin: [3, 3, 3, 3],
         filename: nomeArquivo,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: {
-          scale: 2,
+          scale: 1.85,
           useCORS: true,
           allowTaint: true,
           backgroundColor: '#ffffff',
           scrollX: 0,
           scrollY: 0,
-          windowWidth: larguraAlvo + 40,
+          windowWidth: 1100,
           windowHeight: Math.max(alvo.scrollHeight || 1800, 1800),
-          width: larguraAlvo
+          width: 930
         },
         jsPDF: {
           unit: 'mm',
