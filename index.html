@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Master Pedidos - Delivery e Jornal</title>
 
-  <style>
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=AVKEtyrhdIHsVDWtZNK5BNjZItGtouJb4qQJDpXz6Cuv1A--PAHUXZ_BoivGcpjnkxLSAcr6bbbTVEocaupwIL6Ux6ZfEhaKdPVHFGNbauEtLZHaZafmjizgUX-SnWq8cohp1AED_qWN4zC33K4yG_hy4Cn6Ftc8aNiXNJZGc1x4l0DWlZqyi4_C4gcoH1ig7mdH-2upwecqEgFab7lwFcRWPI7l8DJottAgh7TQ0eMyeRjrgenOntrhqfMKrw0eOrqoMxdTsH_bRHUuXMxZ8Q" charset="UTF-8"></script><style>
     :root {
       --bg: #f3f4f6;
       --card: #ffffff;
@@ -1663,7 +1663,17 @@
       wrapper.style.background = '#ffffff';
       wrapper.style.pointerEvents = 'none';
       wrapper.style.zIndex = '0';
-      wrapper.innerHTML = `<div class="pdf-root">${html}</div>`;
+      wrapper.innerHTML = `
+        <style>
+          .pdf-root { width:${largura} !important; min-width:${largura} !important; max-width:${largura} !important; background:#fff !important; }
+          .pdf-root .journal-grid { display:grid !important; grid-template-columns:1fr !important; width:${largura} !important; justify-items:center !important; }
+          .pdf-root .journal-card { width:${largura} !important; max-width:${largura} !important; }
+          .pdf-root .journal-page { width:${largura} !important; min-width:${largura} !important; max-width:${largura} !important; margin:0 auto !important; }
+          .pdf-root .journal-items.cols-3 { display:grid !important; grid-template-columns:repeat(3, minmax(0, 1fr)) !important; }
+          .pdf-root .journal-items.cols-5 { display:grid !important; grid-template-columns:repeat(5, minmax(0, 1fr)) !important; }
+          .pdf-root .journal-item { width:auto !important; min-width:0 !important; }
+        </style>
+        <div class="pdf-root">${html}</div>`;
       document.body.appendChild(wrapper);
       aplicarLayoutFixoPdf(wrapper, parseInt(largura, 10) || 1100);
       return wrapper;
@@ -1710,8 +1720,9 @@
           backgroundColor: '#ffffff',
           scrollX: 0,
           scrollY: 0,
-          windowWidth: 1100,
-          windowHeight: Math.max(alvo.scrollHeight || 1600, 1600)
+          windowWidth: 1400,
+          windowHeight: Math.max(alvo.scrollHeight || 1800, 1800),
+          width: 1100
         },
         jsPDF: {
           unit: 'mm',
