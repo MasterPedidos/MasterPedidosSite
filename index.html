@@ -1577,13 +1577,42 @@
 
     window.selecionarJornal = selecionarJornal;
 
+
     async function carregarImagemComoDataURL(url) {
       const resp = await fetch(encodeURI(url), { cache: 'no-store' });
       const blob = await resp.blob();
 
       return await new Promise((resolve, reject) => {
         const reader = new FileReader();
-        reader.onloadend = () => resolve(reader.result);
+
+        reader.onloadend = async () => {
+          try {
+            const img = new Image();
+            img.onload = () => {
+              const canvas = document.createElement('canvas');
+              canvas.width = img.width;
+              canvas.height = img.height;
+
+              const ctx = canvas.getContext('2d');
+
+              // fundo branco para evitar preto no PDF
+              ctx.fillStyle = '#ffffff';
+              ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+              ctx.drawImage(img, 0, 0);
+
+              // sempre exporta em JPEG com fundo branco
+              const dataUrlFinal = canvas.toDataURL('image/jpeg', 0.95);
+              resolve(dataUrlFinal);
+            };
+
+            img.onerror = reject;
+            img.src = reader.result;
+          } catch (err) {
+            reject(err);
+          }
+        };
+
         reader.onerror = reject;
         reader.readAsDataURL(blob);
       });
@@ -1664,8 +1693,7 @@
             const drawH = ih * ratio;
             const dx = x + (boxW - drawW) / 2;
             const dy = y + (boxH - drawH) / 2;
-            const formato = dataUrl.includes('image/png') ? 'PNG' : 'JPEG';
-            pdf.addImage(dataUrl, formato, dx, dy, drawW, drawH);
+            pdf.addImage(dataUrl, 'JPEG', dx, dy, drawW, drawH);
           } catch (e) {
             pdf.setTextColor(100);
             pdf.setFontSize(9);
