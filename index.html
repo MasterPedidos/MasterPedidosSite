@@ -1267,7 +1267,7 @@
     let JORNAIS = [];
     const MODELOS = {
       1: { itensPorPagina: 9, colunas: 3, titulo: 'Nossa Loja, parceira da Cidade.' },
-      2: { itensPorPagina: 15, colunas: 5, titulo: 'É festa de prêmios no aniversário Atacadão!' }
+      2: { itensPorPagina: 20, colunas: 5, titulo: 'É festa de prêmios no aniversário Atacadão!' }
     };
 
     let produtos = [];
@@ -1679,7 +1679,7 @@
       root.querySelectorAll('.journal-item').forEach(el => {
         if (el.closest('.modelo-2')) {
           el.style.minHeight = '140px';
-          el.style.gridTemplateRows = '92px auto auto auto auto auto';
+          el.style.gridTemplateRows = '75px auto auto auto auto auto'; // 👈 AJUSTADO
         } else {
           el.style.minHeight = '180px';
           el.style.gridTemplateRows = '116px auto auto auto auto auto';
@@ -1689,6 +1689,11 @@
         el.style.gap = '2px';
         el.style.boxSizing = 'border-box';
         el.style.alignContent = 'start';
+      });
+
+      root.querySelectorAll('.modelo-2').forEach(el => {
+        el.style.transform = 'scale(0.92)';
+        el.style.transformOrigin = 'top center';
       });
 
       root.querySelectorAll('.journal-page-header').forEach(el => {
