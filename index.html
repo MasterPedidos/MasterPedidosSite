@@ -1790,9 +1790,13 @@
       });
 
       root.querySelectorAll('.journal-item-extra').forEach(el => {
-        el.style.fontSize = '8px';
-        el.style.minHeight = '10px';
+        el.style.display = 'none';
+        el.style.height = '0';
+        el.style.minHeight = '0';
+        el.style.padding = '0';
         el.style.margin = '0';
+        el.style.overflow = 'hidden';
+        el.style.fontSize = '0';
       });
 
       root.querySelectorAll('.journal-page-footer').forEach(el => {
