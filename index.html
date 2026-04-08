@@ -1697,6 +1697,11 @@
         el.style.marginBottom = '-90px';
       });
 
+      root.querySelectorAll('.journal-card:last-child').forEach(el => {
+        el.style.breakAfter = 'auto';
+        el.style.pageBreakAfter = 'auto';
+      });
+
       root.querySelectorAll('.journal-page-header').forEach(el => {
         if (el.closest('.modelo-2')) {
           el.style.minHeight = '42px';   // 👈 diminui bastante
