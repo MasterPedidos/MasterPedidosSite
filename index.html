@@ -1631,13 +1631,22 @@
         el.style.padding = '0';
       });
 
-      root.querySelectorAll('.journal-card').forEach(el => {
+      const cards = root.querySelectorAll('.journal-card');
+
+      cards.forEach((el, i) => {
         el.style.width = `${largura}px`;
         el.style.maxWidth = `${largura}px`;
         el.style.margin = '0 0 8px 0';
         el.style.padding = '0';
-        el.style.breakAfter = 'page';
-        el.style.pageBreakAfter = 'always';
+
+        // só quebra se NÃO for o último
+        if (i < cards.length - 1) {
+          el.style.breakAfter = 'page';
+          el.style.pageBreakAfter = 'always';
+        } else {
+          el.style.breakAfter = 'auto';
+          el.style.pageBreakAfter = 'auto';
+        }
       });
 
       const cards = root.querySelectorAll('.journal-card');
