@@ -1817,31 +1817,6 @@
         return;
       }
 
-    function gerarPDFTela() {
-
-      const element = document.getElementById('area-impressao');
-
-      const opt = {
-        margin: 5,
-        filename: 'jornal.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-
-        html2canvas: {
-          scale: 3,
-          useCORS: true,
-          allowTaint: false
-        },
-
-        jsPDF: {
-          unit: 'mm',
-          format: 'a4',
-          orientation: 'portrait'
-        }
-      };
-
-      html2pdf().set(opt).from(element).save();
-    }
-
       const { jsPDF } = window.jspdf;
       const pdf = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
       let primeiraPagina = true;
@@ -2003,30 +1978,6 @@
       pdf.save('jornais-completos.pdf');
     }
 
-    function gerarPDFTela() {
-
-      const element = document.getElementById('area-impressao');
-
-      const opt = {
-        margin: 5,
-        filename: 'jornal.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-
-        html2canvas: {
-          scale: 3,
-          useCORS: true,
-          allowTaint: false
-        },
-
-        jsPDF: {
-          unit: 'mm',
-          format: 'a4',
-          orientation: 'portrait'
-        }
-      };
-
-      html2pdf().set(opt).from(element).save();
-    }
 
     function alterarCarrinho(codigo, delta) {
       const item = produtos.find(p => codigoDo(p) === codigo);
@@ -2163,6 +2114,39 @@
     function gerarReceita() {
       const i = Math.floor(Math.random() * receitas.length);
       document.getElementById('receitaResultado').textContent = receitas[i];
+    }
+
+    function gerarPDFTela() {
+      const element = document.getElementById(`area-impressao-0`);
+
+      if (!element) {
+        alert('Área do jornal não encontrada.');
+        return;
+      }
+
+      const nome =
+        ((JORNAIS[jornalAtivo] && JORNAIS[jornalAtivo].tipo) || 'jornal')
+          .toLowerCase()
+          .replace(/\s+/g, '-') + '.pdf';
+
+      const opt = {
+        margin: 5,
+        filename: nome,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: {
+          scale: 3,
+          useCORS: true,
+          allowTaint: false,
+          backgroundColor: '#ffffff'
+        },
+        jsPDF: {
+          unit: 'mm',
+          format: 'a4',
+          orientation: 'portrait'
+        }
+      };
+
+      html2pdf().set(opt).from(element).save();
     }
 
     document.getElementById('btnWhats').addEventListener('click', enviarWhatsApp);
