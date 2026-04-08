@@ -431,9 +431,14 @@
     .journal-card {
       width: 100%;
       background: transparent;
-      break-inside: avoid;
-      page-break-inside: avoid;
       margin-bottom: 12px;
+      break-after: page;
+      page-break-after: always;
+    }
+
+    .journal-card:last-child {
+      break-after: auto;
+      page-break-after: auto;
     }
 
     .journal-page {
@@ -1676,8 +1681,8 @@
     function criarContainerPdf(html, largura = '980px') {
       const wrapper = document.createElement('div');
       wrapper.className = 'pdf-root-wrapper';
-      wrapper.style.position = 'fixed';
-      wrapper.style.left = '-20000px';
+      wrapper.style.position = 'absolute';
+      wrapper.style.left = '-9999px';
       wrapper.style.top = '0';
       wrapper.style.width = largura;
       wrapper.style.minWidth = largura;
@@ -1736,7 +1741,6 @@
 
     async function exportarElementoParaPdf(element, nomeArquivo) {
       const alvo = element.querySelector('.pdf-root') || element;
-      aplicarLayoutFixoPdf(alvo, 980);
 
       await transformarImagensEmDataURL(alvo);
       await esperarImagens(alvo);
@@ -1751,10 +1755,7 @@
           allowTaint: true,
           backgroundColor: '#ffffff',
           scrollX: 0,
-          scrollY: 0,
-          windowWidth: 1200,
-          windowHeight: Math.max(alvo.scrollHeight || 1800, 1800),
-          width: 980
+          scrollY: 0
         },
         jsPDF: {
           unit: 'mm',
@@ -1762,7 +1763,7 @@
           orientation: 'portrait'
         },
         pagebreak: {
-          mode: ['css', 'legacy', 'avoid-all']
+          mode: ['css', 'legacy']
         }
       };
 
