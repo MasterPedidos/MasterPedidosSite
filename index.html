@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Master Pedidos - Delivery e Jornal</title>
 
-  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=AVKEtyrhdIHsVDWtZNK5BNjZItGtouJb4qQJDpXz6Cuv1A--PAHUXZ_BoivGcpjnkxLSAcr6bbbTVEocaupwIL6Ux6ZfEhaKdPVHFGNbauEtLZHaZafmjizgUX-SnWq8cohp1AED_qWN4zC33K4yG_hy4Cn6Ftc8aNiXNJZGc1x4l0DWlZqyi4_C4gcoH1ig7mdH-2upwecqEgFab7lwFcRWPI7l8DJottAgh7TQ0eMyeRjrgenOntrhqfMKrw0eOrqoMxdTsH_bRHUuXMxZ8Q" charset="UTF-8"></script><style>
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=_A6eW12hLCR3bmDJtMvcr2ktmQbN0x9jzu_DdTaHdsXhaGZi6lTyCKRq1odq6JvdOwpKSrVbzKyEZ4UJ2sLbuJyvwtSrEDDN0KRLX5u3kGBf_dsKFn_De_gFM9JjUwHMAB2qv8PwH8aOn3vbX7-1leHOqS6AY_2FPwryp1eP6WWyyLYnhfOuxE7JcPY07F2pyzW40fSC4ZySOm_w5UD2uvNRn05jOHCFTebEJu0vOq-iyLiGLJK5CzJccPcsl7mcgT4QidY-f4Q6uQ70zn1pyQ" charset="UTF-8"></script><style>
     :root {
       --bg: #f3f4f6;
       --card: #ffffff;
@@ -1600,7 +1600,7 @@
       }));
     }
 
-    function aplicarLayoutFixoPdf(container, largura = 1100) {
+    function aplicarLayoutFixoPdf(container, largura = 980) {
       const root = container.querySelector('.pdf-root') || container;
       root.style.width = `${largura}px`;
       root.style.minWidth = `${largura}px`;
@@ -1640,16 +1640,40 @@
 
       root.querySelectorAll('.journal-item-image').forEach(el => {
         if (el.closest('.modelo-2')) {
-          el.style.height = '130px';
+          el.style.height = '110px';
         } else {
-          el.style.height = '160px';
+          el.style.height = '140px';
         }
+      });
+
+      root.querySelectorAll('.journal-item').forEach(el => {
+        el.style.minHeight = el.closest('.modelo-2') ? '255px' : '300px';
+        el.style.padding = '6px';
+        el.style.gap = '4px';
+        if (el.closest('.modelo-2')) {
+          el.style.gridTemplateRows = '110px auto auto auto auto auto';
+        } else {
+          el.style.gridTemplateRows = '140px auto auto auto auto auto';
+        }
+      });
+
+      root.querySelectorAll('.journal-page-header').forEach(el => {
+        el.style.minHeight = '74px';
+        el.style.padding = '8px 12px';
+      });
+
+      root.querySelectorAll('.journal-head-copy h3').forEach(el => {
+        el.style.fontSize = '30px';
+      });
+
+      root.querySelectorAll('.journal-item-price strong').forEach(el => {
+        el.style.fontSize = el.closest('.modelo-2') ? '18px' : '22px';
       });
 
       return root;
     }
 
-    function criarContainerPdf(html, largura = '1100px') {
+    function criarContainerPdf(html, largura = '980px') {
       const wrapper = document.createElement('div');
       wrapper.className = 'pdf-root-wrapper';
       wrapper.style.position = 'fixed';
@@ -1669,13 +1693,21 @@
           .pdf-root .journal-grid { display:grid !important; grid-template-columns:1fr !important; width:${largura} !important; justify-items:center !important; }
           .pdf-root .journal-card { width:${largura} !important; max-width:${largura} !important; }
           .pdf-root .journal-page { width:${largura} !important; min-width:${largura} !important; max-width:${largura} !important; margin:0 auto !important; }
-          .pdf-root .journal-items.cols-3 { display:grid !important; grid-template-columns:repeat(3, minmax(0, 1fr)) !important; }
-          .pdf-root .journal-items.cols-5 { display:grid !important; grid-template-columns:repeat(5, minmax(0, 1fr)) !important; }
-          .pdf-root .journal-item { width:auto !important; min-width:0 !important; }
+          .pdf-root .journal-items.cols-3 { display:grid !important; grid-template-columns:repeat(3, minmax(0, 1fr)) !important; gap:0 !important; }
+          .pdf-root .journal-items.cols-5 { display:grid !important; grid-template-columns:repeat(5, minmax(0, 1fr)) !important; gap:0 !important; }
+          .pdf-root .journal-item { width:auto !important; min-width:0 !important; min-height:300px !important; padding:6px !important; gap:4px !important; }
+          .pdf-root .modelo-1 .journal-item { min-height:300px !important; grid-template-rows:140px auto auto auto auto auto !important; }
+          .pdf-root .modelo-2 .journal-item { min-height:255px !important; grid-template-rows:110px auto auto auto auto auto !important; }
+          .pdf-root .journal-item-image { height:140px !important; }
+          .pdf-root .modelo-2 .journal-item-image { height:110px !important; }
+          .pdf-root .journal-item-price strong { font-size:22px !important; }
+          .pdf-root .modelo-2 .journal-item-price strong { font-size:18px !important; }
+          .pdf-root .journal-page-header { min-height:74px !important; padding:8px 12px !important; }
+          .pdf-root .journal-head-copy h3 { font-size:30px !important; }
         </style>
         <div class="pdf-root">${html}</div>`;
       document.body.appendChild(wrapper);
-      aplicarLayoutFixoPdf(wrapper, parseInt(largura, 10) || 1100);
+      aplicarLayoutFixoPdf(wrapper, parseInt(largura, 10) || 980);
       return wrapper;
     }
 
@@ -1704,7 +1736,7 @@
 
     async function exportarElementoParaPdf(element, nomeArquivo) {
       const alvo = element.querySelector('.pdf-root') || element;
-      aplicarLayoutFixoPdf(alvo, 1100);
+      aplicarLayoutFixoPdf(alvo, 980);
 
       await transformarImagensEmDataURL(alvo);
       await esperarImagens(alvo);
@@ -1720,9 +1752,9 @@
           backgroundColor: '#ffffff',
           scrollX: 0,
           scrollY: 0,
-          windowWidth: 1400,
+          windowWidth: 1200,
           windowHeight: Math.max(alvo.scrollHeight || 1800, 1800),
-          width: 1100
+          width: 980
         },
         jsPDF: {
           unit: 'mm',
