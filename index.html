@@ -1934,6 +1934,13 @@
             max-width:${largura} !important;
             margin:0 auto !important;
           }
+
+          .pdf-root .journal-items.cols-4 {
+            display:grid !important;
+            grid-template-columns:repeat(4, minmax(0, 1fr)) !important;
+            gap:0 !important;
+          }
+
         </style>
         <div class="pdf-root">${html}</div>`;
 
