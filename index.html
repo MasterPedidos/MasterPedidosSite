@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Master Pedidos - Delivery e Jornal</title>
 
-  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=Sxe5OySo3FMFRY3AgiNizeaXsILY3EcIalgsOBLwqnZiHSPI3yqJjmXC3VHikGm7kCWDkCqDmvi1UP7agJ8bHummZbRnxYLW2vxcfc26IPvPuWA-GhgiAHv-JsYCoGrPXcA63pi5-_3jlo3dZoBzY4HpP-AU8ltr1C7U_fAJLHnkmA2biacYr8YbSOac9g0WFVM-U1bGAhQoJPBr0wrqrpU_g-9tF33JifnARZ1fS-JCBddLaMIum7Ysh_MTDP8i389EXH5Wq--awrmN1e7GlA" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=_A6eW12hLCR3bmDJtMvcr2ktmQbN0x9jzu_DdTaHdsXhaGZi6lTyCKRq1odq6JvdOwpKSrVbzKyEZ4UJ2sLbuJyvwtSrEDDN0KRLX5u3kGBf_dsKFn_De_gFM9JjUwHMAB2qv8PwH8aOn3vbX7-1leHOqS6AY_2FPwryp1eP6WWyyLYnhfOuxE7JcPY07F2pyzW40fSC4ZySOm_w5UD2uvNRn05jOHCFTebEJu0vOq-iyLiGLJK5CzJccPcsl7mcgT4QidY-f4Q6uQ70zn1pyQ" charset="UTF-8"></script><style>
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=_A6eW12hLCR3bmDJtMvcr2ktmQbN0x9jzu_DdTaHdsXhaGZi6lTyCKRq1odq6JvdOwpKSrVbzKyEZ4UJ2sLbuJyvwtSrEDDN0KRLX5u3kGBf_dsKFn_De_gFM9JjUwHMAB2qv8PwH8aOn3vbX7-1leHOqS6AY_2FPwryp1eP6WWyyLYnhfOuxE7JcPY07F2pyzW40fSC4ZySOm_w5UD2uvNRn05jOHCFTebEJu0vOq-iyLiGLJK5CzJccPcsl7mcgT4QidY-f4Q6uQ70zn1pyQ" charset="UTF-8"></script><style>
     :root {
       --bg: #f3f4f6;
       --card: #ffffff;
@@ -199,7 +199,7 @@
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(900px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
       gap: 12px;
     }
 
@@ -431,11 +431,14 @@
     .journal-card {
       width: 100%;
       background: transparent;
-      margin: 0;
+      margin-bottom: 12px;
+      break-after: page;
+      page-break-after: always;
+    }
+
+    .journal-card:last-child {
       break-after: auto;
       page-break-after: auto;
-      break-inside: avoid;
-      page-break-inside: avoid;
     }
 
     .journal-page {
@@ -1602,7 +1605,6 @@
 
       if (!root) return;
 
-      // 🔥 largura controlada só aqui
       root.style.width = `${largura}px`;
       root.style.minWidth = `${largura}px`;
       root.style.maxWidth = `${largura}px`;
@@ -1611,45 +1613,40 @@
       root.style.background = '#ffffff';
       root.style.boxSizing = 'border-box';
 
-      // GRID PRINCIPAL
       root.querySelectorAll('.journal-grid').forEach(el => {
         el.style.display = 'grid';
         el.style.gridTemplateColumns = '1fr';
         el.style.gap = '10px';
         el.style.justifyContent = 'center';
         el.style.justifyItems = 'center';
-        el.style.width = '100%'; // 🔥 antes travava
+        el.style.width = `${largura}px`;
         el.style.margin = '0';
         el.style.padding = '0';
       });
 
-      // CARDS
+      root.querySelectorAll('.journal-card').forEach(el => {
+        el.style.width = `${largura}px`;
+        el.style.maxWidth = `${largura}px`;
+        el.style.margin = '0';
+        el.style.padding = '0';
+        el.style.breakAfter = 'page';
+        el.style.pageBreakAfter = 'always';
+      });
+
       const cards = root.querySelectorAll('.journal-card');
-      cards.forEach((el, i) => {
-        el.style.width = '100%'; // 🔥 antes travava
-        el.style.maxWidth = '100%';
-        el.style.margin = '0';
-        el.style.padding = '0';
+      if (cards.length) {
+        const last = cards[cards.length - 1];
+        last.style.breakAfter = 'auto';
+        last.style.pageBreakAfter = 'auto';
+      }
 
-        // controle correto de quebra
-        if (i < cards.length - 1) {
-          el.style.breakAfter = 'page';
-          el.style.pageBreakAfter = 'always';
-        } else {
-          el.style.breakAfter = 'auto';
-          el.style.pageBreakAfter = 'auto';
-        }
-      });
-
-      // PÁGINA
       root.querySelectorAll('.journal-page').forEach(el => {
-        el.style.width = '100%'; // 🔥 antes travava
-        el.style.maxWidth = '100%';
+        el.style.width = `${largura}px`;
+        el.style.maxWidth = `${largura}px`;
         el.style.margin = '0 auto';
         el.style.boxSizing = 'border-box';
       });
 
-      // COLUNAS
       root.querySelectorAll('.journal-items.cols-3').forEach(el => {
         el.style.display = 'grid';
         el.style.gridTemplateColumns = 'repeat(3, minmax(0, 1fr))';
@@ -1662,7 +1659,6 @@
         el.style.gap = '0';
       });
 
-      // IMAGEM
       root.querySelectorAll('.journal-item-image').forEach(el => {
         if (el.closest('.modelo-2')) {
           el.style.height = '75px';
@@ -1673,11 +1669,10 @@
         el.style.padding = '0';
       });
 
-      // ITEM
       root.querySelectorAll('.journal-item').forEach(el => {
         if (el.closest('.modelo-2')) {
           el.style.minHeight = '140px';
-          el.style.gridTemplateRows = '75px auto auto auto auto auto';
+          el.style.gridTemplateRows = '75px auto auto auto auto auto'; // 👈 AJUSTADO
         } else {
           el.style.minHeight = '180px';
           el.style.gridTemplateRows = '116px auto auto auto auto auto';
@@ -1689,10 +1684,20 @@
         el.style.alignContent = 'start';
       });
 
-      // HEADER
+      root.querySelectorAll('.modelo-2').forEach(el => {
+        el.style.transform = 'scale(0.90) translateX(-10px)';
+        el.style.transformOrigin = 'top center';
+        el.style.marginBottom = '-140px';
+      });
+
+      root.querySelectorAll('.journal-card:last-child').forEach(el => {
+        el.style.breakAfter = 'auto';
+        el.style.pageBreakAfter = 'auto';
+      });
+
       root.querySelectorAll('.journal-page-header').forEach(el => {
         if (el.closest('.modelo-2')) {
-          el.style.minHeight = '42px';
+          el.style.minHeight = '42px';   // 👈 diminui bastante
           el.style.padding = '4px 8px';
         } else {
           el.style.minHeight = '62px';
@@ -1703,7 +1708,6 @@
         el.style.boxSizing = 'border-box';
       });
 
-      // TÍTULO
       root.querySelectorAll('.journal-head-copy h3').forEach(el => {
         if (el.closest('.modelo-2')) {
           el.style.fontSize = '18px';
@@ -1716,7 +1720,6 @@
         el.style.margin = '0';
       });
 
-      // SUBTEXTO
       root.querySelectorAll('.journal-head-copy p').forEach(el => {
         if (el.closest('.modelo-2')) {
           el.style.fontSize = '8px';
@@ -1727,14 +1730,12 @@
         }
       });
 
-      // MINI
       root.querySelectorAll('.journal-mini').forEach(el => {
         el.style.fontSize = '9px';
         el.style.padding = '4px 8px';
         el.style.marginBottom = '4px';
       });
 
-      // LOGO
       root.querySelectorAll('.journal-brand').forEach(el => {
         if (el.closest('.modelo-2')) {
           el.style.width = '65px';
@@ -1751,7 +1752,6 @@
         el.style.fontSize = '20px';
       });
 
-      // DESCRIÇÃO
       root.querySelectorAll('.journal-item-desc').forEach(el => {
         el.style.fontSize = el.closest('.modelo-2') ? '10px' : '11px';
         el.style.lineHeight = '1.1';
@@ -1759,14 +1759,12 @@
         el.style.margin = '0';
       });
 
-      // META
       root.querySelectorAll('.journal-item-meta').forEach(el => {
         el.style.fontSize = '9px';
         el.style.minHeight = '10px';
         el.style.margin = '0';
       });
 
-      // PREÇO
       root.querySelectorAll('.journal-item-price-box').forEach(el => {
         el.style.padding = '4px 6px';
         el.style.gap = '1px';
@@ -1782,25 +1780,46 @@
         el.style.fontSize = '9px';
       });
 
-      // CÓDIGO
       root.querySelectorAll('.journal-item-cod').forEach(el => {
         el.style.fontSize = '9px';
         el.style.margin = '0';
       });
 
-      // REMOVE SOBRAS
-      root.querySelectorAll('.journal-item-extra, .journal-info').forEach(el => {
+      root.querySelectorAll('.journal-item-extra').forEach(el => {
         el.style.display = 'none';
+        el.style.height = '0';
+        el.style.minHeight = '0';
+        el.style.padding = '0';
+        el.style.margin = '0';
+        el.style.overflow = 'hidden';
+        el.style.fontSize = '0';
+      });
+
+      root.querySelectorAll('.journal-page-footer').forEach(el => {
+        el.style.padding = '6px 10px';
+        el.style.fontSize = '9px';
+        el.style.margin = '0';
+      });
+
+      root.querySelectorAll('.journal-info').forEach(el => {
+        el.style.display = 'none';
+      });
+
+      root.querySelectorAll('.journal-page').forEach(el => {
+        el.style.height = '700px'; // A4 em px (aprox com scale)
+        el.style.maxHeight = '700px';
+        el.style.overflow = 'hidden';
       });
 
       return root;
     }
 
+
     function criarContainerPdf(html, largura = '600px') {
       const wrapper = document.createElement('div');
       wrapper.className = 'pdf-root-wrapper';
-      wrapper.style.position = 'fixed';
-      wrapper.style.left = '-20000px';
+      wrapper.style.position = 'absolute';
+      wrapper.style.left = '-9999px';
       wrapper.style.top = '0';
       wrapper.style.width = largura;
       wrapper.style.minWidth = largura;
@@ -1809,138 +1828,30 @@
       wrapper.style.margin = '0';
       wrapper.style.background = '#ffffff';
       wrapper.style.pointerEvents = 'none';
-      wrapper.style.zIndex = '-1';
-      wrapper.style.boxSizing = 'border-box';
-      wrapper.style.overflow = 'hidden';
-
+      wrapper.style.zIndex = '0';
       wrapper.innerHTML = `
-        <div class="pdf-root">${html}</div>
-      `;
-
+        <style>
+          .pdf-root { width:${largura} !important; min-width:${largura} !important; max-width:${largura} !important; background:#fff !important; }
+          .pdf-root .journal-grid { display:grid !important; grid-template-columns:1fr !important; width:${largura} !important; justify-items:center !important; }
+          .pdf-root .journal-card { width:${largura} !important; max-width:${largura} !important; }
+          .pdf-root .journal-page { width:${largura} !important; min-width:${largura} !important; max-width:${largura} !important; margin:0 auto !important; }
+          .pdf-root .journal-items.cols-3 { display:grid !important; grid-template-columns:repeat(3, minmax(0, 1fr)) !important; gap:0 !important; }
+          .pdf-root .journal-items.cols-5 { display:grid !important; grid-template-columns:repeat(5, minmax(0, 1fr)) !important; gap:0 !important; }
+          .pdf-root .journal-item { width:auto !important; min-width:0 !important; min-height:300px !important; padding:6px !important; gap:4px !important; }
+          .pdf-root .modelo-1 .journal-item { min-height:300px !important; grid-template-rows:140px auto auto auto auto auto !important; }
+          .pdf-root .modelo-2 .journal-item { min-height:255px !important; grid-template-rows:110px auto auto auto auto auto !important; }
+          .pdf-root .journal-item-image { height:140px !important; }
+          .pdf-root .modelo-2 .journal-item-image { height:110px !important; }
+          .pdf-root .journal-item-price strong { font-size:22px !important; }
+          .pdf-root .modelo-2 .journal-item-price strong { font-size:18px !important; }
+          .pdf-root .journal-page-header { min-height:74px !important; padding:8px 12px !important; }
+          .pdf-root .journal-head-copy h3 { font-size:30px !important; }
+        </style>
+        <div class="pdf-root">${html}</div>`;
       document.body.appendChild(wrapper);
-
-      aplicarLayoutFixoPdf(wrapper, parseInt(largura, 10) || 600);
-
+      aplicarLayoutFixoPdf(wrapper, parseInt(largura, 10) || 500);
       return wrapper;
     }
-
-
-
-    async function exportarPdfA4Cortado(elementoOriginal, nomeArquivo = 'jornal.pdf', opcoes = {}) {
-      const {
-        larguraFolha = 794,
-        alturaFolha = 1123,
-        escala = 0.68,
-        margem = [2, 2, 2, 2],
-        removerSeletores = '.journal-page-footer, .journal-item-extra, .journal-info',
-        fundo = '#ffffff'
-      } = opcoes;
-
-      if (!elementoOriginal) {
-        alert('Elemento para PDF não encontrado.');
-        return;
-      }
-
-      const folha = document.createElement('div');
-      folha.style.position = 'fixed';
-      folha.style.left = '0';
-      folha.style.top = '0';
-      folha.style.width = `${larguraFolha}px`;
-      folha.style.minWidth = `${larguraFolha}px`;
-      folha.style.maxWidth = `${larguraFolha}px`;
-      folha.style.height = `${alturaFolha}px`;
-      folha.style.minHeight = `${alturaFolha}px`;
-      folha.style.maxHeight = `${alturaFolha}px`;
-      folha.style.overflow = 'hidden';
-      folha.style.background = fundo;
-      folha.style.margin = '0';
-      folha.style.padding = '0';
-      folha.style.boxSizing = 'border-box';
-      folha.style.pointerEvents = 'none';
-      folha.style.zIndex = '-1';
-
-      const palco = document.createElement('div');
-      palco.style.width = `${larguraFolha}px`;
-      palco.style.minWidth = `${larguraFolha}px`;
-      palco.style.maxWidth = `${larguraFolha}px`;
-      palco.style.margin = '0';
-      palco.style.padding = '0';
-      palco.style.boxSizing = 'border-box';
-      palco.style.transform = `scale(${escala})`;
-      palco.style.transformOrigin = 'top left';
-
-      const clone = elementoOriginal.cloneNode(true);
-
-      if (removerSeletores) {
-        clone.querySelectorAll(removerSeletores).forEach(el => el.remove());
-      }
-
-      clone.style.margin = '0';
-      clone.style.padding = '0';
-      clone.style.boxShadow = 'none';
-      clone.style.border = 'none';
-      clone.style.background = fundo;
-      clone.style.boxSizing = 'border-box';
-      clone.style.breakAfter = 'auto';
-      clone.style.pageBreakAfter = 'auto';
-      clone.style.width = '1100px';
-      clone.style.minWidth = '1100px';
-      clone.style.maxWidth = '1100px';
-
-      clone.querySelectorAll('.journal-card').forEach(el => {
-        el.style.margin = '0';
-        el.style.breakAfter = 'auto';
-        el.style.pageBreakAfter = 'auto';
-        el.style.breakInside = 'avoid';
-        el.style.pageBreakInside = 'avoid';
-      });
-
-      clone.querySelectorAll('*').forEach(el => {
-        el.style.boxShadow = 'none';
-      });
-
-      palco.appendChild(clone);
-      folha.appendChild(palco);
-      document.body.appendChild(folha);
-
-      try {
-        await transformarImagensEmDataURL(folha);
-        await esperarImagens(folha);
-
-        await html2pdf().set({
-          margin: margem,
-          filename: nomeArquivo,
-          image: { type: 'jpeg', quality: 0.98 },
-          html2canvas: {
-            scale: 2,
-            useCORS: true,
-            allowTaint: true,
-            backgroundColor: fundo,
-            scrollX: 0,
-            scrollY: 0,
-            windowWidth: larguraFolha,
-            windowHeight: alturaFolha,
-            removeContainer: false
-          },
-          jsPDF: {
-            unit: 'mm',
-            format: 'a4',
-            orientation: 'portrait'
-          },
-          pagebreak: {
-            mode: ['avoid-all']
-          }
-        }).from(folha).save();
-
-      } catch (erro) {
-        console.error('Erro ao gerar PDF:', erro);
-        alert('Erro ao gerar PDF. Veja o console.');
-      } finally {
-        folha.remove();
-      }
-    }    
-
-
 
     async function transformarImagensEmDataURL(container) {
       const imagens = Array.from(container.querySelectorAll('img'));
@@ -1972,7 +1883,7 @@
       await esperarImagens(alvo);
 
       const opt = {
-        margin: [5, 5, 5, 5],
+        margin: [2, 2, 2, 2],
         filename: nomeArquivo,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: {
@@ -1989,7 +1900,7 @@
           orientation: 'portrait'
         },
         pagebreak: {
-          mode: ['avoid-all', 'css', 'legacy']
+          mode: ['css', 'legacy']
         }
       };
 
@@ -2042,38 +1953,7 @@
 
       const jornal = JORNAIS[indice];
       const nome = nomeArquivo || `${(jornal.tipo || 'jornal').toLowerCase().replace(/\s+/g, '-')}.pdf`;
-      const paginas = Array.from(document.querySelectorAll('#journalGrid .journal-page'));
-
-      if (!paginas.length) {
-        alert('Nenhuma página do jornal encontrada.');
-        return;
-      }
-
-      const wrapper = document.createElement('div');
-      wrapper.className = 'pdf-root';
-      wrapper.style.width = '794px';
-      wrapper.style.margin = '0';
-      wrapper.style.padding = '0';
-      wrapper.style.background = '#ffffff';
-
-      paginas.forEach((pagina, i) => {
-        const bloco = document.createElement('div');
-        bloco.className = 'journal-card';
-        bloco.style.margin = '0';
-        bloco.style.padding = '0';
-        bloco.style.breakAfter = i < paginas.length - 1 ? 'page' : 'auto';
-        bloco.style.pageBreakAfter = i < paginas.length - 1 ? 'always' : 'auto';
-
-        const clone = pagina.cloneNode(true);
-        clone.querySelectorAll('.journal-page-footer, .journal-item-extra, .journal-info').forEach(el => el.remove());
-        clone.style.margin = '0 auto';
-        clone.style.boxShadow = 'none';
-
-        bloco.appendChild(clone);
-        wrapper.appendChild(bloco);
-      });
-
-      document.body.appendChild(wrapper);
+      const wrapper = criarContainerPdf(montarJornalHtml(jornal));
 
       try {
         await exportarElementoParaPdf(wrapper, nome);
@@ -2087,7 +1967,9 @@
 
 
     async function gerarPdfTodosJornais() {
-      const paginas = Array.from(document.querySelectorAll('#journalGrid .journal-page'));
+      const paginas = Array.from(
+        document.querySelectorAll('#journalGrid .journal-page')
+      );
 
       if (!paginas.length) {
         alert('Nenhuma página do jornal encontrada.');
@@ -2095,22 +1977,22 @@
       }
 
       const wrapper = document.createElement('div');
-      wrapper.className = 'pdf-root';
-      wrapper.style.width = '794px';
-      wrapper.style.margin = '0';
-      wrapper.style.padding = '0';
       wrapper.style.background = '#ffffff';
+      wrapper.style.padding = '0';
+      wrapper.style.margin = '0';
 
       paginas.forEach((pagina, i) => {
         const bloco = document.createElement('div');
-        bloco.className = 'journal-card';
-        bloco.style.margin = '0';
+        bloco.style.margin = '0 auto';
         bloco.style.padding = '0';
         bloco.style.breakAfter = i < paginas.length - 1 ? 'page' : 'auto';
         bloco.style.pageBreakAfter = i < paginas.length - 1 ? 'always' : 'auto';
+        bloco.style.width = `${pagina.offsetWidth || 730}px`;
 
         const clone = pagina.cloneNode(true);
+
         clone.querySelectorAll('.journal-page-footer, .journal-item-extra, .journal-info').forEach(el => el.remove());
+
         clone.style.margin = '0 auto';
         clone.style.boxShadow = 'none';
 
@@ -2121,7 +2003,27 @@
       document.body.appendChild(wrapper);
 
       try {
-        await exportarElementoParaPdf(wrapper, 'todos-os-jornais.pdf');
+        await esperarImagens(wrapper);
+
+        await html2pdf().set({
+          margin: [2, 2, 2, 2],
+          filename: 'todos-os-jornais.pdf',
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: {
+            scale: 2,
+            useCORS: true,
+            allowTaint: true,
+            backgroundColor: '#ffffff',
+            scrollX: 0,
+            scrollY: 0
+          },
+          jsPDF: {
+            unit: 'mm',
+            format: 'a4',
+            orientation: 'portrait'
+          },
+          pagebreak: { mode: ['css', 'legacy'] }
+        }).from(wrapper).save();
       } finally {
         wrapper.remove();
       }
@@ -2265,42 +2167,43 @@
     }
 
     async function gerarPDFTela() {
-      const paginaAtual = document.querySelector('#journalGrid .journal-page');
+      const paginas = Array.from(
+        document.querySelectorAll('#journalGrid .journal-page')
+      );
 
-      if (!paginaAtual) {
+      if (!paginas.length) {
         alert('Nenhuma página do jornal encontrada.');
         return;
       }
 
+      const paginaAtual = paginas[0]; // jornal atual renderizado
       const wrapper = document.createElement('div');
       wrapper.style.background = '#ffffff';
       wrapper.style.padding = '0';
       wrapper.style.margin = '0';
-      wrapper.style.width = '794px';
-      wrapper.style.minWidth = '794px';
-      wrapper.style.maxWidth = '794px';
-      wrapper.style.boxSizing = 'border-box';
+      wrapper.style.width = `${paginaAtual.offsetWidth || 500}px`;
 
       const clone = paginaAtual.cloneNode(true);
 
       clone.querySelectorAll('.journal-page-footer, .journal-item-extra, .journal-info').forEach(el => el.remove());
 
       clone.style.margin = '0 auto';
-      clone.style.padding = '0';
       clone.style.boxShadow = 'none';
-      clone.style.border = 'none';
-      clone.style.background = '#ffffff';
-      clone.style.width = '1100px';
-      clone.style.minWidth = '1100px';
-      clone.style.maxWidth = '1100px';
       clone.style.transform = 'scale(0.68)';
       clone.style.transformOrigin = 'top left';
+
+
+
+
+      clone.querySelectorAll('.journal-page-footer, .journal-item-extra, .journal-info').forEach(el => el.remove());
+
+      clone.style.margin = '0 auto';
+      clone.style.boxShadow = 'none';
 
       wrapper.appendChild(clone);
       document.body.appendChild(wrapper);
 
       try {
-        await transformarImagensEmDataURL(wrapper);
         await esperarImagens(wrapper);
 
         await html2pdf().set({
@@ -2320,19 +2223,12 @@
             format: 'a4',
             orientation: 'portrait'
           },
-          pagebreak: {
-            mode: ['avoid-all', 'css', 'legacy']
-          }
+          pagebreak: { mode: ['css', 'legacy'] }
         }).from(wrapper).save();
-
-      } catch (erro) {
-        console.error('Erro ao gerar PDF:', erro);
-        alert('Erro ao gerar PDF. Veja o console.');
       } finally {
         wrapper.remove();
       }
     }
-
 
     document.getElementById('btnWhats').addEventListener('click', enviarWhatsApp);
     document.getElementById('scrollPedido').addEventListener('click', () => document.getElementById('pedidoSection').scrollIntoView({ behavior: 'smooth' }));
