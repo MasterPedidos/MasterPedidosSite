@@ -1824,7 +1824,9 @@
       return wrapper;
     }
 
-async function exportarPdfA4Cortado(elementoOriginal, nomeArquivo = 'jornal.pdf', opcoes = {}) {
+
+
+    async function exportarPdfA4Cortado(elementoOriginal, nomeArquivo = 'jornal.pdf', opcoes = {}) {
       const {
         larguraFolha = 794,
         alturaFolha = 1123,
@@ -1840,15 +1842,9 @@ async function exportarPdfA4Cortado(elementoOriginal, nomeArquivo = 'jornal.pdf'
       }
 
       const folha = document.createElement('div');
-      
-
       folha.style.position = 'fixed';
       folha.style.left = '0';
       folha.style.top = '0';
-      folha.style.opacity = '0';
-      folha.style.visibility = 'hidden';
-
-
       folha.style.width = `${larguraFolha}px`;
       folha.style.minWidth = `${larguraFolha}px`;
       folha.style.maxWidth = `${larguraFolha}px`;
@@ -1862,6 +1858,7 @@ async function exportarPdfA4Cortado(elementoOriginal, nomeArquivo = 'jornal.pdf'
       folha.style.boxSizing = 'border-box';
       folha.style.pointerEvents = 'none';
       folha.style.zIndex = '-1';
+      folha.style.opacity = '0';
 
       const palco = document.createElement('div');
       palco.style.width = `${larguraFolha}px`;
@@ -1912,7 +1909,7 @@ async function exportarPdfA4Cortado(elementoOriginal, nomeArquivo = 'jornal.pdf'
         await esperarImagens(folha);
 
         await html2pdf().set({
-          margin: [2, 2, 2, 2], // 🔥 força direto, elimina erro
+          margin: margem,
           filename: nomeArquivo,
           image: { type: 'jpeg', quality: 0.98 },
           html2canvas: {
@@ -1923,7 +1920,8 @@ async function exportarPdfA4Cortado(elementoOriginal, nomeArquivo = 'jornal.pdf'
             scrollX: 0,
             scrollY: 0,
             windowWidth: larguraFolha,
-            windowHeight: alturaFolha
+            windowHeight: alturaFolha,
+            removeContainer: false
           },
           jsPDF: {
             unit: 'mm',
@@ -1941,7 +1939,9 @@ async function exportarPdfA4Cortado(elementoOriginal, nomeArquivo = 'jornal.pdf'
       } finally {
         folha.remove();
       }
-    }
+    }    
+
+
 
     async function transformarImagensEmDataURL(container) {
       const imagens = Array.from(container.querySelectorAll('img'));
