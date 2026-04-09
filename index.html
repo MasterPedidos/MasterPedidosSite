@@ -596,13 +596,11 @@
     }
 
     .journal-page.modelo-2 .journal-item {
-      min-height: auto;
-      height: auto;
-      grid-template-rows: 130px auto auto auto auto;
-      padding: 4px;
-      gap: 2px;
+      min-height: 285px;
+      grid-template-rows: 130px auto auto auto auto auto;
+      padding: 6px;
+      gap: 4px;
     }
-
 
     .journal-item-image {
       width: 100%;
@@ -655,13 +653,13 @@
     }
 
     .journal-item-price-box {
-      margin-top: 0;
+      margin-top: auto;
       border-radius: 10px;
       background: linear-gradient(180deg, #fff7d6 0%, #ffe9a3 100%);
       border: 1px solid #f2d26b;
-      padding: 4px 6px;
+      padding: 6px 8px;
       display: grid;
-      gap: 0;
+      gap: 2px;
     }
 
     .journal-item-price-label {
@@ -1749,8 +1747,9 @@
 
       root.querySelectorAll('.journal-item').forEach(el => {
         if (el.closest('.modelo-2')) {
-          el.style.minHeight = '140px';
-          el.style.gridTemplateRows = '75px auto auto auto auto auto'; // 👈 AJUSTADO
+          el.style.minHeight = 'auto';          // 👈 remove altura forçada
+          el.style.height = 'auto';             // 👈 garante ajuste automático
+          el.style.gridTemplateRows = '75px auto auto auto auto'; // 👈 remove 1 linha
         } else {
           el.style.minHeight = '140px';
           el.style.gridTemplateRows = '80px auto auto auto auto auto';
@@ -1761,6 +1760,7 @@
         el.style.boxSizing = 'border-box';
         el.style.alignContent = 'start';
       });
+
 
       root.querySelectorAll('.journal-card:last-child').forEach(el => {
         el.style.breakAfter = 'auto';
@@ -1844,10 +1844,11 @@
         el.style.margin = '0';
       });
 
+
       root.querySelectorAll('.journal-item-price-box').forEach(el => {
-        el.style.padding = '4px 6px';
-        el.style.gap = '1px';
-        el.style.marginTop = '0';
+        el.style.padding = '3px 5px';   // 👈 levemente menor
+        el.style.gap = '0';             // 👈 remove espaço interno
+        el.style.marginTop = '0';       // 👈 essencial (mantém)
       });
 
       root.querySelectorAll('.journal-item-price strong').forEach(el => {
