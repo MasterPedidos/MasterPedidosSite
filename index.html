@@ -2183,7 +2183,8 @@
       wrapper.style.margin = '0';
       wrapper.style.width = `${paginaAtual.offsetWidth || 500}px`;
 
-      const clone = paginaAtual.cloneNode(true);
+      clone.style.width = '600px';
+      clone.style.maxWidth = '600px';
 
       clone.querySelectorAll('.journal-page-footer, .journal-item-extra, .journal-info').forEach(el => el.remove());
 
