@@ -1679,6 +1679,8 @@
       }));
     }
 
+    
+
     function aplicarLayoutFixoPdf(container, largura = 980) {
       const root = container.classList?.contains('pdf-root')
         ? container
@@ -1727,6 +1729,12 @@
         el.style.gap = '0';
       });
 
+      root.querySelectorAll('.journal-items.cols-4').forEach(el => {
+        el.style.display = 'grid';
+        el.style.gridTemplateColumns = 'repeat(4, minmax(0, 1fr))';
+        el.style.gap = '0';
+      });
+
       root.querySelectorAll('.journal-items.cols-5').forEach(el => {
         el.style.display = 'grid';
         el.style.gridTemplateColumns = 'repeat(5, minmax(0, 1fr))';
@@ -1737,7 +1745,7 @@
         if (el.closest('.modelo-2')) {
           el.style.height = '75px';
         } else {
-          el.style.height = '138px';
+          el.style.height = '152px';
         }
         el.style.margin = '0';
         el.style.padding = '0';
@@ -1748,41 +1756,24 @@
           el.style.minHeight = '140px';
           el.style.gridTemplateRows = '75px auto auto auto auto auto';
         } else {
-          el.style.minHeight = '178px';
-          el.style.gridTemplateRows = '102px auto auto auto auto auto';
+          el.style.minHeight = '210px';
+          el.style.gridTemplateRows = '118px auto auto auto auto auto';
         }
 
         el.style.padding = '4px';
         el.style.gap = '2px';
         el.style.boxSizing = 'border-box';
         el.style.alignContent = 'start';
-      }); // ← FECHAMENTO QUE FALTAVA
+      });
 
       root.querySelectorAll('.journal-card:last-child').forEach(el => {
         el.style.breakAfter = 'auto';
         el.style.pageBreakAfter = 'auto';
       });
 
-
-
-
-
-
-
-
-
-
-
-
-      root.querySelectorAll('.journal-items.cols-4').forEach(el => {
-        el.style.display = 'grid';
-        el.style.gridTemplateColumns = 'repeat(4, minmax(0, 1fr))';
-        el.style.gap = '0';
-      });
-
       root.querySelectorAll('.journal-page-header').forEach(el => {
         if (el.closest('.modelo-2')) {
-          el.style.minHeight = '42px';   // 👈 diminui bastante
+          el.style.minHeight = '42px';
           el.style.padding = '4px 8px';
         } else {
           el.style.minHeight = '62px';
@@ -1900,7 +1891,7 @@
     }
 
 
-    function criarContainerPdf(html, largura = '730px') {
+    function criarContainerPdf(html, largura = '980px') {
       const wrapper = document.createElement('div');
       wrapper.className = 'pdf-root-wrapper';
       wrapper.style.position = 'absolute';
@@ -1955,7 +1946,6 @@
             grid-template-columns:repeat(4, minmax(0, 1fr)) !important;
             gap:0 !important;
           }
-
         </style>
         <div class="pdf-root">${html}</div>`;
 
@@ -1964,149 +1954,7 @@
       return wrapper;
     }
 
-    async function transformarImagensEmDataURL(container) {
-      const imagens = Array.from(container.querySelectorAll('img'));
 
-      await Promise.all(imagens.map(async img => {
-        const srcOriginal = (img.getAttribute('src') || '').trim();
-        if (!srcOriginal || srcOriginal.startsWith('data:')) return;
-
-        img.loading = 'eager';
-        img.decoding = 'sync';
-        img.removeAttribute('srcset');
-        img.removeAttribute('sizes');
-
-        try {
-          const dataUrl = await carregarImagemComoDataURL(srcOriginal);
-          img.setAttribute('src', dataUrl);
-          img.removeAttribute('crossorigin');
-        } catch (e) {
-          img.setAttribute('src', 'https://placehold.co/500x500/png?text=Sem+Imagem');
-          img.removeAttribute('crossorigin');
-        }
-      }));
-    }
-
-    async function exportarElementoParaPdf(element, nomeArquivo) {
-      const alvo = element.querySelector('.pdf-root') || element;
-
-      await transformarImagensEmDataURL(alvo);
-      await esperarImagens(alvo);
-
-      const opt = {
-        margin: [8, 2, 0, 2],
-        filename: nomeArquivo,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: {
-          scale: 2,
-          useCORS: true,
-          allowTaint: true,
-          backgroundColor: '#ffffff',
-          scrollX: 0,
-          scrollY: 0
-        },
-        jsPDF: {
-          unit: 'mm',
-          format: 'a4',
-          orientation: 'portrait'
-        },
-        pagebreak: {
-          mode: ['css', 'legacy']
-        }
-      };
-
-      await html2pdf().set(opt).from(alvo).save();
-    }
-
-    async function carregarImagemComoDataURL(url) {
-
-      const resp = await fetch(encodeURI(url), { cache: 'no-store', mode: 'cors' });
-      if (!resp.ok) throw new Error('Falha ao carregar imagem: ' + url);
-      const blob = await resp.blob();
-
-      return await new Promise((resolve, reject) => {
-        const reader = new FileReader();
-
-        reader.onloadend = async () => {
-          try {
-            const img = new Image();
-            img.onload = () => {
-              const canvas = document.createElement('canvas');
-              canvas.width = img.width;
-              canvas.height = img.height;
-
-              const ctx = canvas.getContext('2d');
-              ctx.fillStyle = '#ffffff';
-              ctx.fillRect(0, 0, canvas.width, canvas.height);
-              ctx.drawImage(img, 0, 0);
-
-              const dataUrlFinal = canvas.toDataURL('image/jpeg', 0.95);
-              resolve(dataUrlFinal);
-            };
-
-            img.onerror = reject;
-            img.src = reader.result;
-          } catch (err) {
-            reject(err);
-          }
-        };
-
-        reader.onerror = reject;
-        reader.readAsDataURL(blob);
-      });
-    }
-
-    async function gerarPdfJornal(indice, nomeArquivo) {
-      if (!JORNAIS.length || !JORNAIS[indice]) {
-        alert('Nenhum jornal disponível para gerar PDF.');
-        return;
-      }
-
-      const jornal = JORNAIS[indice];
-      const nome = nomeArquivo || `${(jornal.tipo || 'jornal').toLowerCase().replace(/\s+/g, '-')}.pdf`;
-      const wrapper = criarContainerPdf(montarJornalHtml(jornal));
-
-      try {
-        await exportarElementoParaPdf(wrapper, nome);
-      } catch (e) {
-        console.error(e);
-        alert('Não foi possível gerar o PDF deste jornal.');
-      } finally {
-        wrapper.remove();
-      }
-    }
-
-    async function gerarPdfTodosJornais() {
-      if (!JORNAIS.length) {
-        alert('Nenhum jornal disponível para gerar PDF.');
-        return;
-      }
-
-      const html = JORNAIS.map(jornal => montarJornalHtml(jornal)).join('');
-      const wrapper = criarContainerPdf(html);
-
-      try {
-        await exportarElementoParaPdf(wrapper, 'jornais-completos.pdf');
-      } catch (e) {
-        console.error(e);
-        alert('Não foi possível gerar o PDF com todos os jornais.');
-      } finally {
-        wrapper.remove();
-      }
-    }
-    function alterarCarrinho(codigo, delta) {
-      const item = produtos.find(p => codigoDo(p) === codigo);
-      if (!item) return;
-      const atual = carrinho.find(p => codigoDo(p) === codigo);
-      if (!atual && delta < 0) return;
-
-      if (!atual) carrinho.push({ ...item, quantidade: 1 });
-      else {
-        atual.quantidade += delta;
-        if (atual.quantidade <= 0) carrinho = carrinho.filter(p => codigoDo(p) !== codigo);
-      }
-      renderCarrinho();
-    }
 
     window.alterarCarrinho = alterarCarrinho;
 
