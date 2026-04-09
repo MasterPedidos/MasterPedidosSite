@@ -1737,27 +1737,42 @@
         if (el.closest('.modelo-2')) {
           el.style.height = '75px';
         } else {
-          el.style.height = '128px';
+          el.style.height = '138px';
         }
         el.style.margin = '0';
         el.style.padding = '0';
       });
-
-
 
       root.querySelectorAll('.journal-item').forEach(el => {
         if (el.closest('.modelo-2')) {
           el.style.minHeight = '140px';
           el.style.gridTemplateRows = '75px auto auto auto auto auto';
         } else {
-          el.style.minHeight = '165px';
-          el.style.gridTemplateRows = '92px auto auto auto auto auto';
+          el.style.minHeight = '178px';
+          el.style.gridTemplateRows = '102px auto auto auto auto auto';
         }
+
+        el.style.padding = '4px';
+        el.style.gap = '2px';
+        el.style.boxSizing = 'border-box';
+        el.style.alignContent = 'start';
+      }); // ← FECHAMENTO QUE FALTAVA
 
       root.querySelectorAll('.journal-card:last-child').forEach(el => {
         el.style.breakAfter = 'auto';
         el.style.pageBreakAfter = 'auto';
       });
+
+
+
+
+
+
+
+
+
+
+
 
       root.querySelectorAll('.journal-items.cols-4').forEach(el => {
         el.style.display = 'grid';
