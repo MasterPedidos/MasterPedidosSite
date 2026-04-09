@@ -1679,6 +1679,9 @@
       }));
     }
 
+    
+
+
     function aplicarLayoutFixoPdf(container, largura = 980) {
       const root = container.classList?.contains('pdf-root')
         ? container
@@ -1737,7 +1740,7 @@
         if (el.closest('.modelo-2')) {
           el.style.height = '75px';
         } else {
-          el.style.height = '150px';
+          el.style.height = '145px';
         }
         el.style.margin = '0';
         el.style.padding = '0';
@@ -1748,8 +1751,8 @@
           el.style.minHeight = '140px';
           el.style.gridTemplateRows = '75px auto auto auto auto auto';
         } else {
-          el.style.minHeight = '198px';
-          el.style.gridTemplateRows = '112px auto auto auto auto auto';
+          el.style.minHeight = '188px';
+          el.style.gridTemplateRows = '108px auto auto auto auto auto';
         }
 
         el.style.padding = '4px';
@@ -1889,7 +1892,8 @@
     }
 
 
-    function criarContainerPdf(html, largura = '980px') {
+
+    function criarContainerPdf(html, largura = '730px') {
       const wrapper = document.createElement('div');
       wrapper.className = 'pdf-root-wrapper';
       wrapper.style.position = 'absolute';
@@ -1952,6 +1956,7 @@
       aplicarLayoutFixoPdf(wrapper, parseInt(largura, 10) || 980);
       return wrapper;
     }
+
 
 
     async function transformarImagensEmDataURL(container) {
