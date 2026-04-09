@@ -553,6 +553,10 @@
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
+    .journal-items.cols-4 {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
     .journal-items.cols-5 {
       grid-template-columns: repeat(5, minmax(0, 1fr));
     }
@@ -944,6 +948,7 @@
       text-align: center;
     }
 
+
     @media (max-width: 1180px) {
       .header-inner,
       .pedido-layout,
@@ -953,6 +958,10 @@
 
       .busca-row {
         grid-template-columns: 1fr 180px 130px;
+      }
+
+      .journal-items.cols-4 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
       }
 
       .journal-items.cols-5 {
@@ -976,6 +985,10 @@
         align-items: flex-start;
       }
 
+      .journal-items.cols-4 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
       .journal-items.cols-5 {
         grid-template-columns: repeat(3, minmax(0, 1fr));
       }
@@ -994,6 +1007,7 @@
       }
 
       .journal-items.cols-3,
+      .journal-items.cols-4,
       .journal-items.cols-5 {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
@@ -1014,6 +1028,7 @@
         font-size: 18px;
       }
     }
+
   </style>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -1829,14 +1844,18 @@
       wrapper.style.background = '#ffffff';
       wrapper.style.pointerEvents = 'none';
       wrapper.style.zIndex = '0';
+
       wrapper.innerHTML = `
         <style>
           .pdf-root { width:${largura} !important; min-width:${largura} !important; max-width:${largura} !important; background:#fff !important; }
           .pdf-root .journal-grid { display:grid !important; grid-template-columns:1fr !important; width:${largura} !important; justify-items:center !important; }
           .pdf-root .journal-card { width:${largura} !important; max-width:${largura} !important; }
           .pdf-root .journal-page { width:${largura} !important; min-width:${largura} !important; max-width:${largura} !important; margin:0 auto !important; }
+
           .pdf-root .journal-items.cols-3 { display:grid !important; grid-template-columns:repeat(3, minmax(0, 1fr)) !important; gap:0 !important; }
+          .pdf-root .journal-items.cols-4 { display:grid !important; grid-template-columns:repeat(4, minmax(0, 1fr)) !important; gap:0 !important; }
           .pdf-root .journal-items.cols-5 { display:grid !important; grid-template-columns:repeat(5, minmax(0, 1fr)) !important; gap:0 !important; }
+
           .pdf-root .journal-item { width:auto !important; min-width:0 !important; min-height:300px !important; padding:6px !important; gap:4px !important; }
           .pdf-root .modelo-1 .journal-item { min-height:300px !important; grid-template-rows:140px auto auto auto auto auto !important; }
           .pdf-root .modelo-2 .journal-item { min-height:255px !important; grid-template-rows:110px auto auto auto auto auto !important; }
@@ -1848,6 +1867,7 @@
           .pdf-root .journal-head-copy h3 { font-size:30px !important; }
         </style>
         <div class="pdf-root">${html}</div>`;
+
       document.body.appendChild(wrapper);
       aplicarLayoutFixoPdf(wrapper, parseInt(largura, 10) || 980);
       return wrapper;
