@@ -1849,7 +1849,7 @@
         </style>
         <div class="pdf-root">${html}</div>`;
       document.body.appendChild(wrapper);
-      aplicarLayoutFixoPdf(wrapper, parseInt(largura, 10) || 600);
+      aplicarLayoutFixoPdf(wrapper, parseInt(largura, 10) || 500);
       return wrapper;
     }
 
@@ -2181,7 +2181,7 @@
       wrapper.style.background = '#ffffff';
       wrapper.style.padding = '0';
       wrapper.style.margin = '0';
-      wrapper.style.width = `${paginaAtual.offsetWidth || 600}px`;
+      wrapper.style.width = `${paginaAtual.offsetWidth || 500}px`;
 
       const clone = paginaAtual.cloneNode(true);
 
