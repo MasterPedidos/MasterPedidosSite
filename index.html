@@ -1696,24 +1696,13 @@
       root.style.background = '#ffffff';
       root.style.boxSizing = 'border-box';
 
-      root.querySelectorAll('.journal-grid').forEach(el => {
-        el.style.display = 'grid';
-        el.style.gridTemplateColumns = '1fr';
-        el.style.gap = '10px';
-        el.style.justifyContent = 'center';
-        el.style.justifyItems = 'center';
-        el.style.width = `${largura}px`;
-        el.style.margin = '0';
-        el.style.padding = '0';
-      });
-
       root.querySelectorAll('.journal-card').forEach(el => {
         el.style.width = `${largura}px`;
         el.style.maxWidth = `${largura}px`;
         el.style.margin = '0';
         el.style.padding = '0';
-        el.style.breakAfter = 'page';
-        el.style.pageBreakAfter = 'always';
+        el.style.breakInside = 'avoid';
+        el.style.pageBreakInside = 'avoid';
       });
 
       const cards = root.querySelectorAll('.journal-card');
@@ -1771,16 +1760,17 @@
         el.style.alignContent = 'start';
       });
 
-      root.querySelectorAll('.modelo-2').forEach(el => {
-        el.style.transform = 'scale(0.90) translateX(-10px)';
-        el.style.transformOrigin = 'top center';
-        el.style.marginBottom = '-140px';
-      });
-
       root.querySelectorAll('.journal-card:last-child').forEach(el => {
         el.style.breakAfter = 'auto';
         el.style.pageBreakAfter = 'auto';
       });
+
+      root.querySelectorAll('.journal-items.cols-4').forEach(el => {
+        el.style.display = 'grid';
+        el.style.gridTemplateColumns = 'repeat(4, minmax(0, 1fr))';
+        el.style.gap = '0';
+      });
+
 
       root.querySelectorAll('.journal-page-header').forEach(el => {
         if (el.closest('.modelo-2')) {
@@ -1893,10 +1883,11 @@
       });
 
       root.querySelectorAll('.journal-page').forEach(el => {
-        el.style.height = '1090px'; // A4 em px (aprox com scale)
-        el.style.maxHeight = '1122px';
-        el.style.overflow = 'hidden';
+        el.style.height = 'auto';
+        el.style.maxHeight = 'none';
+        el.style.overflow = 'visible';
       });
+
 
       return root;
     }
