@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Master Pedidos - Delivery e Jornal</title>
 
-  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=_A6eW12hLCR3bmDJtMvcr2ktmQbN0x9jzu_DdTaHdsXhaGZi6lTyCKRq1odq6JvdOwpKSrVbzKyEZ4UJ2sLbuJyvwtSrEDDN0KRLX5u3kGBf_dsKFn_De_gFM9JjUwHMAB2qv8PwH8aOn3vbX7-1leHOqS6AY_2FPwryp1eP6WWyyLYnhfOuxE7JcPY07F2pyzW40fSC4ZySOm_w5UD2uvNRn05jOHCFTebEJu0vOq-iyLiGLJK5CzJccPcsl7mcgT4QidY-f4Q6uQ70zn1pyQ" charset="UTF-8"></script><style>
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=Sxe5OySo3FMFRY3AgiNizeaXsILY3EcIalgsOBLwqnZiHSPI3yqJjmXC3VHikGm7kCWDkCqDmvi1UP7agJ8bHummZbRnxYLW2vxcfc26IPvPuWA-GhgiAHv-JsYCoGrPXcA63pi5-_3jlo3dZoBzY4HpP-AU8ltr1C7U_fAJLHnkmA2biacYr8YbSOac9g0WFVM-U1bGAhQoJPBr0wrqrpU_g-9tF33JifnARZ1fS-JCBddLaMIum7Ysh_MTDP8i389EXH5Wq--awrmN1e7GlA" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=_A6eW12hLCR3bmDJtMvcr2ktmQbN0x9jzu_DdTaHdsXhaGZi6lTyCKRq1odq6JvdOwpKSrVbzKyEZ4UJ2sLbuJyvwtSrEDDN0KRLX5u3kGBf_dsKFn_De_gFM9JjUwHMAB2qv8PwH8aOn3vbX7-1leHOqS6AY_2FPwryp1eP6WWyyLYnhfOuxE7JcPY07F2pyzW40fSC4ZySOm_w5UD2uvNRn05jOHCFTebEJu0vOq-iyLiGLJK5CzJccPcsl7mcgT4QidY-f4Q6uQ70zn1pyQ" charset="UTF-8"></script><style>
     :root {
       --bg: #f3f4f6;
       --card: #ffffff;
@@ -431,14 +431,11 @@
     .journal-card {
       width: 100%;
       background: transparent;
-      margin-bottom: 12px;
-      break-after: page;
-      page-break-after: always;
-    }
-
-    .journal-card:last-child {
+      margin: 0;
       break-after: auto;
       page-break-after: auto;
+      break-inside: avoid;
+      page-break-inside: avoid;
     }
 
     .journal-page {
@@ -1802,8 +1799,8 @@
     function criarContainerPdf(html, largura = '600px') {
       const wrapper = document.createElement('div');
       wrapper.className = 'pdf-root-wrapper';
-      wrapper.style.position = 'absolute';
-      wrapper.style.left = '-9999px';
+      wrapper.style.position = 'fixed';
+      wrapper.style.left = '-20000px';
       wrapper.style.top = '0';
       wrapper.style.width = largura;
       wrapper.style.minWidth = largura;
@@ -1812,8 +1809,9 @@
       wrapper.style.margin = '0';
       wrapper.style.background = '#ffffff';
       wrapper.style.pointerEvents = 'none';
-      wrapper.style.zIndex = '0';
+      wrapper.style.zIndex = '-1';
       wrapper.style.boxSizing = 'border-box';
+      wrapper.style.overflow = 'hidden';
 
       wrapper.innerHTML = `
         <div class="pdf-root">${html}</div>
@@ -1824,15 +1822,14 @@
       aplicarLayoutFixoPdf(wrapper, parseInt(largura, 10) || 600);
 
       return wrapper;
-    }    
+    }
 
-
-    async function exportarPdfA4Cortado(elementoOriginal, nomeArquivo = 'jornal.pdf', opcoes = {}) {
+async function exportarPdfA4Cortado(elementoOriginal, nomeArquivo = 'jornal.pdf', opcoes = {}) {
       const {
-        larguraFolha = 700,   // A4 aprox em px
-        alturaFolha = 1100,   // A4 aprox em px
-        escala = 0.70,
-        margem = [5, 5, 5, 5],
+        larguraFolha = 794,
+        alturaFolha = 1123,
+        escala = 0.68,
+        margem = [2, 2, 2, 2],
         removerSeletores = '.journal-page-footer, .journal-item-extra, .journal-info',
         fundo = '#ffffff'
       } = opcoes;
@@ -1842,7 +1839,6 @@
         return;
       }
 
-      // Container externo fixo = área real da folha
       const folha = document.createElement('div');
       folha.style.position = 'fixed';
       folha.style.left = '-20000px';
@@ -1853,7 +1849,7 @@
       folha.style.height = `${alturaFolha}px`;
       folha.style.minHeight = `${alturaFolha}px`;
       folha.style.maxHeight = `${alturaFolha}px`;
-      folha.style.overflow = 'hidden';           // 🔥 corta tudo que passar
+      folha.style.overflow = 'hidden';
       folha.style.background = fundo;
       folha.style.margin = '0';
       folha.style.padding = '0';
@@ -1861,65 +1857,53 @@
       folha.style.pointerEvents = 'none';
       folha.style.zIndex = '-1';
 
-      // Camada interna para receber escala
       const palco = document.createElement('div');
       palco.style.width = `${larguraFolha}px`;
       palco.style.minWidth = `${larguraFolha}px`;
       palco.style.maxWidth = `${larguraFolha}px`;
-      palco.style.height = 'auto';
       palco.style.margin = '0';
       palco.style.padding = '0';
-      palco.style.background = fundo;
       palco.style.boxSizing = 'border-box';
       palco.style.transform = `scale(${escala})`;
       palco.style.transformOrigin = 'top left';
 
-      // Clone do conteúdo
       const clone = elementoOriginal.cloneNode(true);
 
-      // Remove o que costuma sobrar/empurrar altura
       if (removerSeletores) {
         clone.querySelectorAll(removerSeletores).forEach(el => el.remove());
       }
 
-      // Limpeza visual básica
       clone.style.margin = '0';
       clone.style.padding = '0';
       clone.style.boxShadow = 'none';
+      clone.style.border = 'none';
       clone.style.background = fundo;
       clone.style.boxSizing = 'border-box';
+      clone.style.breakAfter = 'auto';
+      clone.style.pageBreakAfter = 'auto';
+      clone.style.width = '1100px';
+      clone.style.minWidth = '1100px';
+      clone.style.maxWidth = '1100px';
 
-      // Faz o clone ocupar a largura "antes" da escala
-      // Ex.: se a folha tem 794 e a escala é 0.96, o clone pode ser um pouco maior
-      const larguraInterna = Math.round(larguraFolha / escala);
-      clone.style.width = `${larguraInterna}px`;
-      clone.style.minWidth = `${larguraInterna}px`;
-      clone.style.maxWidth = `${larguraInterna}px`;
+      clone.querySelectorAll('.journal-card').forEach(el => {
+        el.style.margin = '0';
+        el.style.breakAfter = 'auto';
+        el.style.pageBreakAfter = 'auto';
+        el.style.breakInside = 'avoid';
+        el.style.pageBreakInside = 'avoid';
+      });
 
-      // Blindagem extra contra sobras comuns
       clone.querySelectorAll('*').forEach(el => {
         el.style.boxShadow = 'none';
       });
 
-      // Monta estrutura
       palco.appendChild(clone);
       folha.appendChild(palco);
       document.body.appendChild(folha);
 
       try {
-        // espera imagens carregarem
-        const imagens = Array.from(folha.querySelectorAll('img'));
-        await Promise.all(
-          imagens.map(img => {
-            if (img.complete) return Promise.resolve();
-            return new Promise(resolve => {
-              const fim = () => resolve();
-              img.addEventListener('load', fim, { once: true });
-              img.addEventListener('error', fim, { once: true });
-              setTimeout(fim, 5000);
-            });
-          })
-        );
+        await transformarImagensEmDataURL(folha);
+        await esperarImagens(folha);
 
         await html2pdf().set({
           margin,
@@ -1941,7 +1925,7 @@
             orientation: 'portrait'
           },
           pagebreak: {
-            mode: ['css', 'legacy']
+            mode: ['avoid-all']
           }
         }).from(folha).save();
 
@@ -2000,7 +1984,7 @@
           orientation: 'portrait'
         },
         pagebreak: {
-          mode: ['css', 'legacy']
+          mode: ['avoid-all', 'css', 'legacy']
         }
       };
 
@@ -2053,7 +2037,38 @@
 
       const jornal = JORNAIS[indice];
       const nome = nomeArquivo || `${(jornal.tipo || 'jornal').toLowerCase().replace(/\s+/g, '-')}.pdf`;
-     
+      const paginas = Array.from(document.querySelectorAll('#journalGrid .journal-page'));
+
+      if (!paginas.length) {
+        alert('Nenhuma página do jornal encontrada.');
+        return;
+      }
+
+      const wrapper = document.createElement('div');
+      wrapper.className = 'pdf-root';
+      wrapper.style.width = '794px';
+      wrapper.style.margin = '0';
+      wrapper.style.padding = '0';
+      wrapper.style.background = '#ffffff';
+
+      paginas.forEach((pagina, i) => {
+        const bloco = document.createElement('div');
+        bloco.className = 'journal-card';
+        bloco.style.margin = '0';
+        bloco.style.padding = '0';
+        bloco.style.breakAfter = i < paginas.length - 1 ? 'page' : 'auto';
+        bloco.style.pageBreakAfter = i < paginas.length - 1 ? 'always' : 'auto';
+
+        const clone = pagina.cloneNode(true);
+        clone.querySelectorAll('.journal-page-footer, .journal-item-extra, .journal-info').forEach(el => el.remove());
+        clone.style.margin = '0 auto';
+        clone.style.boxShadow = 'none';
+
+        bloco.appendChild(clone);
+        wrapper.appendChild(bloco);
+      });
+
+      document.body.appendChild(wrapper);
 
       try {
         await exportarElementoParaPdf(wrapper, nome);
@@ -2067,9 +2082,7 @@
 
 
     async function gerarPdfTodosJornais() {
-      const paginas = Array.from(
-        document.querySelectorAll('#journalGrid .journal-page')
-      );
+      const paginas = Array.from(document.querySelectorAll('#journalGrid .journal-page'));
 
       if (!paginas.length) {
         alert('Nenhuma página do jornal encontrada.');
@@ -2077,22 +2090,22 @@
       }
 
       const wrapper = document.createElement('div');
-      wrapper.style.background = '#ffffff';
-      wrapper.style.padding = '0';
+      wrapper.className = 'pdf-root';
+      wrapper.style.width = '794px';
       wrapper.style.margin = '0';
+      wrapper.style.padding = '0';
+      wrapper.style.background = '#ffffff';
 
       paginas.forEach((pagina, i) => {
         const bloco = document.createElement('div');
-        bloco.style.margin = '0 auto';
+        bloco.className = 'journal-card';
+        bloco.style.margin = '0';
         bloco.style.padding = '0';
         bloco.style.breakAfter = i < paginas.length - 1 ? 'page' : 'auto';
         bloco.style.pageBreakAfter = i < paginas.length - 1 ? 'always' : 'auto';
-        bloco.style.width = `${pagina.offsetWidth || 730}px`;
 
         const clone = pagina.cloneNode(true);
-
         clone.querySelectorAll('.journal-page-footer, .journal-item-extra, .journal-info').forEach(el => el.remove());
-
         clone.style.margin = '0 auto';
         clone.style.boxShadow = 'none';
 
@@ -2103,27 +2116,7 @@
       document.body.appendChild(wrapper);
 
       try {
-        await esperarImagens(wrapper);
-
-        await html2pdf().set({
-          margin: [2, 2, 2, 2],
-          filename: 'todos-os-jornais.pdf',
-          image: { type: 'jpeg', quality: 0.98 },
-          html2canvas: {
-            scale: 2,
-            useCORS: true,
-            allowTaint: true,
-            backgroundColor: '#ffffff',
-            scrollX: 0,
-            scrollY: 0
-          },
-          jsPDF: {
-            unit: 'mm',
-            format: 'a4',
-            orientation: 'portrait'
-          },
-          pagebreak: { mode: ['css', 'legacy'] }
-        }).from(wrapper).save();
+        await exportarElementoParaPdf(wrapper, 'todos-os-jornais.pdf');
       } finally {
         wrapper.remove();
       }
@@ -2267,67 +2260,19 @@
     }
 
     async function gerarPDFTela() {
-      const paginas = Array.from(
-        document.querySelectorAll('#journalGrid .journal-page')
-      );
+      const paginaAtual = document.querySelector('#journalGrid .journal-page');
 
-      if (!paginas.length) {
+      if (!paginaAtual) {
         alert('Nenhuma página do jornal encontrada.');
         return;
       }
 
-      const paginaAtual = paginas[0]; // jornal atual renderizado
-      const wrapper = document.createElement('div');
-      wrapper.style.background = '#ffffff';
-      wrapper.style.padding = '0';
-      wrapper.style.margin = '0';
-      wrapper.style.width = `${paginaAtual.offsetWidth || 500}px`;
-
-      const clone = paginaAtual.cloneNode(true);
-
-      clone.querySelectorAll('.journal-page-footer, .journal-item-extra, .journal-info').forEach(el => el.remove());
-
-      clone.style.margin = '0 auto';
-      clone.style.boxShadow = 'none';
-      clone.style.transform = 'scale(0.68)';
-      clone.style.transformOrigin = 'top left';
-
-
-
-
-      clone.querySelectorAll('.journal-page-footer, .journal-item-extra, .journal-info').forEach(el => el.remove());
-
-      clone.style.margin = '0 auto';
-      clone.style.boxShadow = 'none';
-
-      wrapper.appendChild(clone);
-      document.body.appendChild(wrapper);
-
-      try {
-        await esperarImagens(wrapper);
-
-        await html2pdf().set({
-          margin: [2, 2, 2, 2],
-          filename: 'jornal-atual.pdf',
-          image: { type: 'jpeg', quality: 0.98 },
-          html2canvas: {
-            scale: 2,
-            useCORS: true,
-            allowTaint: true,
-            backgroundColor: '#ffffff',
-            scrollX: 0,
-            scrollY: 0
-          },
-          jsPDF: {
-            unit: 'mm',
-            format: 'a4',
-            orientation: 'portrait'
-          },
-          pagebreak: { mode: ['css', 'legacy'] }
-        }).from(wrapper).save();
-      } finally {
-        wrapper.remove();
-      }
+      await exportarPdfA4Cortado(paginaAtual, 'jornal-atual.pdf', {
+        larguraFolha: 794,
+        alturaFolha: 1123,
+        escala: 0.68,
+        margem: [2, 2, 2, 2]
+      });
     }
 
     document.getElementById('btnWhats').addEventListener('click', enviarWhatsApp);
