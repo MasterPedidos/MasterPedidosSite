@@ -1906,7 +1906,7 @@ async function exportarPdfA4Cortado(elementoOriginal, nomeArquivo = 'jornal.pdf'
         await esperarImagens(folha);
 
         await html2pdf().set({
-          margin,
+          margin: [2, 2, 2, 2], // 🔥 força direto, elimina erro
           filename: nomeArquivo,
           image: { type: 'jpeg', quality: 0.98 },
           html2canvas: {
