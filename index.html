@@ -1679,7 +1679,7 @@
       }));
     }
 
-    function aplicarLayoutFixoPdf(container, largura = 900) {
+    function aplicarLayoutFixoPdf(container, largura = 980) {
       const root = container.classList?.contains('pdf-root')
         ? container
         : container.querySelector('.pdf-root');
@@ -1737,7 +1737,7 @@
         if (el.closest('.modelo-2')) {
           el.style.height = '75px';
         } else {
-          el.style.height = '116px';
+          el.style.height = '128px';
         }
         el.style.margin = '0';
         el.style.padding = '0';
@@ -1746,17 +1746,11 @@
       root.querySelectorAll('.journal-item').forEach(el => {
         if (el.closest('.modelo-2')) {
           el.style.minHeight = '140px';
-          el.style.gridTemplateRows = '75px auto auto auto auto auto'; // 👈 AJUSTADO
+          el.style.gridTemplateRows = '75px auto auto auto auto auto';
         } else {
-          el.style.minHeight = '140px';
-          el.style.gridTemplateRows = '80px auto auto auto auto auto';
+          el.style.minHeight = '165px';
+          el.style.gridTemplateRows = '92px auto auto auto auto auto';
         }
-
-        el.style.padding = '4px';
-        el.style.gap = '2px';
-        el.style.boxSizing = 'border-box';
-        el.style.alignContent = 'start';
-      });
 
       root.querySelectorAll('.journal-card:last-child').forEach(el => {
         el.style.breakAfter = 'auto';
@@ -1827,7 +1821,7 @@
       });
 
       root.querySelectorAll('.journal-item-desc').forEach(el => {
-        el.style.fontSize = el.closest('.modelo-2') ? '10px' : '11px';
+        el.style.fontSize = el.closest('.modelo-2') ? '10px' : '12px';
         el.style.lineHeight = '1.1';
         el.style.minHeight = '24px';
         el.style.margin = '0';
@@ -1846,7 +1840,7 @@
       });
 
       root.querySelectorAll('.journal-item-price strong').forEach(el => {
-        el.style.fontSize = el.closest('.modelo-2') ? '16px' : '18px';
+        el.style.fontSize = el.closest('.modelo-2') ? '16px' : '20px';
         el.style.lineHeight = '1';
       });
 
