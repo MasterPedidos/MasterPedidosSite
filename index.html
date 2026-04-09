@@ -1737,46 +1737,12 @@
 
       root.querySelectorAll('.journal-item-image').forEach(el => {
         if (el.closest('.modelo-2')) {
-          el.style.display = 'flex';
-          el.style.alignItems = 'center';
-          el.style.justifyContent = 'center';
           el.style.height = '75px';
-          el.style.minHeight = '75px';
-          el.style.maxHeight = '75px';
-          el.style.padding = '2px';
         } else {
-          el.style.display = 'flex';
-          el.style.alignItems = 'center';
-          el.style.justifyContent = 'center';
           el.style.height = '116px';
-          el.style.minHeight = '116px';
-          el.style.maxHeight = '116px';
-          el.style.padding = '0';
         }
-
         el.style.margin = '0';
-      });
-
-      root.querySelectorAll('.journal-item-image img').forEach(img => {
-        if (img.closest('.modelo-2')) {
-          img.style.width = 'auto';
-          img.style.height = 'auto';
-          img.style.maxWidth = '100%';
-          img.style.maxHeight = '100%';
-          img.style.objectFit = 'contain';
-          img.style.objectPosition = 'center center';
-          img.style.display = 'block';
-          img.style.margin = '0 auto';
-        } else {
-          img.style.width = 'auto';
-          img.style.height = 'auto';
-          img.style.maxWidth = '100%';
-          img.style.maxHeight = '100%';
-          img.style.objectFit = 'contain';
-          img.style.objectPosition = 'center center';
-          img.style.display = 'block';
-          img.style.margin = '0 auto';
-        }
+        el.style.padding = '0';
       });
 
       root.querySelectorAll('.journal-item').forEach(el => {
@@ -1981,34 +1947,8 @@
             min-height:225px !important;
           }
           
-          .pdf-root .journal-item-image {
-            height:140px !important;
-            display:flex !important;
-            align-items:center !important;
-            justify-content:center !important;
-          }
-
-          .pdf-root .modelo-2 .journal-item-image {
-            height:75px !important;
-            min-height:75px !important;
-            max-height:75px !important;
-            display:flex !important;
-            align-items:center !important;
-            justify-content:center !important;
-            padding:2px !important;
-          }
-
-          .pdf-root .journal-item-image img {
-            max-width:100% !important;
-            max-height:100% !important;
-            width:auto !important;
-            height:auto !important;
-            object-fit:contain !important;
-            object-position:center center !important;
-            display:block !important;
-          }
-
-
+          .pdf-root .journal-item-image { height:140px !important; }
+          .pdf-root .modelo-2 .journal-item-image { height:110px !important; }
           .pdf-root .journal-item-price strong { font-size:22px !important; }
           .pdf-root .modelo-2 .journal-item-price strong { font-size:18px !important; }
           .pdf-root .journal-page-header { min-height:74px !important; padding:8px 12px !important; }
