@@ -441,6 +441,22 @@
       page-break-after: auto;
     }
 
+
+    .journal-card {
+      margin-bottom: 0 !important;
+    }
+
+    .journal-page {
+      margin-bottom: 0 !important;
+    }
+
+
+    .journal-body {
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+
     .journal-page {
       width: 100%;
       max-width: 1100px;
@@ -1651,8 +1667,12 @@
       const cards = root.querySelectorAll('.journal-card');
       if (cards.length) {
         const last = cards[cards.length - 1];
-        last.style.breakAfter = 'auto';
-        last.style.pageBreakAfter = 'auto';
+        last.style.breakAfter = 'avoid';
+        last.style.pageBreakAfter = 'avoid';
+        last.style.marginBottom = '0';
+        last.style.paddingBottom = '0';
+        root.style.paddingBottom = '0';
+        root.style.marginBottom = '0';
       }
 
       root.querySelectorAll('.journal-page').forEach(el => {
