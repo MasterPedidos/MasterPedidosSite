@@ -571,8 +571,8 @@
     }
 
     .journal-page.modelo-1 .journal-item {
-      min-height: 340px;
-      grid-template-rows: 160px auto auto auto auto auto;
+      min-height: 220px;
+      grid-template-rows: 110px auto auto auto auto auto;
     }
 
     .journal-page.modelo-2 .journal-item {
@@ -584,7 +584,7 @@
 
     .journal-item-image {
       width: 100%;
-      height: 160px;
+      height: 100px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -657,7 +657,7 @@
     }
 
     .journal-item-price strong {
-      font-size: 26px;
+      font-size: 18px;
       line-height: 1;
       color: #d61f1f;
       letter-spacing: -1px;
@@ -1598,7 +1598,7 @@
       }));
     }
 
-    function aplicarLayoutFixoPdf(container, largura = 730) {
+    function aplicarLayoutFixoPdf(container, largura = 900) {
       const root = container.classList?.contains('pdf-root')
         ? container
         : container.querySelector('.pdf-root');
@@ -1674,8 +1674,8 @@
           el.style.minHeight = '140px';
           el.style.gridTemplateRows = '75px auto auto auto auto auto'; // 👈 AJUSTADO
         } else {
-          el.style.minHeight = '180px';
-          el.style.gridTemplateRows = '116px auto auto auto auto auto';
+          el.style.minHeight = '140px';
+          el.style.gridTemplateRows = '80px auto auto auto auto auto';
         }
 
         el.style.padding = '4px';
