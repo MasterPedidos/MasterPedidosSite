@@ -2185,8 +2185,15 @@
 
       const clone = paginaAtual.cloneNode(true);
 
-      clone.style.width = '600px';
-      clone.style.maxWidth = '600px';
+      clone.querySelectorAll('.journal-page-footer, .journal-item-extra, .journal-info').forEach(el => el.remove());
+
+      clone.style.margin = '0 auto';
+      clone.style.boxShadow = 'none';
+      clone.style.transform = 'scale(0.90)';
+      clone.style.transformOrigin = 'top left';
+
+
+
 
       clone.querySelectorAll('.journal-page-footer, .journal-item-extra, .journal-info').forEach(el => el.remove());
 
