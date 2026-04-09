@@ -1598,7 +1598,7 @@
       }));
     }
 
-    function aplicarLayoutFixoPdf(container, largura = 730) {
+    function aplicarLayoutFixoPdf(container, largura = 650) {
       const root = container.classList?.contains('pdf-root')
         ? container
         : container.querySelector('.pdf-root');
@@ -1815,7 +1815,7 @@
     }
 
 
-    function criarContainerPdf(html, largura = '730px') {
+    function criarContainerPdf(html, largura = '700px') {
       const wrapper = document.createElement('div');
       wrapper.className = 'pdf-root-wrapper';
       wrapper.style.position = 'absolute';
@@ -1849,7 +1849,7 @@
         </style>
         <div class="pdf-root">${html}</div>`;
       document.body.appendChild(wrapper);
-      aplicarLayoutFixoPdf(wrapper, parseInt(largura, 10) || 980);
+      aplicarLayoutFixoPdf(wrapper, parseInt(largura, 10) || 700);
       return wrapper;
     }
 
