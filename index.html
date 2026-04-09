@@ -1266,7 +1266,7 @@
 
     let JORNAIS = [];
     const MODELOS = {
-      1: { itensPorPagina: 12, colunas: 3, titulo: 'Atacadão, o parceirão do Brasil.' },
+      1: { itensPorPagina: 9, colunas: 3, titulo: 'Nossa Loja, parceira da Cidade.' },
       2: { itensPorPagina: 20, colunas: 5, titulo: 'É festa de prêmios no aniversário Atacadão!' }
     };
 
@@ -1483,7 +1483,7 @@
         const meta = item.meta || '';
         const preco = item.preco || '';
         const precoAntigo = item.preco_antigo || '';
-        const extra = item.extra || validade;
+        const extra = '';
 
         return `
           <div class="journal-item">
@@ -1520,9 +1520,6 @@
               </div>
             </div>
 
-            <div class="journal-item-extra">
-              ${extra}
-            </div>
           </div>
         `;
       }).join('');
@@ -1549,12 +1546,8 @@
               </div>
             </div>
 
-            <div class="journal-page-footer">
-              ${validade} • Enquanto durarem os estoques
-            </div>
           </div>
 
-          <div class="journal-info">${ativo.tipo} • Página ${idx + 1} de ${totalPaginas}</div>
         </div>
       `;
     }
@@ -1605,80 +1598,224 @@
       }));
     }
 
-    function aplicarLayoutFixoPdf(container, largura = 600) {
-      const root = container.querySelector('.pdf-root') || container;
+    function aplicarLayoutFixoPdf(container, largura = 730) {
+      const root = container.classList?.contains('pdf-root')
+        ? container
+        : container.querySelector('.pdf-root');
+
+      if (!root) return;
+
       root.style.width = `${largura}px`;
       root.style.minWidth = `${largura}px`;
       root.style.maxWidth = `${largura}px`;
-      root.style.margin = '0';
+      root.style.margin = '0 auto';
       root.style.padding = '0';
       root.style.background = '#ffffff';
+      root.style.boxSizing = 'border-box';
 
       root.querySelectorAll('.journal-grid').forEach(el => {
         el.style.display = 'grid';
         el.style.gridTemplateColumns = '1fr';
-        el.style.gap = '14px';
+        el.style.gap = '10px';
+        el.style.justifyContent = 'center';
         el.style.justifyItems = 'center';
         el.style.width = `${largura}px`;
+        el.style.margin = '0';
+        el.style.padding = '0';
       });
 
       root.querySelectorAll('.journal-card').forEach(el => {
         el.style.width = `${largura}px`;
         el.style.maxWidth = `${largura}px`;
+        el.style.margin = '0';
+        el.style.padding = '0';
+        el.style.breakAfter = 'page';
+        el.style.pageBreakAfter = 'always';
       });
+
+      const cards = root.querySelectorAll('.journal-card');
+      if (cards.length) {
+        const last = cards[cards.length - 1];
+        last.style.breakAfter = 'auto';
+        last.style.pageBreakAfter = 'auto';
+      }
 
       root.querySelectorAll('.journal-page').forEach(el => {
         el.style.width = `${largura}px`;
         el.style.maxWidth = `${largura}px`;
         el.style.margin = '0 auto';
+        el.style.boxSizing = 'border-box';
       });
 
       root.querySelectorAll('.journal-items.cols-3').forEach(el => {
         el.style.display = 'grid';
         el.style.gridTemplateColumns = 'repeat(3, minmax(0, 1fr))';
+        el.style.gap = '0';
       });
 
       root.querySelectorAll('.journal-items.cols-5').forEach(el => {
         el.style.display = 'grid';
         el.style.gridTemplateColumns = 'repeat(5, minmax(0, 1fr))';
+        el.style.gap = '0';
       });
 
       root.querySelectorAll('.journal-item-image').forEach(el => {
         if (el.closest('.modelo-2')) {
-          el.style.height = '110px';
+          el.style.height = '75px';
         } else {
-          el.style.height = '140px';
+          el.style.height = '116px';
         }
+        el.style.margin = '0';
+        el.style.padding = '0';
       });
 
       root.querySelectorAll('.journal-item').forEach(el => {
-        el.style.minHeight = el.closest('.modelo-2') ? '255px' : '300px';
-        el.style.padding = '6px';
-        el.style.gap = '4px';
         if (el.closest('.modelo-2')) {
-          el.style.gridTemplateRows = '110px auto auto auto auto auto';
+          el.style.minHeight = '140px';
+          el.style.gridTemplateRows = '75px auto auto auto auto auto'; // 👈 AJUSTADO
         } else {
-          el.style.gridTemplateRows = '140px auto auto auto auto auto';
+          el.style.minHeight = '180px';
+          el.style.gridTemplateRows = '116px auto auto auto auto auto';
         }
+
+        el.style.padding = '4px';
+        el.style.gap = '2px';
+        el.style.boxSizing = 'border-box';
+        el.style.alignContent = 'start';
+      });
+
+      root.querySelectorAll('.modelo-2').forEach(el => {
+        el.style.transform = 'scale(0.90) translateX(-10px)';
+        el.style.transformOrigin = 'top center';
+        el.style.marginBottom = '-140px';
+      });
+
+      root.querySelectorAll('.journal-card:last-child').forEach(el => {
+        el.style.breakAfter = 'auto';
+        el.style.pageBreakAfter = 'auto';
       });
 
       root.querySelectorAll('.journal-page-header').forEach(el => {
-        el.style.minHeight = '74px';
-        el.style.padding = '8px 12px';
+        if (el.closest('.modelo-2')) {
+          el.style.minHeight = '42px';   // 👈 diminui bastante
+          el.style.padding = '4px 8px';
+        } else {
+          el.style.minHeight = '62px';
+          el.style.padding = '6px 10px';
+        }
+
+        el.style.margin = '0';
+        el.style.boxSizing = 'border-box';
       });
 
       root.querySelectorAll('.journal-head-copy h3').forEach(el => {
-        el.style.fontSize = '30px';
+        if (el.closest('.modelo-2')) {
+          el.style.fontSize = '18px';
+          el.style.lineHeight = '1';
+        } else {
+          el.style.fontSize = '26px';
+          el.style.lineHeight = '0.95';
+        }
+
+        el.style.margin = '0';
+      });
+
+      root.querySelectorAll('.journal-head-copy p').forEach(el => {
+        if (el.closest('.modelo-2')) {
+          el.style.fontSize = '8px';
+          el.style.margin = '2px 0 0';
+        } else {
+          el.style.fontSize = '10px';
+          el.style.margin = '4px 0 0';
+        }
+      });
+
+      root.querySelectorAll('.journal-mini').forEach(el => {
+        el.style.fontSize = '9px';
+        el.style.padding = '4px 8px';
+        el.style.marginBottom = '4px';
+      });
+
+      root.querySelectorAll('.journal-brand').forEach(el => {
+        if (el.closest('.modelo-2')) {
+          el.style.width = '65px';
+          el.style.minWidth = '65px';
+          el.style.height = '38px';
+        } else {
+          el.style.width = '82px';
+          el.style.minWidth = '82px';
+          el.style.height = '54px';
+        }
+      });
+
+      root.querySelectorAll('.journal-brand strong').forEach(el => {
+        el.style.fontSize = '20px';
+      });
+
+      root.querySelectorAll('.journal-item-desc').forEach(el => {
+        el.style.fontSize = el.closest('.modelo-2') ? '10px' : '11px';
+        el.style.lineHeight = '1.1';
+        el.style.minHeight = '24px';
+        el.style.margin = '0';
+      });
+
+      root.querySelectorAll('.journal-item-meta').forEach(el => {
+        el.style.fontSize = '9px';
+        el.style.minHeight = '10px';
+        el.style.margin = '0';
+      });
+
+      root.querySelectorAll('.journal-item-price-box').forEach(el => {
+        el.style.padding = '4px 6px';
+        el.style.gap = '1px';
+        el.style.marginTop = '0';
       });
 
       root.querySelectorAll('.journal-item-price strong').forEach(el => {
-        el.style.fontSize = el.closest('.modelo-2') ? '18px' : '22px';
+        el.style.fontSize = el.closest('.modelo-2') ? '16px' : '18px';
+        el.style.lineHeight = '1';
+      });
+
+      root.querySelectorAll('.journal-item-price small').forEach(el => {
+        el.style.fontSize = '9px';
+      });
+
+      root.querySelectorAll('.journal-item-cod').forEach(el => {
+        el.style.fontSize = '9px';
+        el.style.margin = '0';
+      });
+
+      root.querySelectorAll('.journal-item-extra').forEach(el => {
+        el.style.display = 'none';
+        el.style.height = '0';
+        el.style.minHeight = '0';
+        el.style.padding = '0';
+        el.style.margin = '0';
+        el.style.overflow = 'hidden';
+        el.style.fontSize = '0';
+      });
+
+      root.querySelectorAll('.journal-page-footer').forEach(el => {
+        el.style.padding = '6px 10px';
+        el.style.fontSize = '9px';
+        el.style.margin = '0';
+      });
+
+      root.querySelectorAll('.journal-info').forEach(el => {
+        el.style.display = 'none';
+      });
+
+      root.querySelectorAll('.journal-page').forEach(el => {
+        el.style.height = '1090px'; // A4 em px (aprox com scale)
+        el.style.maxHeight = '1122px';
+        el.style.overflow = 'hidden';
       });
 
       return root;
     }
 
-    function criarContainerPdf(html, largura = '600px') {
+
+    function criarContainerPdf(html, largura = '730px') {
       const wrapper = document.createElement('div');
       wrapper.className = 'pdf-root-wrapper';
       wrapper.style.position = 'absolute';
@@ -1746,7 +1883,7 @@
       await esperarImagens(alvo);
 
       const opt = {
-        margin: [4, 4, 4, 4],
+        margin: [8, 2, 0, 2],
         filename: nomeArquivo,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: {
