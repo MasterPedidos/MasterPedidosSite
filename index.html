@@ -1679,6 +1679,8 @@
       }));
     }
 
+
+
     function aplicarLayoutFixoPdf(container, largura = 900) {
       const root = container.classList?.contains('pdf-root')
         ? container
@@ -1694,13 +1696,24 @@
       root.style.background = '#ffffff';
       root.style.boxSizing = 'border-box';
 
+      root.querySelectorAll('.journal-grid').forEach(el => {
+        el.style.display = 'grid';
+        el.style.gridTemplateColumns = '1fr';
+        el.style.gap = '10px';
+        el.style.justifyContent = 'center';
+        el.style.justifyItems = 'center';
+        el.style.width = `${largura}px`;
+        el.style.margin = '0';
+        el.style.padding = '0';
+      });
+
       root.querySelectorAll('.journal-card').forEach(el => {
         el.style.width = `${largura}px`;
         el.style.maxWidth = `${largura}px`;
         el.style.margin = '0';
         el.style.padding = '0';
-        el.style.breakInside = 'avoid';
-        el.style.pageBreakInside = 'avoid';
+        el.style.breakAfter = 'page';
+        el.style.pageBreakAfter = 'always';
       });
 
       const cards = root.querySelectorAll('.journal-card');
@@ -1737,43 +1750,36 @@
         if (el.closest('.modelo-2')) {
           el.style.height = '75px';
         } else {
-          el.style.height = '142px';
+          el.style.height = '116px';
         }
         el.style.margin = '0';
         el.style.padding = '0';
       });
 
-
       root.querySelectorAll('.journal-item').forEach(el => {
         if (el.closest('.modelo-2')) {
           el.style.minHeight = '140px';
-          el.style.gridTemplateRows = '75px auto auto auto auto auto';
+          el.style.gridTemplateRows = '75px auto auto auto auto auto'; // 👈 AJUSTADO
         } else {
-          el.style.minHeight = '182px';
-          el.style.gridTemplateRows = '106px auto auto auto auto auto';
+          el.style.minHeight = '140px';
+          el.style.gridTemplateRows = '80px auto auto auto auto auto';
         }
 
         el.style.padding = '4px';
         el.style.gap = '2px';
         el.style.boxSizing = 'border-box';
         el.style.alignContent = 'start';
-      }); // ← FECHAMENTO QUE FALTAVA
+      });
+
+      root.querySelectorAll('.modelo-2').forEach(el => {
+        el.style.transform = 'scale(0.90) translateX(-10px)';
+        el.style.transformOrigin = 'top center';
+        el.style.marginBottom = '-140px';
+      });
 
       root.querySelectorAll('.journal-card:last-child').forEach(el => {
         el.style.breakAfter = 'auto';
         el.style.pageBreakAfter = 'auto';
-      });
-
-
-      root.querySelectorAll('.journal-card:last-child').forEach(el => {
-        el.style.breakAfter = 'auto';
-        el.style.pageBreakAfter = 'auto';
-      });
-
-      root.querySelectorAll('.journal-items.cols-4').forEach(el => {
-        el.style.display = 'grid';
-        el.style.gridTemplateColumns = 'repeat(4, minmax(0, 1fr))';
-        el.style.gap = '0';
       });
 
       root.querySelectorAll('.journal-page-header').forEach(el => {
@@ -1887,9 +1893,9 @@
       });
 
       root.querySelectorAll('.journal-page').forEach(el => {
-        el.style.height = 'auto';
-        el.style.maxHeight = 'none';
-        el.style.overflow = 'visible';
+        el.style.height = '1090px'; // A4 em px (aprox com scale)
+        el.style.maxHeight = '1122px';
+        el.style.overflow = 'hidden';
       });
 
       return root;
@@ -1913,38 +1919,24 @@
 
       wrapper.innerHTML = `
         <style>
-          .pdf-root {
-            width:${largura} !important;
-            min-width:${largura} !important;
-            max-width:${largura} !important;
-            background:#fff !important;
-            margin:0 !important;
-            padding:0 !important;
-          }
+          .pdf-root { width:${largura} !important; min-width:${largura} !important; max-width:${largura} !important; background:#fff !important; }
+          .pdf-root .journal-grid { display:grid !important; grid-template-columns:1fr !important; width:${largura} !important; justify-items:center !important; }
+          .pdf-root .journal-card { width:${largura} !important; max-width:${largura} !important; }
+          .pdf-root .journal-page { width:${largura} !important; min-width:${largura} !important; max-width:${largura} !important; margin:0 auto !important; }
 
-          .pdf-root .journal-grid {
-            display:block !important;
-            width:${largura} !important;
-            margin:0 !important;
-            padding:0 !important;
-          }
+          .pdf-root .journal-items.cols-3 { display:grid !important; grid-template-columns:repeat(3, minmax(0, 1fr)) !important; gap:0 !important; }
+          .pdf-root .journal-items.cols-4 { display:grid !important; grid-template-columns:repeat(4, minmax(0, 1fr)) !important; gap:0 !important; }
+          .pdf-root .journal-items.cols-5 { display:grid !important; grid-template-columns:repeat(5, minmax(0, 1fr)) !important; gap:0 !important; }
 
-          .pdf-root .journal-card {
-            width:${largura} !important;
-            max-width:${largura} !important;
-            margin:0 !important;
-            padding:0 !important;
-            background:#fff !important;
-            break-after:auto !important;
-            page-break-after:auto !important;
-          }
-
-          .pdf-root .journal-page {
-            width:${largura} !important;
-            min-width:${largura} !important;
-            max-width:${largura} !important;
-            margin:0 auto !important;
-          }
+          .pdf-root .journal-item { width:auto !important; min-width:0 !important; min-height:300px !important; padding:6px !important; gap:4px !important; }
+          .pdf-root .modelo-1 .journal-item { min-height:300px !important; grid-template-rows:140px auto auto auto auto auto !important; }
+          .pdf-root .modelo-2 .journal-item { min-height:255px !important; grid-template-rows:110px auto auto auto auto auto !important; }
+          .pdf-root .journal-item-image { height:140px !important; }
+          .pdf-root .modelo-2 .journal-item-image { height:110px !important; }
+          .pdf-root .journal-item-price strong { font-size:22px !important; }
+          .pdf-root .modelo-2 .journal-item-price strong { font-size:18px !important; }
+          .pdf-root .journal-page-header { min-height:74px !important; padding:8px 12px !important; }
+          .pdf-root .journal-head-copy h3 { font-size:30px !important; }
         </style>
         <div class="pdf-root">${html}</div>`;
 
@@ -1952,6 +1944,7 @@
       aplicarLayoutFixoPdf(wrapper, parseInt(largura, 10) || 980);
       return wrapper;
     }
+
 
     async function transformarImagensEmDataURL(container) {
       const imagens = Array.from(container.querySelectorAll('img'));
