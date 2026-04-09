@@ -733,6 +733,43 @@
       background: transparent;
     }
 
+    .journal-footer-banner {
+      width: 100%;
+      border-top: 1px solid #cfa68e;
+      background: linear-gradient(90deg, #178236 0%, #0f7a2d 100%);
+      color: #fff;
+      padding: 10px 14px;
+    }
+
+    .journal-footer-banner-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .journal-footer-left,
+    .journal-footer-right {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .journal-footer-left strong,
+    .journal-footer-right strong {
+      font-size: 12px;
+      font-weight: 900;
+      line-height: 1.1;
+    }
+
+    .journal-footer-left span,
+    .journal-footer-right span {
+      font-size: 10px;
+      font-weight: 700;
+      line-height: 1.1;
+      opacity: 0.96;
+    }
+
     .pedido-layout {
       display: grid;
       grid-template-columns: 1fr 420px;
@@ -1574,6 +1611,19 @@
             <div class="journal-body">
               <div class="journal-items cols-${conf.colunas}">
                 ${itensHtml}
+              </div>
+
+              <div class="journal-footer-banner">
+                <div class="journal-footer-banner-inner">
+                  <div class="journal-footer-left">
+                    <strong>OFERTAS VÁLIDAS ENQUANTO DURAREM OS ESTOQUES</strong>
+                    <span>Preços sujeitos a alteração sem aviso prévio</span>
+                  </div>
+                  <div class="journal-footer-right">
+                    <strong>MASTER PEDIDOS</strong>
+                    <span>Retire na loja • Faça seu pedido pelo WhatsApp</span>
+                  </div>
+                </div>
               </div>
             </div>
 
