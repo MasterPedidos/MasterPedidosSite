@@ -1840,9 +1840,15 @@ async function exportarPdfA4Cortado(elementoOriginal, nomeArquivo = 'jornal.pdf'
       }
 
       const folha = document.createElement('div');
+      
+
       folha.style.position = 'fixed';
-      folha.style.left = '-20000px';
+      folha.style.left = '0';
       folha.style.top = '0';
+      folha.style.opacity = '0';
+      folha.style.visibility = 'hidden';
+
+
       folha.style.width = `${larguraFolha}px`;
       folha.style.minWidth = `${larguraFolha}px`;
       folha.style.maxWidth = `${larguraFolha}px`;
