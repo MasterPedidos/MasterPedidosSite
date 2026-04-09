@@ -1694,24 +1694,13 @@
       root.style.background = '#ffffff';
       root.style.boxSizing = 'border-box';
 
-      root.querySelectorAll('.journal-grid').forEach(el => {
-        el.style.display = 'grid';
-        el.style.gridTemplateColumns = '1fr';
-        el.style.gap = '10px';
-        el.style.justifyContent = 'center';
-        el.style.justifyItems = 'center';
-        el.style.width = `${largura}px`;
-        el.style.margin = '0';
-        el.style.padding = '0';
-      });
-
       root.querySelectorAll('.journal-card').forEach(el => {
         el.style.width = `${largura}px`;
         el.style.maxWidth = `${largura}px`;
         el.style.margin = '0';
         el.style.padding = '0';
-        el.style.breakAfter = 'page';
-        el.style.pageBreakAfter = 'always';
+        el.style.breakInside = 'avoid';
+        el.style.pageBreakInside = 'avoid';
       });
 
       const cards = root.querySelectorAll('.journal-card');
@@ -1769,15 +1758,15 @@
         el.style.alignContent = 'start';
       });
 
-      root.querySelectorAll('.modelo-2').forEach(el => {
-        el.style.transform = 'scale(0.90) translateX(-10px)';
-        el.style.transformOrigin = 'top center';
-        el.style.marginBottom = '-140px';
-      });
-
       root.querySelectorAll('.journal-card:last-child').forEach(el => {
         el.style.breakAfter = 'auto';
         el.style.pageBreakAfter = 'auto';
+      });
+
+      root.querySelectorAll('.journal-items.cols-4').forEach(el => {
+        el.style.display = 'grid';
+        el.style.gridTemplateColumns = 'repeat(4, minmax(0, 1fr))';
+        el.style.gap = '0';
       });
 
       root.querySelectorAll('.journal-page-header').forEach(el => {
@@ -1981,37 +1970,13 @@
     }
 
     async function exportarElementoParaPdf(element, nomeArquivo) {
-      const alvoOriginal = element.querySelector('.pdf-root') || element;
-      const paginas = Array.from(alvoOriginal.querySelectorAll('.journal-page'));
+      const alvo = element.querySelector('.pdf-root') || element;
 
-      if (!paginas.length) {
-        throw new Error('Nenhuma página do jornal encontrada para exportação.');
-      }
-
-      const temp = document.createElement('div');
-      temp.style.position = 'absolute';
-      temp.style.left = '-9999px';
-      temp.style.top = '0';
-      temp.style.background = '#fff';
-      temp.style.margin = '0';
-      temp.style.padding = '0';
-      temp.style.display = 'block';
-
-      paginas.forEach((pagina, i) => {
-        const clone = pagina.cloneNode(true);
-        clone.style.margin = '0';
-        clone.style.pageBreakAfter = i < paginas.length - 1 ? 'always' : 'auto';
-        clone.style.breakAfter = i < paginas.length - 1 ? 'page' : 'auto';
-        temp.appendChild(clone);
-      });
-
-      document.body.appendChild(temp);
-
-      await transformarImagensEmDataURL(temp);
-      await esperarImagens(temp);
+      await transformarImagensEmDataURL(alvo);
+      await esperarImagens(alvo);
 
       const opt = {
-        margin: [0, 0, 0, 0],
+        margin: [8, 2, 0, 2],
         filename: nomeArquivo,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: {
@@ -2032,11 +1997,7 @@
         }
       };
 
-      try {
-        await html2pdf().set(opt).from(temp).save();
-      } finally {
-        temp.remove();
-      }
+      await html2pdf().set(opt).from(alvo).save();
     }
 
     async function carregarImagemComoDataURL(url) {
