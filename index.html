@@ -2272,14 +2272,68 @@
         return;
       }
 
-      await exportarPdfA4Cortado(paginaAtual, 'jornal-atual.pdf', {
-        larguraFolha: 794,
-        alturaFolha: 1123,
-        escala: 0.68,
-        margem: [2, 2, 2, 2]
-      });
+      const wrapper = document.createElement('div');
+      wrapper.style.background = '#ffffff';
+      wrapper.style.padding = '0';
+      wrapper.style.margin = '0';
+      wrapper.style.width = '794px';
+      wrapper.style.minWidth = '794px';
+      wrapper.style.maxWidth = '794px';
+      wrapper.style.boxSizing = 'border-box';
+
+      const clone = paginaAtual.cloneNode(true);
+
+      clone.querySelectorAll('.journal-page-footer, .journal-item-extra, .journal-info').forEach(el => el.remove());
+
+      clone.style.margin = '0 auto';
+      clone.style.padding = '0';
+      clone.style.boxShadow = 'none';
+      clone.style.border = 'none';
+      clone.style.background = '#ffffff';
+      clone.style.width = '1100px';
+      clone.style.minWidth = '1100px';
+      clone.style.maxWidth = '1100px';
+      clone.style.transform = 'scale(0.68)';
+      clone.style.transformOrigin = 'top left';
+
+      wrapper.appendChild(clone);
+      document.body.appendChild(wrapper);
+
+      try {
+        await transformarImagensEmDataURL(wrapper);
+        await esperarImagens(wrapper);
+
+        await html2pdf().set({
+          margin: [2, 2, 2, 2],
+          filename: 'jornal-atual.pdf',
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: {
+            scale: 2,
+            useCORS: true,
+            allowTaint: true,
+            backgroundColor: '#ffffff',
+            scrollX: 0,
+            scrollY: 0
+          },
+          jsPDF: {
+            unit: 'mm',
+            format: 'a4',
+            orientation: 'portrait'
+          },
+          pagebreak: {
+            mode: ['avoid-all', 'css', 'legacy']
+          }
+        }).from(wrapper).save();
+
+      } catch (erro) {
+        console.error('Erro ao gerar PDF:', erro);
+        alert('Erro ao gerar PDF. Veja o console.');
+      } finally {
+        wrapper.remove();
+      }
     }
 
+    
     document.getElementById('btnWhats').addEventListener('click', enviarWhatsApp);
     document.getElementById('scrollPedido').addEventListener('click', () => document.getElementById('pedidoSection').scrollIntoView({ behavior: 'smooth' }));
     document.getElementById('cartBtn').addEventListener('click', () => document.getElementById('pedidoSection').scrollIntoView({ behavior: 'smooth' }));
