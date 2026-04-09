@@ -1749,8 +1749,8 @@
         if (el.closest('.modelo-2')) {
           el.style.display = 'flex';
           el.style.flexDirection = 'column';
-          el.style.minHeight = '140px';
-          el.style.height = '100%';
+          el.style.minHeight = '128px';
+          el.style.height = 'auto';
           el.style.padding = '4px';
           el.style.gap = '2px';
         } else {
@@ -1853,7 +1853,7 @@
       root.querySelectorAll('.journal-item-price-box').forEach(el => {
         el.style.padding = '3px 5px';
         el.style.gap = '0';
-        el.style.marginTop = 'auto';
+        el.style.marginTop = '0';
       });
 
       root.querySelectorAll('.journal-item-price strong').forEach(el => {
@@ -1944,7 +1944,7 @@
           .pdf-root .modelo-2 .journal-item {
             display:flex !important;
             flex-direction:column !important;
-            min-height:255px !important;
+            min-height:225px !important;
           }
           
           .pdf-root .journal-item-image { height:140px !important; }
