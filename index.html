@@ -1679,10 +1679,7 @@
       }));
     }
 
-    
-
-
-    function aplicarLayoutFixoPdf(container, largura = 980) {
+    function aplicarLayoutFixoPdf(container, largura = 900) {
       const root = container.classList?.contains('pdf-root')
         ? container
         : container.querySelector('.pdf-root');
@@ -1740,26 +1737,33 @@
         if (el.closest('.modelo-2')) {
           el.style.height = '75px';
         } else {
-          el.style.height = '145px';
+          el.style.height = '116px';
         }
         el.style.margin = '0';
         el.style.padding = '0';
       });
+
 
       root.querySelectorAll('.journal-item').forEach(el => {
         if (el.closest('.modelo-2')) {
           el.style.minHeight = '140px';
           el.style.gridTemplateRows = '75px auto auto auto auto auto';
         } else {
-          el.style.minHeight = '188px';
-          el.style.gridTemplateRows = '108px auto auto auto auto auto';
+          el.style.minHeight = '178px';
+          el.style.gridTemplateRows = '102px auto auto auto auto auto';
         }
 
         el.style.padding = '4px';
         el.style.gap = '2px';
         el.style.boxSizing = 'border-box';
         el.style.alignContent = 'start';
+      }); // ← FECHAMENTO QUE FALTAVA
+
+      root.querySelectorAll('.journal-card:last-child').forEach(el => {
+        el.style.breakAfter = 'auto';
+        el.style.pageBreakAfter = 'auto';
       });
+
 
       root.querySelectorAll('.journal-card:last-child').forEach(el => {
         el.style.breakAfter = 'auto';
@@ -1774,7 +1778,7 @@
 
       root.querySelectorAll('.journal-page-header').forEach(el => {
         if (el.closest('.modelo-2')) {
-          el.style.minHeight = '42px';
+          el.style.minHeight = '42px';   // 👈 diminui bastante
           el.style.padding = '4px 8px';
         } else {
           el.style.minHeight = '62px';
@@ -1830,7 +1834,7 @@
       });
 
       root.querySelectorAll('.journal-item-desc').forEach(el => {
-        el.style.fontSize = el.closest('.modelo-2') ? '10px' : '12px';
+        el.style.fontSize = el.closest('.modelo-2') ? '10px' : '11px';
         el.style.lineHeight = '1.1';
         el.style.minHeight = '24px';
         el.style.margin = '0';
@@ -1849,7 +1853,7 @@
       });
 
       root.querySelectorAll('.journal-item-price strong').forEach(el => {
-        el.style.fontSize = el.closest('.modelo-2') ? '16px' : '20px';
+        el.style.fontSize = el.closest('.modelo-2') ? '16px' : '18px';
         el.style.lineHeight = '1';
       });
 
@@ -1890,7 +1894,6 @@
 
       return root;
     }
-
 
 
     function criarContainerPdf(html, largura = '730px') {
@@ -1942,13 +1945,6 @@
             max-width:${largura} !important;
             margin:0 auto !important;
           }
-
-          .pdf-root .journal-items.cols-4 {
-            display:grid !important;
-            grid-template-columns:repeat(4, minmax(0, 1fr)) !important;
-            gap:0 !important;
-          }
-
         </style>
         <div class="pdf-root">${html}</div>`;
 
@@ -1956,8 +1952,6 @@
       aplicarLayoutFixoPdf(wrapper, parseInt(largura, 10) || 980);
       return wrapper;
     }
-
-
 
     async function transformarImagensEmDataURL(container) {
       const imagens = Array.from(container.querySelectorAll('img'));
@@ -1981,7 +1975,6 @@
         }
       }));
     }
-   
 
     async function exportarElementoParaPdf(element, nomeArquivo) {
       const alvo = element.querySelector('.pdf-root') || element;
@@ -2013,7 +2006,6 @@
 
       await html2pdf().set(opt).from(alvo).save();
     }
-
 
     async function carregarImagemComoDataURL(url) {
 
