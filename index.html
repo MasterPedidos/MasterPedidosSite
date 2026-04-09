@@ -1815,7 +1815,7 @@
     }
 
 
-    function criarContainerPdf(html, largura = '700px') {
+    function criarContainerPdf(html, largura = '600px') {
       const wrapper = document.createElement('div');
       wrapper.className = 'pdf-root-wrapper';
       wrapper.style.position = 'absolute';
@@ -1849,7 +1849,7 @@
         </style>
         <div class="pdf-root">${html}</div>`;
       document.body.appendChild(wrapper);
-      aplicarLayoutFixoPdf(wrapper, parseInt(largura, 10) || 700);
+      aplicarLayoutFixoPdf(wrapper, parseInt(largura, 10) || 600);
       return wrapper;
     }
 
