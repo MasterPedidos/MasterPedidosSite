@@ -1483,7 +1483,7 @@
         const meta = item.meta || '';
         const preco = item.preco || '';
         const precoAntigo = item.preco_antigo || '';
-        const extra = '';
+        const extra = item.extra || validade;
 
         return `
           <div class="journal-item">
@@ -1520,6 +1520,9 @@
               </div>
             </div>
 
+            <div class="journal-item-extra">
+              ${extra}
+            </div>
           </div>
         `;
       }).join('');
@@ -1546,8 +1549,12 @@
               </div>
             </div>
 
+            <div class="journal-page-footer">
+              ${validade} • Enquanto durarem os estoques
+            </div>
           </div>
 
+          <div class="journal-info">${ativo.tipo} • Página ${idx + 1} de ${totalPaginas}</div>
         </div>
       `;
     }
@@ -1627,7 +1634,7 @@
       root.querySelectorAll('.journal-card').forEach(el => {
         el.style.width = `${largura}px`;
         el.style.maxWidth = `${largura}px`;
-        el.style.margin = '0';
+        el.style.margin = '0 0 8px 0';
         el.style.padding = '0';
         el.style.breakAfter = 'page';
         el.style.pageBreakAfter = 'always';
@@ -1786,13 +1793,9 @@
       });
 
       root.querySelectorAll('.journal-item-extra').forEach(el => {
-        el.style.display = 'none';
-        el.style.height = '0';
-        el.style.minHeight = '0';
-        el.style.padding = '0';
+        el.style.fontSize = '8px';
+        el.style.minHeight = '10px';
         el.style.margin = '0';
-        el.style.overflow = 'hidden';
-        el.style.fontSize = '0';
       });
 
       root.querySelectorAll('.journal-page-footer').forEach(el => {
@@ -1802,13 +1805,9 @@
       });
 
       root.querySelectorAll('.journal-info').forEach(el => {
-        el.style.display = 'none';
-      });
-
-      root.querySelectorAll('.journal-page').forEach(el => {
-        el.style.height = '1090px'; // A4 em px (aprox com scale)
-        el.style.maxHeight = '1122px';
-        el.style.overflow = 'hidden';
+        el.style.fontSize = '10px';
+        el.style.padding = '4px 0 0';
+        el.style.margin = '0';
       });
 
       return root;
@@ -1883,7 +1882,7 @@
       await esperarImagens(alvo);
 
       const opt = {
-        margin: [8, 2, 0, 2],
+        margin: [5, 6, 5, 5],
         filename: nomeArquivo,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: {
