@@ -1605,6 +1605,7 @@
 
       if (!root) return;
 
+      // 🔥 largura controlada só aqui
       root.style.width = `${largura}px`;
       root.style.minWidth = `${largura}px`;
       root.style.maxWidth = `${largura}px`;
@@ -1613,40 +1614,45 @@
       root.style.background = '#ffffff';
       root.style.boxSizing = 'border-box';
 
+      // GRID PRINCIPAL
       root.querySelectorAll('.journal-grid').forEach(el => {
         el.style.display = 'grid';
         el.style.gridTemplateColumns = '1fr';
         el.style.gap = '10px';
         el.style.justifyContent = 'center';
         el.style.justifyItems = 'center';
-        el.style.width = `${largura}px`;
+        el.style.width = '100%'; // 🔥 antes travava
         el.style.margin = '0';
         el.style.padding = '0';
       });
 
-      root.querySelectorAll('.journal-card').forEach(el => {
-        el.style.width = `${largura}px`;
-        el.style.maxWidth = `${largura}px`;
-        el.style.margin = '0';
-        el.style.padding = '0';
-        el.style.breakAfter = 'page';
-        el.style.pageBreakAfter = 'always';
-      });
-
+      // CARDS
       const cards = root.querySelectorAll('.journal-card');
-      if (cards.length) {
-        const last = cards[cards.length - 1];
-        last.style.breakAfter = 'auto';
-        last.style.pageBreakAfter = 'auto';
-      }
+      cards.forEach((el, i) => {
+        el.style.width = '100%'; // 🔥 antes travava
+        el.style.maxWidth = '100%';
+        el.style.margin = '0';
+        el.style.padding = '0';
 
+        // controle correto de quebra
+        if (i < cards.length - 1) {
+          el.style.breakAfter = 'page';
+          el.style.pageBreakAfter = 'always';
+        } else {
+          el.style.breakAfter = 'auto';
+          el.style.pageBreakAfter = 'auto';
+        }
+      });
+
+      // PÁGINA
       root.querySelectorAll('.journal-page').forEach(el => {
-        el.style.width = `${largura}px`;
-        el.style.maxWidth = `${largura}px`;
+        el.style.width = '100%'; // 🔥 antes travava
+        el.style.maxWidth = '100%';
         el.style.margin = '0 auto';
         el.style.boxSizing = 'border-box';
       });
 
+      // COLUNAS
       root.querySelectorAll('.journal-items.cols-3').forEach(el => {
         el.style.display = 'grid';
         el.style.gridTemplateColumns = 'repeat(3, minmax(0, 1fr))';
@@ -1659,6 +1665,7 @@
         el.style.gap = '0';
       });
 
+      // IMAGEM
       root.querySelectorAll('.journal-item-image').forEach(el => {
         if (el.closest('.modelo-2')) {
           el.style.height = '75px';
@@ -1669,10 +1676,11 @@
         el.style.padding = '0';
       });
 
+      // ITEM
       root.querySelectorAll('.journal-item').forEach(el => {
         if (el.closest('.modelo-2')) {
           el.style.minHeight = '140px';
-          el.style.gridTemplateRows = '75px auto auto auto auto auto'; // 👈 AJUSTADO
+          el.style.gridTemplateRows = '75px auto auto auto auto auto';
         } else {
           el.style.minHeight = '180px';
           el.style.gridTemplateRows = '116px auto auto auto auto auto';
@@ -1684,20 +1692,10 @@
         el.style.alignContent = 'start';
       });
 
-      root.querySelectorAll('.modelo-2').forEach(el => {
-        el.style.transform = 'scale(0.90) translateX(-10px)';
-        el.style.transformOrigin = 'top center';
-        el.style.marginBottom = '-140px';
-      });
-
-      root.querySelectorAll('.journal-card:last-child').forEach(el => {
-        el.style.breakAfter = 'auto';
-        el.style.pageBreakAfter = 'auto';
-      });
-
+      // HEADER
       root.querySelectorAll('.journal-page-header').forEach(el => {
         if (el.closest('.modelo-2')) {
-          el.style.minHeight = '42px';   // 👈 diminui bastante
+          el.style.minHeight = '42px';
           el.style.padding = '4px 8px';
         } else {
           el.style.minHeight = '62px';
@@ -1708,6 +1706,7 @@
         el.style.boxSizing = 'border-box';
       });
 
+      // TÍTULO
       root.querySelectorAll('.journal-head-copy h3').forEach(el => {
         if (el.closest('.modelo-2')) {
           el.style.fontSize = '18px';
@@ -1720,6 +1719,7 @@
         el.style.margin = '0';
       });
 
+      // SUBTEXTO
       root.querySelectorAll('.journal-head-copy p').forEach(el => {
         if (el.closest('.modelo-2')) {
           el.style.fontSize = '8px';
@@ -1730,12 +1730,14 @@
         }
       });
 
+      // MINI
       root.querySelectorAll('.journal-mini').forEach(el => {
         el.style.fontSize = '9px';
         el.style.padding = '4px 8px';
         el.style.marginBottom = '4px';
       });
 
+      // LOGO
       root.querySelectorAll('.journal-brand').forEach(el => {
         if (el.closest('.modelo-2')) {
           el.style.width = '65px';
@@ -1752,6 +1754,7 @@
         el.style.fontSize = '20px';
       });
 
+      // DESCRIÇÃO
       root.querySelectorAll('.journal-item-desc').forEach(el => {
         el.style.fontSize = el.closest('.modelo-2') ? '10px' : '11px';
         el.style.lineHeight = '1.1';
@@ -1759,12 +1762,14 @@
         el.style.margin = '0';
       });
 
+      // META
       root.querySelectorAll('.journal-item-meta').forEach(el => {
         el.style.fontSize = '9px';
         el.style.minHeight = '10px';
         el.style.margin = '0';
       });
 
+      // PREÇO
       root.querySelectorAll('.journal-item-price-box').forEach(el => {
         el.style.padding = '4px 6px';
         el.style.gap = '1px';
@@ -1780,40 +1785,19 @@
         el.style.fontSize = '9px';
       });
 
+      // CÓDIGO
       root.querySelectorAll('.journal-item-cod').forEach(el => {
         el.style.fontSize = '9px';
         el.style.margin = '0';
       });
 
-      root.querySelectorAll('.journal-item-extra').forEach(el => {
+      // REMOVE SOBRAS
+      root.querySelectorAll('.journal-item-extra, .journal-info').forEach(el => {
         el.style.display = 'none';
-        el.style.height = '0';
-        el.style.minHeight = '0';
-        el.style.padding = '0';
-        el.style.margin = '0';
-        el.style.overflow = 'hidden';
-        el.style.fontSize = '0';
-      });
-
-      root.querySelectorAll('.journal-page-footer').forEach(el => {
-        el.style.padding = '6px 10px';
-        el.style.fontSize = '9px';
-        el.style.margin = '0';
-      });
-
-      root.querySelectorAll('.journal-info').forEach(el => {
-        el.style.display = 'none';
-      });
-
-      root.querySelectorAll('.journal-page').forEach(el => {
-        el.style.height = '700px'; // A4 em px (aprox com scale)
-        el.style.maxHeight = '700px';
-        el.style.overflow = 'hidden';
       });
 
       return root;
     }
-
 
     function criarContainerPdf(html, largura = '600px') {
       const wrapper = document.createElement('div');
@@ -1829,28 +1813,144 @@
       wrapper.style.background = '#ffffff';
       wrapper.style.pointerEvents = 'none';
       wrapper.style.zIndex = '0';
+      wrapper.style.boxSizing = 'border-box';
+
       wrapper.innerHTML = `
-        <style>
-          .pdf-root { width:${largura} !important; min-width:${largura} !important; max-width:${largura} !important; background:#fff !important; }
-          .pdf-root .journal-grid { display:grid !important; grid-template-columns:1fr !important; width:${largura} !important; justify-items:center !important; }
-          .pdf-root .journal-card { width:${largura} !important; max-width:${largura} !important; }
-          .pdf-root .journal-page { width:${largura} !important; min-width:${largura} !important; max-width:${largura} !important; margin:0 auto !important; }
-          .pdf-root .journal-items.cols-3 { display:grid !important; grid-template-columns:repeat(3, minmax(0, 1fr)) !important; gap:0 !important; }
-          .pdf-root .journal-items.cols-5 { display:grid !important; grid-template-columns:repeat(5, minmax(0, 1fr)) !important; gap:0 !important; }
-          .pdf-root .journal-item { width:auto !important; min-width:0 !important; min-height:300px !important; padding:6px !important; gap:4px !important; }
-          .pdf-root .modelo-1 .journal-item { min-height:300px !important; grid-template-rows:140px auto auto auto auto auto !important; }
-          .pdf-root .modelo-2 .journal-item { min-height:255px !important; grid-template-rows:110px auto auto auto auto auto !important; }
-          .pdf-root .journal-item-image { height:140px !important; }
-          .pdf-root .modelo-2 .journal-item-image { height:110px !important; }
-          .pdf-root .journal-item-price strong { font-size:22px !important; }
-          .pdf-root .modelo-2 .journal-item-price strong { font-size:18px !important; }
-          .pdf-root .journal-page-header { min-height:74px !important; padding:8px 12px !important; }
-          .pdf-root .journal-head-copy h3 { font-size:30px !important; }
-        </style>
-        <div class="pdf-root">${html}</div>`;
+        <div class="pdf-root">${html}</div>
+      `;
+
       document.body.appendChild(wrapper);
-      aplicarLayoutFixoPdf(wrapper, parseInt(largura, 10) || 500);
+
+      aplicarLayoutFixoPdf(wrapper, parseInt(largura, 10) || 600);
+
       return wrapper;
+    }    
+
+
+    async function exportarPdfA4Cortado(elementoOriginal, nomeArquivo = 'jornal.pdf', opcoes = {}) {
+      const {
+        larguraFolha = 794,   // A4 aprox em px
+        alturaFolha = 1123,   // A4 aprox em px
+        escala = 0.96,
+        margem = [2, 2, 2, 2],
+        removerSeletores = '.journal-page-footer, .journal-item-extra, .journal-info',
+        fundo = '#ffffff'
+      } = opcoes;
+
+      if (!elementoOriginal) {
+        alert('Elemento para PDF não encontrado.');
+        return;
+      }
+
+      // Container externo fixo = área real da folha
+      const folha = document.createElement('div');
+      folha.style.position = 'fixed';
+      folha.style.left = '-20000px';
+      folha.style.top = '0';
+      folha.style.width = `${larguraFolha}px`;
+      folha.style.minWidth = `${larguraFolha}px`;
+      folha.style.maxWidth = `${larguraFolha}px`;
+      folha.style.height = `${alturaFolha}px`;
+      folha.style.minHeight = `${alturaFolha}px`;
+      folha.style.maxHeight = `${alturaFolha}px`;
+      folha.style.overflow = 'hidden';           // 🔥 corta tudo que passar
+      folha.style.background = fundo;
+      folha.style.margin = '0';
+      folha.style.padding = '0';
+      folha.style.boxSizing = 'border-box';
+      folha.style.pointerEvents = 'none';
+      folha.style.zIndex = '-1';
+
+      // Camada interna para receber escala
+      const palco = document.createElement('div');
+      palco.style.width = `${larguraFolha}px`;
+      palco.style.minWidth = `${larguraFolha}px`;
+      palco.style.maxWidth = `${larguraFolha}px`;
+      palco.style.height = 'auto';
+      palco.style.margin = '0';
+      palco.style.padding = '0';
+      palco.style.background = fundo;
+      palco.style.boxSizing = 'border-box';
+      palco.style.transform = `scale(${escala})`;
+      palco.style.transformOrigin = 'top left';
+
+      // Clone do conteúdo
+      const clone = elementoOriginal.cloneNode(true);
+
+      // Remove o que costuma sobrar/empurrar altura
+      if (removerSeletores) {
+        clone.querySelectorAll(removerSeletores).forEach(el => el.remove());
+      }
+
+      // Limpeza visual básica
+      clone.style.margin = '0';
+      clone.style.padding = '0';
+      clone.style.boxShadow = 'none';
+      clone.style.background = fundo;
+      clone.style.boxSizing = 'border-box';
+
+      // Faz o clone ocupar a largura "antes" da escala
+      // Ex.: se a folha tem 794 e a escala é 0.96, o clone pode ser um pouco maior
+      const larguraInterna = Math.round(larguraFolha / escala);
+      clone.style.width = `${larguraInterna}px`;
+      clone.style.minWidth = `${larguraInterna}px`;
+      clone.style.maxWidth = `${larguraInterna}px`;
+
+      // Blindagem extra contra sobras comuns
+      clone.querySelectorAll('*').forEach(el => {
+        el.style.boxShadow = 'none';
+      });
+
+      // Monta estrutura
+      palco.appendChild(clone);
+      folha.appendChild(palco);
+      document.body.appendChild(folha);
+
+      try {
+        // espera imagens carregarem
+        const imagens = Array.from(folha.querySelectorAll('img'));
+        await Promise.all(
+          imagens.map(img => {
+            if (img.complete) return Promise.resolve();
+            return new Promise(resolve => {
+              const fim = () => resolve();
+              img.addEventListener('load', fim, { once: true });
+              img.addEventListener('error', fim, { once: true });
+              setTimeout(fim, 5000);
+            });
+          })
+        );
+
+        await html2pdf().set({
+          margin,
+          filename: nomeArquivo,
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: {
+            scale: 2,
+            useCORS: true,
+            allowTaint: true,
+            backgroundColor: fundo,
+            scrollX: 0,
+            scrollY: 0,
+            windowWidth: larguraFolha,
+            windowHeight: alturaFolha
+          },
+          jsPDF: {
+            unit: 'mm',
+            format: 'a4',
+            orientation: 'portrait'
+          },
+          pagebreak: {
+            mode: ['css', 'legacy']
+          }
+        }).from(folha).save();
+
+      } catch (erro) {
+        console.error('Erro ao gerar PDF:', erro);
+        alert('Erro ao gerar PDF. Veja o console.');
+      } finally {
+        folha.remove();
+      }
     }
 
     async function transformarImagensEmDataURL(container) {
@@ -1883,7 +1983,7 @@
       await esperarImagens(alvo);
 
       const opt = {
-        margin: [2, 2, 2, 2],
+        margin: [5, 5, 5, 5],
         filename: nomeArquivo,
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: {
@@ -1953,7 +2053,7 @@
 
       const jornal = JORNAIS[indice];
       const nome = nomeArquivo || `${(jornal.tipo || 'jornal').toLowerCase().replace(/\s+/g, '-')}.pdf`;
-      const wrapper = criarContainerPdf(montarJornalHtml(jornal));
+     
 
       try {
         await exportarElementoParaPdf(wrapper, nome);
