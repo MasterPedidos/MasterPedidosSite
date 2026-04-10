@@ -488,13 +488,6 @@
       justify-content: flex-start;
     }
 
-    /* ===== TIPO 1 AZUL ===== */
-
-    .journal-page.modelo-1 .journal-footer-banner {
-      background: linear-gradient(90deg, #166534 0%, #16a34a 100%);
-      border-top: 1px solid #15803d;
-    }
-
     .journal-page.modelo-1 .journal-footer-banner strong {
       color: #fff;
     }
@@ -671,26 +664,20 @@
       text-transform: uppercase;
     }
 
+
     .journal-item-price-box {
       margin-top: auto;
       border-radius: 10px;
-      background: linear-gradient(180deg, #fff7d6 0%, #ffe9a3 100%);
-      border: 1px solid #f2d26b;
+      background: linear-gradient(
+        180deg,
+        var(--jornal-preco-box-1, #fff7d6) 0%,
+        var(--jornal-preco-box-2, #ffe9a3) 100%
+      );
+      border: 1px solid var(--jornal-preco-box-borda, #f2d26b);
       padding: 6px 8px;
       display: grid;
       gap: 2px;
     }
-
-
-
-    /* ===== TIPO 1 VERDE ===== */
-
-    .journal-page.modelo-1 .journal-item-price-box {
-      background: linear-gradient(180deg, #ecfdf5 0%, #d1fae5 100%);
-      border: 1px solid #86efac;
-    }
-
-
 
     .journal-item-price-label {
       font-size: 9px;
@@ -765,11 +752,12 @@
 
     .journal-footer-banner {
       width: 100%;
-      border-top: 1px solid #cfa68e;
-      background: linear-gradient(90deg, #178236 0%, #0f7a2d 100%);
+      border-top: 1px solid var(--jornal-card-borda, #cfa68e);
+      background: linear-gradient(90deg, var(--jornal-rodape-1), var(--jornal-rodape-2));
       color: #fff;
       padding: 10px 14px;
     }
+        
 
     .journal-footer-banner-inner {
       display: flex;
@@ -810,11 +798,6 @@
       color: rgba(255,255,255,0.9);
     }
 
-
-    .journal-page.modelo-2 .journal-footer-banner {
-      background: linear-gradient(90deg, var(--jornal-topo-1), var(--jornal-topo-2));
-      border-top: 1px solid #c77a42; /* combina com o topo */
-    }
 
 
     .pedido-layout {
@@ -1584,67 +1567,133 @@
       };
     }
 
+
     const TEMAS_JORNAL = {
       vermelho: {
-        topo1: '#8b0000',
-        topo2: '#c62828',
-        preco: '#d50000',
-        precoAntigo: '#777',
-        cardBorda: '#e0e0e0',
-        seloFundo: '#ffebee',
-        seloTexto: '#8b0000'
+        topo1: '#b90f16',
+        topo2: '#e02424'
       },
       azul: {
         topo1: '#0d47a1',
-        topo2: '#1976d2',
-        preco: '#1565c0',
-        precoAntigo: '#777',
-        cardBorda: '#d6e4f5',
-        seloFundo: '#e3f2fd',
-        seloTexto: '#0d47a1'
+        topo2: '#1976d2'
       },
       verde: {
         topo1: '#166534',
-        topo2: '#16a34a',
-        preco: '#15803d',
-        precoAntigo: '#777',
-        cardBorda: '#bbf7d0',
-        seloFundo: '#dcfce7',
-        seloTexto: '#166534'
+        topo2: '#16a34a'
+      },
+      roxo: {
+        topo1: '#6d28d9',
+        topo2: '#8b5cf6'
+      },
+      laranja: {
+        topo1: '#ea580c',
+        topo2: '#fb923c'
       },
       marrom: {
         topo1: '#5a2d0c',
-        topo2: '#8d5524',
-        preco: '#a05a2c',
-        precoAntigo: '#777',
-        cardBorda: '#d7ccc8',
-        seloFundo: '#efebe9',
-        seloTexto: '#5a2d0c'
+        topo2: '#8d5524'
+      },
+      amarelo: {
+        topo1: '#d97706',
+        topo2: '#facc15'
       }
     };
 
     function getTemaJornal(nome) {
       const chave = String(nome || 'vermelho').trim().toLowerCase();
       return TEMAS_JORNAL[chave] || TEMAS_JORNAL.vermelho;
-    }    
+    }
+
+
+    function clamp(v, min, max) {
+      return Math.max(min, Math.min(max, v));
+    }
+
+    function hexToRgb(hex) {
+      let h = String(hex || '').replace('#', '').trim();
+      if (h.length === 3) h = h.split('').map(c => c + c).join('');
+      const num = parseInt(h, 16);
+      return {
+        r: (num >> 16) & 255,
+        g: (num >> 8) & 255,
+        b: num & 255
+      };
+    }
+
+    function rgbToHex(r, g, b) {
+      return '#' + [r, g, b]
+        .map(v => clamp(Math.round(v), 0, 255).toString(16).padStart(2, '0'))
+        .join('');
+    }
+
+    function misturarCores(cor1, cor2, peso = 0.5) {
+      const a = hexToRgb(cor1);
+      const b = hexToRgb(cor2);
+      const p = clamp(peso, 0, 1);
+
+      return rgbToHex(
+        a.r + (b.r - a.r) * p,
+        a.g + (b.g - a.g) * p,
+        a.b + (b.b - a.b) * p
+      );
+    }
+
+    function clarear(cor, fator = 0.5) {
+      return misturarCores(cor, '#ffffff', fator);
+    }
+
+    function escurecer(cor, fator = 0.25) {
+      return misturarCores(cor, '#000000', fator);
+    }
+
+    function derivarTemaJornal(temaBase) {
+      const topo1 = temaBase.topo1;
+      const topo2 = temaBase.topo2;
+      const base = misturarCores(topo1, topo2, 0.5);
+
+      return {
+        topo1,
+        topo2,
+
+        preco: escurecer(base, 0.12),
+        precoAntigo: '#777777',
+
+        cardBorda: clarear(base, 0.72),
+        cardFundo: '#ffffff',
+
+        precoBox1: clarear(base, 0.88),
+        precoBox2: clarear(base, 0.78),
+        precoBoxBorda: clarear(base, 0.58),
+
+        seloFundo: clarear(base, 0.84),
+        seloTexto: escurecer(base, 0.28),
+
+        rodape1: escurecer(base, 0.08),
+        rodape2: escurecer(base, 0.18),
+
+        paginaFundo: '#ffffff',
+        texto: '#111827'
+      };
+    }
 
 
     function montarPaginaJornalHtml(ativo, pagina, idx, totalPaginas) {
       const conf = MODELOS[ativo.modelo] || MODELOS[1];
       const validade = ativo.validade || 'Promoções válidas de 07/04 a 14/04';
 
-      const tema = getTemaJornal(
+      const temaBase = getTemaJornal(
         ativo.tema ||
         (ativo.modelo == 1 ? ativo.tipo1 : ativo.tipo2)
       );
 
+      const tema = derivarTemaJornal(temaBase);
 
       const miniTitulo = ativo.modelo === 2 ? 'Ofertas' : 'Ofertas da semana';
       const tituloPrincipal = ativo.modelo === 2 ? 'MASTER PEDIDOS MAX' : ativo.tipo;
 
       const itensHtml = (pagina || []).map(item => {
         const codigo = item.codigo || '';
-        const valid = (item.Valid || '').trim(); // 🔥 seguro
+        const valid = (item.Valid || '').trim();
         const descricao = item.descricao || 'Produto';
 
         let imagem = item.imagem || '';
@@ -1702,11 +1751,25 @@
           <div class="journal-page modelo-${ativo.modelo}" id="area-impressao-${idx}" style="
             --jornal-topo-1:${tema.topo1};
             --jornal-topo-2:${tema.topo2};
+
             --jornal-preco:${tema.preco};
             --jornal-preco-antigo:${tema.precoAntigo};
+
             --jornal-card-borda:${tema.cardBorda};
+            --jornal-card-fundo:${tema.cardFundo};
+
+            --jornal-preco-box-1:${tema.precoBox1};
+            --jornal-preco-box-2:${tema.precoBox2};
+            --jornal-preco-box-borda:${tema.precoBoxBorda};
+
             --jornal-selo-fundo:${tema.seloFundo};
             --jornal-selo-texto:${tema.seloTexto};
+
+            --jornal-rodape-1:${tema.rodape1};
+            --jornal-rodape-2:${tema.rodape2};
+
+            --jornal-pagina-fundo:${tema.paginaFundo};
+            --jornal-texto:${tema.texto};
           ">
 
             <div class="journal-page-header">
@@ -1740,6 +1803,8 @@
         </div>
       `;
     }
+
+
 
     function montarJornalHtml(ativo) {
       const conf = MODELOS[ativo.modelo] || MODELOS[1];
