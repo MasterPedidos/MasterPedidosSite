@@ -2,6 +2,7 @@
   {
     "tipo": "Jornal Tipo 1",
     "modelo": 1,
+    "tema": "verde",
     "itens": [
                                   {"codigo": "64","descricao": "Danette Branco 360G","marca": "Danone","imagem": "https://i.ibb.co/kgq9FtF7/64-Danone-Danette-0-Branco-360g.webp","meta": "Cx c/12unidades","preco": "7,14","preco_antigo":"7,14","Valid":"20/04","extra": "Oferta válida de 07/04 a 14/04 "},
                                   {"codigo": "10003","descricao": "Chandelle Branco 360G","marca": "Nestlé","imagem": "https://i.ibb.co/23ksCjNy/10003-Nestl-Chandelle-Branco-360g.webp","meta": "Cx c/8unidades","preco": "10,08","preco_antigo":"10,08","Valid":"21/04","extra": "Oferta válida de 07/04 a 14/04 "},
