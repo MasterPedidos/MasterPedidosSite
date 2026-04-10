@@ -1585,7 +1585,6 @@
       };
     }
 
-
     function montarPaginaJornalHtml(ativo, pagina, idx, totalPaginas) {
       const conf = MODELOS[ativo.modelo] || MODELOS[1];
       const validade = ativo.validade || 'Promoções válidas de 07/04 a 14/04';
@@ -1595,7 +1594,7 @@
 
       const itensHtml = (pagina || []).map(item => {
         const codigo = item.codigo || '';
-        const valid = item.Valid || '';
+        const valid = (item.Valid || '').trim(); // 🔥 seguro
         const descricao = item.descricao || 'Produto';
 
         let imagem = item.imagem || '';
@@ -1622,9 +1621,8 @@
             </div>
 
             <div class="journal-item-cod">
-              Cód: ${codigo}
+              Cód: ${codigo}${valid ? ` • Val: ${valid}` : ''}
             </div>
-
 
             <div class="journal-item-desc">
               ${descricao}
@@ -1651,20 +1649,13 @@
       return `
         <div class="journal-card">
           <div class="journal-page modelo-${ativo.modelo}" id="area-impressao-${idx}">
+            
             <div class="journal-page-header">
               <div class="journal-head-copy">
                 <span class="journal-mini">${miniTitulo}</span>
                 <h3>${tituloPrincipal}</h3>
                 <p>${validade}</p>
               </div>
-
-              ${ativo.modelo === 1 || ativo.modelo === 2 ? '' : `
-                <div class="journal-brand">
-                  <strong>A</strong>
-                  <small>ATACADÃO</small>
-                </div>
-              `}
-
             </div>
 
             <div class="journal-body">
@@ -1685,6 +1676,7 @@
                 </div>
               </div>
             </div>
+
           </div>
         </div>
       `;
