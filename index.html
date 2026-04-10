@@ -1534,14 +1534,28 @@
     }
 
     async function carregarJornais() {
-      try {
-        const resp = await fetch('./jornal.json?v=' + Date.now(), { cache: 'no-store' });
-        const data = await resp.json();
-        JORNAIS = Array.isArray(data) ? data : [];
-      } catch (e) {
-        JORNAIS = [];
+      const arquivos = [
+        'jornal.json',
+        'jornal1.json',
+        'jornal2.json'
+      ];
+
+      let todos = [];
+
+      for (const arq of arquivos) {
+        try {
+          const resp = await fetch(`./${arq}?v=` + Date.now(), { cache: 'no-store' });
+          const data = await resp.json();
+
+          if (Array.isArray(data)) {
+            todos = todos.concat(data);
+          }
+        } catch (e) {
+          console.warn('Erro ao carregar', arq);
+        }
       }
 
+      JORNAIS = todos;
       renderJornais();
     }
 
