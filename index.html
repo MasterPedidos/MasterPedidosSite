@@ -488,7 +488,8 @@
     }
 
     .journal-page.modelo-2 .journal-page-header {
-      background: linear-gradient(90deg, #b55f1f 0%, #d77725 58%, #f4f4f4 58%, #f4f4f4 100%);
+      background: linear-gradient(90deg, #b55f1f 0%, #d77725 100%);
+      justify-content: flex-start;
     }
 
     .journal-brand {
@@ -1507,35 +1508,43 @@
       return paginas;
     }
 
+
     function montarCabecalhoJornal(ativo, idx, totalPaginas) {
       const conf = MODELOS[ativo.modelo] || MODELOS[1];
-      const mini = ativo.modelo === 1 ? 'Ofertas válidas' : 'Prêmios todos os dias';
-      const textoRodape = ativo.modelo === 1
-        ? 'Ofertas válidas enquanto durarem os estoques'
-        : 'Ofertas válidas enquanto durarem os estoques';
+
+      const mini = ativo.modelo === 2 ? 'Ofertas' : 'Ofertas válidas';
+      const titulo = ativo.modelo === 2 ? 'MASTER PEDIDOS MAX' : conf.titulo;
+
+      const textoRodape = 'Ofertas válidas enquanto durarem os estoques';
 
       return {
         cabecalho: `
           <div class="journal-page-header">
             <div class="journal-head-copy">
               <span class="journal-mini">${mini}</span>
-              <h3>${conf.titulo}</h3>
+              <h3>${titulo}</h3>
               <p>Página ${idx + 1} de ${totalPaginas}</p>
             </div>
-            <div class="journal-brand">
-              <strong>A</strong>
-              <div>ATACADÃO</div>
-              <small>Lugar de comprar bem</small>
-            </div>
+            ${ativo.modelo === 2 ? '' : `
+              <div class="journal-brand">
+                <strong>A</strong>
+                <div>ATACADÃO</div>
+                <small>Lugar de comprar bem</small>
+              </div>
+            `}
           </div>
         `,
         rodape: textoRodape
       };
     }
 
+
     function montarPaginaJornalHtml(ativo, pagina, idx, totalPaginas) {
       const conf = MODELOS[ativo.modelo] || MODELOS[1];
       const validade = ativo.validade || 'Promoções válidas de 07/04 a 14/04';
+
+      const miniTitulo = ativo.modelo === 2 ? 'Ofertas' : 'Ofertas da semana';
+      const tituloPrincipal = ativo.modelo === 2 ? 'MASTER PEDIDOS MAX' : ativo.tipo;
 
       const itensHtml = (pagina || []).map(item => {
         const codigo = item.codigo || '';
@@ -1551,7 +1560,6 @@
         const meta = item.meta || '';
         const preco = item.preco || '';
         const precoAntigo = item.preco_antigo || '';
-        const extra = '';
 
         return `
           <div class="journal-item">
@@ -1587,7 +1595,6 @@
                 ${precoAntigo ? `<small>R$ ${precoAntigo}</small>` : ''}
               </div>
             </div>
-
           </div>
         `;
       }).join('');
@@ -1597,15 +1604,17 @@
           <div class="journal-page modelo-${ativo.modelo}" id="area-impressao-${idx}">
             <div class="journal-page-header">
               <div class="journal-head-copy">
-                <span class="journal-mini">Ofertas da semana</span>
-                <h3>${ativo.tipo}</h3>
+                <span class="journal-mini">${miniTitulo}</span>
+                <h3>${tituloPrincipal}</h3>
                 <p>${validade}</p>
               </div>
 
-              <div class="journal-brand">
-                <strong>A</strong>
-                <small>ATACADÃO</small>
-              </div>
+              ${ativo.modelo === 2 ? '' : `
+                <div class="journal-brand">
+                  <strong>A</strong>
+                  <small>ATACADÃO</small>
+                </div>
+              `}
             </div>
 
             <div class="journal-body">
@@ -1626,9 +1635,7 @@
                 </div>
               </div>
             </div>
-
           </div>
-
         </div>
       `;
     }
