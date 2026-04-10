@@ -1,11 +1,10 @@
 [
   {
-    "tipo": "JORNAL TIPO 1",
+    "tipo": "Jornal Tipo 1",
     "modelo": 1,
-    "tema": "verde",
-    "validade": "Promoções válidas de 10/04 a 14/04",
+    "tema": "roxo",
     "itens": [
-      {"codigo": ""10003","descricao": ""Chandelle Branco 360G","marca": ""Nestlé","imagem": ""https://i.ibb.co/23ksCjNy/10003-Nestl-Chandelle-Branco-360g.webp","meta": "Cx c/8unidades","preco": ""65,60","preco_antigo": ""80,64","Valid": ""10/04"}
+                                  {"codigo": ""10003","descricao": ""Chandelle Branco 360G","marca": ""Nestlé","imagem": ""https://i.ibb.co/23ksCjNy/10003-Nestl-Chandelle-Branco-360g.webp","meta": "Cx c/8unidades","preco": ""65,60","preco_antigo":""80,64","Valid":""10/04","extra": "Oferta válida de 10/04 a 14/04 "}
     ]
   }
 ]
