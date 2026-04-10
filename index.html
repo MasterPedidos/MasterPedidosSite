@@ -84,7 +84,7 @@
 
     .busca-row {
       display: grid;
-      grid-template-columns: 1.2fr 220px 150px;
+      grid-template-columns: 1fr 190px 130px;
       gap: 10px;
     }
 
@@ -983,6 +983,21 @@
       padding: 10px 12px;
     }
 
+
+    .topo-btn {
+      padding: 10px 12px;
+      background: #fff;
+      color: var(--blue);
+      box-shadow: var(--shadow);
+      white-space: nowrap;
+      border: none;
+      cursor: pointer;
+      font-weight: 700;
+      border-radius: 12px;
+      transition: .18s ease;
+    }
+
+
     .crossword {
       display: grid;
       grid-template-columns: repeat(7, 34px);
@@ -1141,6 +1156,7 @@
       </div>
 
       <div class="right-actions">
+        <button class="topo-btn" id="btnTopo">Topo</button>
         <button class="menu-btn" id="scrollPedido">Fechar Pedido</button>
         <button class="cart-btn" id="cartBtn">Carrinho (0)</button>
       </div>
@@ -2432,6 +2448,12 @@
     document.getElementById('btnPdfAtual').addEventListener('click', () => {
       gerarPDFTela();
     });
+
+
+    document.getElementById('btnTopo')?.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
 
     document.getElementById('btnPdfTodos').addEventListener('click', gerarPdfTodosJornais);
 
