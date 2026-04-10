@@ -484,10 +484,9 @@
     }
 
     .journal-page.modelo-1 .journal-page-header {
-       background: linear-gradient(90deg, #166534 0%, #16a34a 100%);
+      background: linear-gradient(90deg, var(--jornal-topo-1), var(--jornal-topo-2));
       justify-content: flex-start;
     }
-
 
     /* ===== TIPO 1 AZUL ===== */
 
@@ -507,7 +506,7 @@
 
 
     .journal-page.modelo-2 .journal-page-header {
-      background: linear-gradient(90deg, #b55f1f 0%, #d77725 100%);
+      background: linear-gradient(90deg, var(--jornal-topo-1), var(--jornal-topo-2));
       justify-content: flex-start;
     }
 
@@ -580,8 +579,8 @@
     .journal-items {
       display: grid;
       gap: 0;
-      border-top: 1px solid #cfa68e;
-      border-left: 1px solid #cfa68e;
+      border-top: 1px solid var(--jornal-card-borda, #cfa68e);
+      border-left: 1px solid var(--jornal-card-borda, #cfa68e);
       background: #fff;
     }
 
@@ -598,8 +597,8 @@
     }
 
     .journal-item {
-      border-right: 1px solid #cfa68e;
-      border-bottom: 1px solid #cfa68e;
+      border-right: 1px solid var(--jornal-card-borda, #cfa68e);
+      border-bottom: 1px solid var(--jornal-card-borda, #cfa68e);
       background: #fff;
       min-height: 320px;
       display: grid;
@@ -710,7 +709,7 @@
     .journal-item-price strong {
       font-size: 18px;
       line-height: 1;
-      color: #d61f1f;
+      color: var(--jornal-preco);
       letter-spacing: -1px;
     }
 
@@ -813,7 +812,7 @@
 
 
     .journal-page.modelo-2 .journal-footer-banner {
-      background: linear-gradient(90deg, #b55f1f 0%, #d77725 100%);
+      background: linear-gradient(90deg, var(--jornal-topo-1), var(--jornal-topo-2));
       border-top: 1px solid #c77a42; /* combina com o topo */
     }
 
@@ -1585,9 +1584,60 @@
       };
     }
 
+    const TEMAS_JORNAL = {
+      vermelho: {
+        topo1: '#8b0000',
+        topo2: '#c62828',
+        preco: '#d50000',
+        precoAntigo: '#777',
+        cardBorda: '#e0e0e0',
+        seloFundo: '#ffebee',
+        seloTexto: '#8b0000'
+      },
+      azul: {
+        topo1: '#0d47a1',
+        topo2: '#1976d2',
+        preco: '#1565c0',
+        precoAntigo: '#777',
+        cardBorda: '#d6e4f5',
+        seloFundo: '#e3f2fd',
+        seloTexto: '#0d47a1'
+      },
+      verde: {
+        topo1: '#166534',
+        topo2: '#16a34a',
+        preco: '#15803d',
+        precoAntigo: '#777',
+        cardBorda: '#bbf7d0',
+        seloFundo: '#dcfce7',
+        seloTexto: '#166534'
+      },
+      marrom: {
+        topo1: '#5a2d0c',
+        topo2: '#8d5524',
+        preco: '#a05a2c',
+        precoAntigo: '#777',
+        cardBorda: '#d7ccc8',
+        seloFundo: '#efebe9',
+        seloTexto: '#5a2d0c'
+      }
+    };
+
+    function getTemaJornal(nome) {
+      const chave = String(nome || 'vermelho').trim().toLowerCase();
+      return TEMAS_JORNAL[chave] || TEMAS_JORNAL.vermelho;
+    }    
+
+
     function montarPaginaJornalHtml(ativo, pagina, idx, totalPaginas) {
       const conf = MODELOS[ativo.modelo] || MODELOS[1];
       const validade = ativo.validade || 'Promoções válidas de 07/04 a 14/04';
+
+      const tema = getTemaJornal(
+        ativo.tema ||
+        (ativo.modelo == 1 ? ativo.tipo1 : ativo.tipo2)
+      );
+
 
       const miniTitulo = ativo.modelo === 2 ? 'Ofertas' : 'Ofertas da semana';
       const tituloPrincipal = ativo.modelo === 2 ? 'MASTER PEDIDOS MAX' : ativo.tipo;
@@ -1648,8 +1698,17 @@
 
       return `
         <div class="journal-card">
-          <div class="journal-page modelo-${ativo.modelo}" id="area-impressao-${idx}">
-            
+
+          <div class="journal-page modelo-${ativo.modelo}" id="area-impressao-${idx}" style="
+            --jornal-topo-1:${tema.topo1};
+            --jornal-topo-2:${tema.topo2};
+            --jornal-preco:${tema.preco};
+            --jornal-preco-antigo:${tema.precoAntigo};
+            --jornal-card-borda:${tema.cardBorda};
+            --jornal-selo-fundo:${tema.seloFundo};
+            --jornal-selo-texto:${tema.seloTexto};
+          ">
+
             <div class="journal-page-header">
               <div class="journal-head-copy">
                 <span class="journal-mini">${miniTitulo}</span>
