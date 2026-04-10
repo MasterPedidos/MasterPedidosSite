@@ -484,8 +484,27 @@
     }
 
     .journal-page.modelo-1 .journal-page-header {
-      background: linear-gradient(90deg, #178236 0%, #1d9c42 58%, #f4f4f4 58%, #f4f4f4 100%);
+      background: linear-gradient(90deg, #1d4ed8 0%, #2563eb 100%);
+      justify-content: flex-start;
     }
+
+
+    /* ===== TIPO 1 AZUL ===== */
+
+    .journal-page.modelo-1 .journal-footer-banner {
+      background: linear-gradient(90deg, #1d4ed8 0%, #2563eb 100%);
+      border-top: 1px solid #1e40af;
+    }
+
+    .journal-page.modelo-1 .journal-footer-banner strong {
+      color: #fff;
+    }
+
+    .journal-page.modelo-1 .journal-footer-banner span {
+      color: rgba(255,255,255,0.9);
+    }
+
+
 
     .journal-page.modelo-2 .journal-page-header {
       background: linear-gradient(90deg, #b55f1f 0%, #d77725 100%);
@@ -1626,12 +1645,13 @@
                 <p>${validade}</p>
               </div>
 
-              ${ativo.modelo === 2 ? '' : `
+              ${ativo.modelo === 1 || ativo.modelo === 2 ? '' : `
                 <div class="journal-brand">
                   <strong>A</strong>
                   <small>ATACADÃO</small>
                 </div>
               `}
+
             </div>
 
             <div class="journal-body">
