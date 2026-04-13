@@ -2,7 +2,7 @@
   {
     "tipo": "Jornal Tipo 1",
     "modelo": 1,
-    "tema": "marrom",
+    "tema": "laranja",
     "itens": [
       {"codigo": "253","descricao": "Corpus Liq. MOR 170G","marca": "Danone","imagem": "https://i.ibb.co/0jspZ89J/1001-253.webp","meta": "Cx c/20unidades","preco": "53,00","preco_antigo": "65,20","Valid": "15/04","extra": "Oferta válida de 13/04 a 17/04 "},
       {"codigo": "1077","descricao": "Corpus MOR 800Gx15","marca": "Danone","imagem": "https://i.ibb.co/Lz9pcgvG/cc33bb7ea973.png","meta": "Cx c/15unidades","preco": "157,50","preco_antigo": "197,55","Valid": "15/04","extra": "Oferta válida de 13/04 a 17/04 "},
