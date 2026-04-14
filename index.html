@@ -1444,72 +1444,10 @@
       return und ? preco / und : 0;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     async function carregarProdutos() {
       try {
-        const url = `${CONFIG.jsonUrl}?v=${Date.now()}`;
-        const resp = await fetch(url, { cache: 'no-store' });
-
-        if (!resp.ok) {
-          throw new Error(`HTTP ${resp.status} ao carregar ${url}`);
-        }
-
-        const texto = await resp.text();
-
-        if (!texto || !texto.trim()) {
-          throw new Error(`Arquivo produtos.json vazio em ${url}`);
-        }
-
-        let data;
-        try {
-          data = JSON.parse(texto);
-        } catch (erroJson) {
-          throw new Error(`JSON inválido em ${url}`);
-        }
-
-        produtos = Array.isArray(data) ? data : [];
-        preencherMarcas();
-        aplicarFiltros();
-
-      } catch (e) {
-        produtos = [];
-        filtrados = [];
-        elGridOfertas.innerHTML = '<div class="empty-state">Não foi possível carregar o arquivo produtos.json.</div>';
-        elGridProdutos.innerHTML = '';
-        elContador.textContent = '0 produtos encontrados';
-        console.error('Erro em carregarProdutos:', e);
-      }
-    }
-
-    function preencherMarcas() {
-      const marcas = [...new Set(produtos.map(marcaDo).filter(Boolean))]
-        .sort((a, b) => a.localeCompare(b));
-
-      elFiltroMarca.innerHTML =
-        '<option value="">Todas as marcas</option>' +
-        marcas.map(m => `<option value="${m}">${m}</option>`).join('');
-    }
-
-    async function carregarProdutos() {
-      try {
-        const url = `${CONFIG.jsonUrl}?v=${Date.now()}`;
-        const resp = await fetch(url, { cache: 'no-store' });
+        const url = CONFIG.jsonUrl;
+        const resp = await fetch(url, { cache: 'default' });
 
         if (!resp.ok) {
           throw new Error(`HTTP ${resp.status} ao carregar ${url}`);
@@ -1666,53 +1604,45 @@
         ? normais.map(cardProduto).join('')
         : '<div class="empty-state">Nenhum produto encontrado.</div>';
     }
-
+        
     async function carregarJornais() {
       const base = CONFIG_APP.site_base_path || './';
+      const arquivos = ['jornal.json', 'jornal1.json', 'jornal2.json'];
 
-      const arquivos = [
-        'jornal.json',
-        'jornal1.json',
-        'jornal2.json'
-      ];
+      try {
+        const respostas = await Promise.all(
+          arquivos.map(async (arq) => {
+            try {
+              const url = base + arq;
+              const resp = await fetch(url, { cache: 'default' });
 
-      let todos = [];
+              if (!resp.ok) {
+                throw new Error(`HTTP ${resp.status} ao carregar ${url}`);
+              }
 
-      for (const arq of arquivos) {
-        try {
-          const url = base + arq + '?v=' + Date.now();
-          const resp = await fetch(url, { cache: 'no-store' });
+              const texto = await resp.text();
 
-          if (!resp.ok) {
-            throw new Error(`HTTP ${resp.status} ao carregar ${url}`);
-          }
+              if (!texto || !texto.trim()) {
+                return [];
+              }
 
-          const texto = await resp.text();
+              const data = JSON.parse(texto);
+              return Array.isArray(data) ? data : [];
+            } catch (e) {
+              console.warn(`Erro ao carregar ${arq}:`, e.message || e);
+              return [];
+            }
+          })
+        );
 
-          if (!texto || !texto.trim()) {
-            throw new Error(`Arquivo vazio: ${url}`);
-          }
+        JORNAIS = respostas.flat();
+        renderJornais();
 
-          let data;
-          try {
-            data = JSON.parse(texto);
-          } catch (erroJson) {
-            throw new Error(`JSON inválido em ${url}`);
-          }
-
-          if (Array.isArray(data)) {
-            todos = todos.concat(data);
-          } else {
-            console.warn(`Arquivo ${arq} não é um array.`);
-          }
-
-        } catch (e) {
-          console.warn(`Erro ao carregar ${arq}:`, e.message || e);
-        }
+      } catch (e) {
+        console.warn('Erro geral ao carregar jornais:', e.message || e);
+        JORNAIS = [];
+        renderJornais();
       }
-
-      JORNAIS = todos;
-      renderJornais();
     }
 
     function dividirPaginas(itens, itensPorPagina) {
@@ -1722,7 +1652,6 @@
       }
       return paginas;
     }
-
 
     function montarCabecalhoJornal(ativo, idx, totalPaginas) {
       const conf = MODELOS[ativo.modelo] || MODELOS[1];
@@ -2644,7 +2573,7 @@
       try {
         await carregarConfig();
         await carregarProdutos();
-        await carregarJornais();
+        carregarJornais();
       } catch (e) {
         console.error("ERRO AO INICIAR:", e);
 
