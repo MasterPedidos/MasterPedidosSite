@@ -2507,9 +2507,14 @@
     document.getElementById('gerarReceita').addEventListener('click', gerarReceita);
 
     async function iniciarApp() {
-      await carregarConfig();
-      await carregarProdutos();
-      await carregarJornais();
+      try {
+        await carregarConfig();
+        await carregarProdutos();
+        await carregarJornais();
+      } catch (e) {
+        console.error("ERRO AO INICIAR:", e);
+        document.body.innerHTML = "<h2>Erro ao carregar sistema</h2>";
+      }
     }
 
     iniciarApp();
