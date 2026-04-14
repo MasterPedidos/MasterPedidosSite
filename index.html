@@ -1558,8 +1558,8 @@
 
     async function carregarConfig() {
       try {
-        const url = './config.json?v=' + Date.now();
-        const resp = await fetch(url, { cache: 'no-store' });
+        const url = './config.json';
+        const resp = await fetch(url, { cache: 'default' });
 
         if (!resp.ok) {
           throw new Error(`HTTP ${resp.status} ao carregar ${url}`);
@@ -1607,7 +1607,7 @@
         
     async function carregarJornais() {
       const base = CONFIG_APP.site_base_path || './';
-      const arquivos = ['jornal.json', 'jornal1.json', 'jornal2.json'];
+      const arquivos = (CONFIG_APP.jornais || ['jornal.json']).filter(Boolean);
 
       try {
         const respostas = await Promise.all(
