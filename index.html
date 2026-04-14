@@ -1370,6 +1370,7 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script>
+
     const CONFIG = {
       lojaNome: 'Master Pedidos',
       whatsapp: '5519999999999',
@@ -1377,6 +1378,7 @@
       moeda: 'BRL',
       locale: 'pt-BR'
     };
+
 
     let JORNAIS = [];
     const MODELOS = {
@@ -1525,6 +1527,24 @@
       `;
     }
 
+    // ===== CONFIG DINÂMICO (SITE) =====
+    let CONFIG_APP = {};
+
+    async function carregarConfig() {
+      try {
+        const resp = await fetch('./config.json?v=' + Date.now(), { cache: 'no-store' });
+        CONFIG_APP = await resp.json();
+
+        if (CONFIG_APP.site_base_path) {
+          CONFIG.jsonUrl = (CONFIG_APP.site_base_path || './') + 'produtos.json';
+        }
+      } catch (e) {
+        console.warn('Erro ao carregar config.json');
+        CONFIG_APP = {};
+      }
+    }
+
+
     function renderProdutos() {
       const ofertas = filtrados.filter(promoDo);
       const normais = filtrados.filter(item => !promoDo(item));
@@ -1534,6 +1554,8 @@
     }
 
     async function carregarJornais() {
+      const base = CONFIG_APP.site_base_path || './';
+
       const arquivos = [
         'jornal.json',
         'jornal1.json',
@@ -1544,7 +1566,7 @@
 
       for (const arq of arquivos) {
         try {
-          const resp = await fetch(`./${arq}?v=` + Date.now(), { cache: 'no-store' });
+          const resp = await fetch(base + arq + '?v=' + Date.now(), { cache: 'no-store' });
           const data = await resp.json();
 
           if (Array.isArray(data)) {
@@ -2484,9 +2506,14 @@
     document.getElementById('verHoroscopo').addEventListener('click', mostrarHoroscopo);
     document.getElementById('gerarReceita').addEventListener('click', gerarReceita);
 
-    carregarJornais();
-    carregarProdutos();
-    renderCarrinho();
+    async function iniciarApp() {
+      await carregarConfig();
+      await carregarProdutos();
+      await carregarJornais();
+    }
+
+    iniciarApp();
+
   </script>
 </body>
 </html>
