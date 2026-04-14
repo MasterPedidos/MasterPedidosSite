@@ -1444,23 +1444,111 @@
       return und ? preco / und : 0;
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     async function carregarProdutos() {
       try {
-        const resp = await fetch(`${CONFIG.jsonUrl}?v=${Date.now()}`, { cache: 'no-store' });
-        const data = await resp.json();
+        const url = `${CONFIG.jsonUrl}?v=${Date.now()}`;
+        const resp = await fetch(url, { cache: 'no-store' });
+
+        if (!resp.ok) {
+          throw new Error(`HTTP ${resp.status} ao carregar ${url}`);
+        }
+
+        const texto = await resp.text();
+
+        if (!texto || !texto.trim()) {
+          throw new Error(`Arquivo produtos.json vazio em ${url}`);
+        }
+
+        let data;
+        try {
+          data = JSON.parse(texto);
+        } catch (erroJson) {
+          throw new Error(`JSON inválido em ${url}`);
+        }
+
         produtos = Array.isArray(data) ? data : [];
         preencherMarcas();
         aplicarFiltros();
+
       } catch (e) {
+        produtos = [];
+        filtrados = [];
         elGridOfertas.innerHTML = '<div class="empty-state">Não foi possível carregar o arquivo produtos.json.</div>';
         elGridProdutos.innerHTML = '';
-        console.error(e);
+        elContador.textContent = '0 produtos encontrados';
+        console.error('Erro em carregarProdutos:', e);
       }
     }
 
     function preencherMarcas() {
-      const marcas = [...new Set(produtos.map(marcaDo).filter(Boolean))].sort((a, b) => a.localeCompare(b));
-      elFiltroMarca.innerHTML = '<option value="">Todas as marcas</option>' + marcas.map(m => `<option value="${m}">${m}</option>`).join('');
+      const marcas = [...new Set(produtos.map(marcaDo).filter(Boolean))]
+        .sort((a, b) => a.localeCompare(b));
+
+      elFiltroMarca.innerHTML =
+        '<option value="">Todas as marcas</option>' +
+        marcas.map(m => `<option value="${m}">${m}</option>`).join('');
+    }
+
+    async function carregarProdutos() {
+      try {
+        const url = `${CONFIG.jsonUrl}?v=${Date.now()}`;
+        const resp = await fetch(url, { cache: 'no-store' });
+
+        if (!resp.ok) {
+          throw new Error(`HTTP ${resp.status} ao carregar ${url}`);
+        }
+
+        const texto = await resp.text();
+
+        if (!texto || !texto.trim()) {
+          throw new Error(`Arquivo produtos.json vazio em ${url}`);
+        }
+
+        let data;
+        try {
+          data = JSON.parse(texto);
+        } catch (erroJson) {
+          throw new Error(`JSON inválido em ${url}`);
+        }
+
+        produtos = Array.isArray(data) ? data : [];
+        preencherMarcas();
+        aplicarFiltros();
+
+      } catch (e) {
+        produtos = [];
+        filtrados = [];
+        elGridOfertas.innerHTML = '<div class="empty-state">Não foi possível carregar o arquivo produtos.json.</div>';
+        elGridProdutos.innerHTML = '';
+        elContador.textContent = '0 produtos encontrados';
+        console.error('Erro em carregarProdutos:', e);
+      }
+    }
+
+    function preencherMarcas() {
+      const marcas = [...new Set(produtos.map(marcaDo).filter(Boolean))]
+        .sort((a, b) => a.localeCompare(b));
+
+      elFiltroMarca.innerHTML =
+        '<option value="">Todas as marcas</option>' +
+        marcas.map(m => `<option value="${m}">${m}</option>`).join('');
     }
 
     function aplicarFiltros() {
@@ -1532,25 +1620,51 @@
 
     async function carregarConfig() {
       try {
-        const resp = await fetch('./config.json?v=' + Date.now(), { cache: 'no-store' });
-        CONFIG_APP = await resp.json();
+        const url = './config.json?v=' + Date.now();
+        const resp = await fetch(url, { cache: 'no-store' });
+
+        if (!resp.ok) {
+          throw new Error(`HTTP ${resp.status} ao carregar ${url}`);
+        }
+
+        const texto = await resp.text();
+
+        if (!texto || !texto.trim()) {
+          throw new Error('config.json vazio');
+        }
+
+        let data;
+        try {
+          data = JSON.parse(texto);
+        } catch (erroJson) {
+          throw new Error('config.json inválido');
+        }
+
+        CONFIG_APP = data || {};
 
         if (CONFIG_APP.site_base_path) {
-          CONFIG.jsonUrl = (CONFIG_APP.site_base_path || './') + 'produtos.json';
+          CONFIG.jsonUrl = CONFIG_APP.site_base_path + 'produtos.json';
         }
+
       } catch (e) {
-        console.warn('Erro ao carregar config.json');
+        console.warn('Erro ao carregar config.json:', e.message || e);
         CONFIG_APP = {};
       }
     }
 
-
     function renderProdutos() {
       const ofertas = filtrados.filter(promoDo);
       const normais = filtrados.filter(item => !promoDo(item));
+
       elContador.textContent = `${filtrados.length} produtos encontrados`;
-      elGridOfertas.innerHTML = ofertas.length ? ofertas.map(cardProduto).join('') : '<div class="empty-state">Nenhuma oferta encontrada.</div>';
-      elGridProdutos.innerHTML = normais.length ? normais.map(cardProduto).join('') : '<div class="empty-state">Nenhum produto encontrado.</div>';
+
+      elGridOfertas.innerHTML = ofertas.length
+        ? ofertas.map(cardProduto).join('')
+        : '<div class="empty-state">Nenhuma oferta encontrada.</div>';
+
+      elGridProdutos.innerHTML = normais.length
+        ? normais.map(cardProduto).join('')
+        : '<div class="empty-state">Nenhum produto encontrado.</div>';
     }
 
     async function carregarJornais() {
@@ -1566,14 +1680,34 @@
 
       for (const arq of arquivos) {
         try {
-          const resp = await fetch(base + arq + '?v=' + Date.now(), { cache: 'no-store' });
-          const data = await resp.json();
+          const url = base + arq + '?v=' + Date.now();
+          const resp = await fetch(url, { cache: 'no-store' });
+
+          if (!resp.ok) {
+            throw new Error(`HTTP ${resp.status} ao carregar ${url}`);
+          }
+
+          const texto = await resp.text();
+
+          if (!texto || !texto.trim()) {
+            throw new Error(`Arquivo vazio: ${url}`);
+          }
+
+          let data;
+          try {
+            data = JSON.parse(texto);
+          } catch (erroJson) {
+            throw new Error(`JSON inválido em ${url}`);
+          }
 
           if (Array.isArray(data)) {
             todos = todos.concat(data);
+          } else {
+            console.warn(`Arquivo ${arq} não é um array.`);
           }
+
         } catch (e) {
-          console.warn('Erro ao carregar', arq);
+          console.warn(`Erro ao carregar ${arq}:`, e.message || e);
         }
       }
 
