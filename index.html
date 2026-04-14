@@ -2513,7 +2513,13 @@
         await carregarJornais();
       } catch (e) {
         console.error("ERRO AO INICIAR:", e);
-        document.body.innerHTML = "<h2>Erro ao carregar sistema</h2>";
+
+        document.body.innerHTML = `
+          <div style="color:white; background:black; padding:20px;">
+            <h2>Erro ao carregar</h2>
+            <pre>${e.message}</pre>
+          </div>
+        `;
       }
     }
 
