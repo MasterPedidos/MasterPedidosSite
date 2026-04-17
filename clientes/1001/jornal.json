@@ -4,15 +4,15 @@
     "modelo": 1,
     "tema": "vermelho",
     "itens": [
-      {"codigo": "253","descricao": "Corpus Liq. MOR 170G","marca": "Danone","imagem": "https://i.ibb.co/0jspZ89J/1001-253.webp","meta": "Cx c/20unidades","preco": "53,00","preco_antigo": "65,20","Valid": "17/04","extra": "Oferta válida de 17/04 a 21/04 "},
-      {"codigo": "1077","descricao": "Corpus MOR 800Gx15","marca": "Danone","imagem": "https://i.ibb.co/Lz9pcgvG/cc33bb7ea973.png","meta": "Cx c/15unidades","preco": "157,50","preco_antigo": "197,55","Valid": "17/04","extra": "Oferta válida de 17/04 a 21/04 "},
-      {"codigo": "64","descricao": "Danette Branco 360G","marca": "Danone","imagem": "https://i.ibb.co/kgq9FtF7/64-Danone-Danette-0-Branco-360g.webp","meta": "Cx c/12unidades","preco": "72,00","preco_antigo": "85,68","Valid": "17/04","extra": "Oferta válida de 17/04 a 21/04 "},
-      {"codigo": "257","descricao": "Grego Light Or Mor 510G","marca": "Danone","imagem": "https://i.ibb.co/QFNVV9F2/257-Danone-Grego-Bandeja-Or-e-Mor.webp","meta": "Cx c/8unidades","preco": "80,00","preco_antigo": "97,68","Valid": "17/04","extra": "Oferta válida de 17/04 a 21/04 "},
-      {"codigo": "588","descricao": "Natur Dan Desnatado","marca": "Danone","imagem": "https://i.ibb.co/MDPr1Csd/1001-588.webp","meta": "Cx c/20unidades","preco": "46,00","preco_antigo": "51,00","Valid": "17/04","extra": "Oferta válida de 17/04 a 21/04 "},
-      {"codigo": "28","descricao": "FLAN FRUTAP MOR","marca": "Frutap","imagem": "https://i.ibb.co/Y4RmF5xZ/28-Frutap-Flan-Morango.webp","meta": "Cx c/12unidades","preco": "27,60","preco_antigo": "31,20","Valid": "17/04","extra": "Oferta válida de 17/04 a 21/04 "},
-      {"codigo": "27","descricao": "Flan Ftap Baunilha","marca": "Frutap","imagem": "https://i.ibb.co/Y7TDXVf3/27-200g-Sobremesa-Flan.webp","meta": "Cx c/12unidades","preco": "27,60","preco_antigo": "31,20","Valid": "17/04","extra": "Oferta válida de 17/04 a 21/04 "},
-      {"codigo": "4","descricao": "Sobr. Choc. Bnate","marca": "Frutap","imagem": "https://i.ibb.co/JR21c2Vm/1001-4.webp","meta": "Cx c/12unidades","preco": "21,60","preco_antigo": "25,20","Valid": "17/04","extra": "Oferta válida de 17/04 a 21/04 "},
-      {"codigo": "10003","descricao": "Chandelle Branco 360G","marca": "Nestlé","imagem": "https://i.ibb.co/23ksCjNy/10003-Nestl-Chandelle-Branco-360g.webp","meta": "Cx c/8unidades","preco": "65,60","preco_antigo": "80,64","Valid": "17/04","extra": "Oferta válida de 17/04 a 21/04 "}
+      {"codigo": "253","descricao": "Corpus Liq. MOR 170G","marca": "Danone","imagem": "https://i.ibb.co/0jspZ89J/1001-253.webp","meta": "Cx c/20unidades","preco": "2,65","preco_antigo": "65,20","Valid": "17/04","extra": "Oferta válida de 17/04 a 21/04 "},
+      {"codigo": "1077","descricao": "Corpus MOR 800Gx15","marca": "Danone","imagem": "https://i.ibb.co/Lz9pcgvG/cc33bb7ea973.png","meta": "Cx c/15unidades","preco": "10,5","preco_antigo": "197,55","Valid": "17/04","extra": "Oferta válida de 17/04 a 21/04 "},
+      {"codigo": "64","descricao": "Danette Branco 360G","marca": "Danone","imagem": "https://i.ibb.co/kgq9FtF7/64-Danone-Danette-0-Branco-360g.webp","meta": "Cx c/12unidades","preco": "6","preco_antigo": "85,68","Valid": "17/04","extra": "Oferta válida de 17/04 a 21/04 "},
+      {"codigo": "257","descricao": "Grego Light Or Mor 510G","marca": "Danone","imagem": "https://i.ibb.co/QFNVV9F2/257-Danone-Grego-Bandeja-Or-e-Mor.webp","meta": "Cx c/8unidades","preco": "10","preco_antigo": "97,68","Valid": "17/04","extra": "Oferta válida de 17/04 a 21/04 "},
+      {"codigo": "588","descricao": "Natur Dan Desnatado","marca": "Danone","imagem": "https://i.ibb.co/MDPr1Csd/1001-588.webp","meta": "Cx c/20unidades","preco": "2,3","preco_antigo": "51,00","Valid": "17/04","extra": "Oferta válida de 17/04 a 21/04 "},
+      {"codigo": "28","descricao": "FLAN FRUTAP MOR","marca": "Frutap","imagem": "https://i.ibb.co/Y4RmF5xZ/28-Frutap-Flan-Morango.webp","meta": "Cx c/12unidades","preco": "2,3","preco_antigo": "31,20","Valid": "17/04","extra": "Oferta válida de 17/04 a 21/04 "},
+      {"codigo": "27","descricao": "Flan Ftap Baunilha","marca": "Frutap","imagem": "https://i.ibb.co/Y7TDXVf3/27-200g-Sobremesa-Flan.webp","meta": "Cx c/12unidades","preco": "2,3","preco_antigo": "31,20","Valid": "17/04","extra": "Oferta válida de 17/04 a 21/04 "},
+      {"codigo": "4","descricao": "Sobr. Choc. Bnate","marca": "Frutap","imagem": "https://i.ibb.co/JR21c2Vm/1001-4.webp","meta": "Cx c/12unidades","preco": "1,8","preco_antigo": "25,20","Valid": "17/04","extra": "Oferta válida de 17/04 a 21/04 "},
+      {"codigo": "10003","descricao": "Chandelle Branco 360G","marca": "Nestlé","imagem": "https://i.ibb.co/23ksCjNy/10003-Nestl-Chandelle-Branco-360g.webp","meta": "Cx c/8unidades","preco": "8,2","preco_antigo": "80,64","Valid": "17/04","extra": "Oferta válida de 17/04 a 21/04 "}
     ]
   }
 ]
