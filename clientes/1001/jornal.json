@@ -1,5 +1,29 @@
 [
   {
+    "codigo": "45",
+    "descricao": "Cx Danoninho",
+    "fornecedor": "Danone",
+    "imagem": "https://i.ibb.co/ccDHG3wp/45-Danoninho-Pose2.webp",
+    "preco": "6,70",
+    "preco_antigo": "6,99"
+  },
+  {
+    "codigo": "49",
+    "descricao": "Cx Danoninho multi",
+    "fornecedor": "Danone",
+    "imagem": "https://i.ibb.co/ccDHG3wp/45-Danoninho-Pose2.webp",
+    "preco": "6,70",
+    "preco_antigo": "6,99"
+  },
+  {
+    "codigo": "64",
+    "descricao": "Danette Branco",
+    "fornecedor": "Danone",
+    "imagem": "https://raw.githubusercontent.com/MasterPedidos/MasterImagens/main/clientes/1001/produtos/64 - Danette Branco.webp",
+    "preco": "10,70",
+    "preco_antigo": "10,80"
+  },
+  {
     "codigo": "129",
     "descricao": "Danette Chocolate 360g",
     "fornecedor": "Danone",
