@@ -1418,7 +1418,17 @@
     function codigoDo(item) { return texto(item.codigo); }
     function tituloDo(item) { return texto(item.descricao) || 'Produto'; }
     function marcaDo(item) { return texto(item.marca) || 'Sem marca'; }
-    function imagemDo(item) { return texto(item.imagem) || 'https://placehold.co/500x500?text=Sem+Imagem'; }
+    
+    function imagemDo(item) {
+      const img = texto(item.imagem);
+    
+      if (!img) {
+        return 'https://placehold.co/500x500?text=Sem+Imagem';
+      }
+    
+      return encodeURI(img);
+    }
+    
     function unidadesDo(item) { return Number(item.unidades || 0); }
     function valorDo(item) { return Number(item.valor || 0); }
     function promoDo(item) { return item.promo === true; }
