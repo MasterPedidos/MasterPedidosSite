@@ -1414,46 +1414,68 @@
     function normalizar(t) {
       return texto(t).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
     }
-
+  
     function codigoDo(item) { return texto(item.codigo); }
     function tituloDo(item) { return texto(item.descricao) || 'Produto'; }
-    function marcaDo(item) { return texto(item.marca) || 'Sem marca'; }
+    
+    function marcaDo(item) {
+      return texto(item.fornecedor || item.marca) || 'Sem marca';
+    }
     
     function imagemDo(item) {
       const img = texto(item.imagem);
-    
-      if (!img) {
-        return 'https://placehold.co/500x500?text=Sem+Imagem';
-      }
-    
+      if (!img) return 'https://placehold.co/500x500?text=Sem+Imagem';
       return encodeURI(img);
     }
     
-    function unidadesDo(item) { return Number(item.unidades || 0); }
-    function valorDo(item) { return Number(item.valor || 0); }
-    function promoDo(item) { return item.promo === true; }
-    function promoQtdDo(item) { return Number(item.promo_qtd || 0); }
-    function valorPromoQtdDo(item) { return Number(item.valor_promo_qtd || 0); }
-    function validadeDo(item) { return texto(item.Validade); }
-
-    function precoExibicao(item) {
-      return promoDo(item) && valorPromoQtdDo(item) > 0 ? valorPromoQtdDo(item) : valorDo(item);
+    function parsePrecoJson(v) {
+      if (v === null || v === undefined || v === '') return 0;
+      return Number(String(v).replace(/\./g, '').replace(',', '.')) || 0;
     }
-
-    function textoPromo(item) {
-      if (!promoDo(item)) return '';
-      if (promoQtdDo(item) > 0 && valorPromoQtdDo(item) > 0) {
-        return `Na compra de ${promoQtdDo(item)} ou mais: ${dinheiro(valorPromoQtdDo(item))}`;
-      }
-      return 'Produto em oferta';
+    
+    function unidadesDo(item) {
+      return Number(item.unidades || item.un || item.qtde || 0);
     }
-
+    
+    function valorCaixaDo(item) {
+      return parsePrecoJson(item.preco || item.valor || 0);
+    }
+    
+    function valorPromoCaixaDo(item) {
+      return parsePrecoJson(item.preco_promo || item.valor_promo_qtd || 0);
+    }
+    
+    function promoDo(item) {
+      return valorPromoCaixaDo(item) > 0 && valorPromoCaixaDo(item) < valorCaixaDo(item);
+    }
+    
+    function promoQtdDo(item) {
+      return Number(item.promo_qtd || 0);
+    }
+    
+    function valorPromoQtdDo(item) {
+      return valorPromoCaixaDo(item);
+    }
+    
+    function validadeDo(item) {
+      return texto(item.validade || item.Validade || item.validade_produto);
+    }
+    
+    function precoExibicaoCaixa(item) {
+      return promoDo(item) ? valorPromoCaixaDo(item) : valorCaixaDo(item);
+    }
+    
     function precoUnidade(item) {
       const und = unidadesDo(item);
-      const preco = precoExibicao(item);
-      return und ? preco / und : 0;
+      const precoCx = precoExibicaoCaixa(item);
+      return und > 0 ? precoCx / und : 0;
     }
-
+    
+    function textoPromo(item) {
+      if (!promoDo(item)) return '';
+      return 'Produto em oferta';
+    }
+  
     async function carregarProdutos() {
       try {
         const url = CONFIG.jsonUrl;
@@ -1519,15 +1541,16 @@
       renderProdutos();
     }
 
+
     function cardProduto(item) {
-      const preco = precoExibicao(item);
-      const precoBase = valorDo(item);
+      const precoCx = precoExibicaoCaixa(item);
+      const precoCxBase = valorCaixaDo(item);
       const promo = promoDo(item);
       const unidades = unidadesDo(item);
-      const unitario = precoUnidade(item);
+      const valorUnidade = precoUnidade(item);
       const validade = validadeDo(item);
       const frasePromo = textoPromo(item);
-
+    
       return `
         <article class="produto">
           <div class="produto-img">
@@ -1538,21 +1561,28 @@
           <div class="produto-body">
             <div class="marca">${marcaDo(item)}</div>
             <h3>${tituloDo(item)}</h3>
+    
             <div class="meta-line">
               <span>${unidades} un.</span>
-              <span>${dinheiro(unitario)}/un</span>
+              <span>${dinheiro(precoCx)} cx</span>
             </div>
+    
             <div class="price-box">
               <div class="price-top">
-                <span class="price-label">Preço da caixa</span>
+                <span class="price-label">Preço da unidade</span>
                 <span class="unit-chip">${unidades} unid.</span>
               </div>
+    
               <div class="price-main">
-                <strong>${dinheiro(preco)}</strong>
-                ${promo && valorPromoQtdDo(item) > 0 ? `<small>de ${dinheiro(precoBase)}</small>` : ''}
+                <strong>${dinheiro(valorUnidade)}</strong>
+                ${promo && precoCxBase > 0 ? `<small>cx ${dinheiro(precoCxBase)}</small>` : ''}
               </div>
-              <div class="validade">${promo ? (frasePromo + (validade ? ` • Validade: ${validade}` : '')) : '&nbsp;'}</div>
+    
+              <div class="validade">
+                ${promo ? (frasePromo + (validade ? ` • Validade: ${validade}` : '')) : '&nbsp;'}
+              </div>
             </div>
+    
             <div class="actions">
               <button class="qty-btn" onclick="alterarCarrinho('${codigoDo(item)}', -1)">-</button>
               <button class="add-btn" onclick="alterarCarrinho('${codigoDo(item)}', 1)">Adicionar</button>
@@ -1562,6 +1592,7 @@
         </article>
       `;
     }
+
 
     // ===== CONFIG DINÂMICO (SITE) =====
     let CONFIG_APP = {};
