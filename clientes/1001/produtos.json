@@ -1,12 +1,65 @@
 [
-{"codigo":"253","descricao":"Corpus Liq. MOR 170G","marca":"Danone","valor":53,"unidades":20,"promo":true,"imagem":"https://i.ibb.co/0jspZ89J/1001-253.webp"},
-{"codigo":"1077","descricao":"Corpus MOR 800Gx15","marca":"Danone","valor":157.5,"unidades":15,"promo":true,"imagem":"https://i.ibb.co/Lz9pcgvG/cc33bb7ea973.png"},
-{"codigo":"64","descricao":"Danette Branco 360G","marca":"Danone","valor":72,"unidades":12,"promo":true,"imagem":"https://i.ibb.co/kgq9FtF7/64-Danone-Danette-0-Branco-360g.webp"},
-{"codigo":"257","descricao":"Grego Light Or Mor 510G","marca":"Danone","valor":80,"unidades":8,"promo":true,"imagem":"https://i.ibb.co/QFNVV9F2/257-Danone-Grego-Bandeja-Or-e-Mor.webp"},
-{"codigo":"588","descricao":"Natur Dan Desnatado","marca":"Danone","valor":46,"unidades":20,"promo":true,"imagem":"https://i.ibb.co/MDPr1Csd/1001-588.webp"},
-{"codigo":"875","descricao":"FTOP  BACON LISTRADO 170G cc","marca":"FRITOP","valor":48,"unidades":10,"promo":true,"imagem":"https://i.ibb.co/MxmrrM5H/7f52162b3e85.png"},
-{"codigo":"28","descricao":"FLAN FRUTAP MOR","marca":"Frutap","valor":27.6,"unidades":12,"promo":true,"imagem":"https://i.ibb.co/Y4RmF5xZ/28-Frutap-Flan-Morango.webp"},
-{"codigo":"27","descricao":"Flan Ftap Baunilha","marca":"Frutap","valor":27.6,"unidades":12,"promo":true,"imagem":"https://i.ibb.co/Y7TDXVf3/27-200g-Sobremesa-Flan.webp"},
-{"codigo":"4","descricao":"Sobr. Choc. Bnate","marca":"Frutap","valor":21.6,"unidades":12,"promo":true,"imagem":"https://i.ibb.co/JR21c2Vm/1001-4.webp"},
-{"codigo":"10003","descricao":"Chandelle Branco 360G","marca":"Nestlé","valor":65.6,"unidades":8,"promo":true,"imagem":"https://i.ibb.co/23ksCjNy/10003-Nestl-Chandelle-Branco-360g.webp"}
+  {
+    "codigo": "45",
+    "descricao": "Cx Danoninho",
+    "fornecedor": "Danone",
+    "imagem": "https://i.ibb.co/ccDHG3wp/45-Danoninho-Pose2.webp",
+    "preco_compra": "5,80",
+    "preco": "6,99",
+    "preco_promo": "6,70"
+  },
+  {
+    "codigo": "49",
+    "descricao": "Cx Danoninho multi",
+    "fornecedor": "Danone",
+    "imagem": "https://i.ibb.co/ccDHG3wp/45-Danoninho-Pose2.webp",
+    "preco_compra": "5,80",
+    "preco": "6,99",
+    "preco_promo": "6,70"
+  },
+  {
+    "codigo": "64",
+    "descricao": "Danette Branco",
+    "fornecedor": "Danone",
+    "imagem": "https://raw.githubusercontent.com/MasterPedidos/MasterImagens/main/clientes/1001/produtos/64 - Danette Branco.webp",
+    "preco_compra": "6,80",
+    "preco": "10,80",
+    "preco_promo": "10,70"
+  },
+  {
+    "codigo": "129",
+    "descricao": "Danette Chocolate 360g",
+    "fornecedor": "Danone",
+    "imagem": "https://i.ibb.co/ycL4DsLV/1001-129.webp",
+    "preco_compra": "6,80",
+    "preco": "10,80",
+    "preco_promo": "10,70"
+  },
+  {
+    "codigo": "126",
+    "descricao": "Danoninho para Levar Morango 70g",
+    "fornecedor": "Danone",
+    "imagem": "https://raw.githubusercontent.com/MasterPedidos/MasterImagens/main/clientes/1001/produtos/126 - Danoninho para Levar Morango 70g.webp",
+    "preco_compra": "1,72",
+    "preco": "2,26",
+    "preco_promo": "0,00"
+  },
+  {
+    "codigo": "127",
+    "descricao": "Danoninho para Levar Morango Banana 70g",
+    "fornecedor": "Danone",
+    "imagem": "https://raw.githubusercontent.com/MasterPedidos/MasterImagens/main/clientes/1001/produtos/127 - Danoninho para Levar Morango Banana 70g.webp",
+    "preco_compra": "1,72",
+    "preco": "2,26",
+    "preco_promo": "0,00"
+  },
+  {
+    "codigo": "52",
+    "descricao": "Polpa Frutilac 480g Morango",
+    "fornecedor": "Frutap",
+    "imagem": "https://raw.githubusercontent.com/MasterPedidos/MasterImagens/main/clientes/1001/produtos/52.webp",
+    "preco_compra": "2,50",
+    "preco": "3,13",
+    "preco_promo": "0,00"
+  }
 ]
