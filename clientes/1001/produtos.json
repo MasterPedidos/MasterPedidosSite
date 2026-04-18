@@ -5,8 +5,15 @@
     "fornecedor": "Danone",
     "imagem": "https://i.ibb.co/ccDHG3wp/45-Danoninho-Pose2.webp",
     "preco_compra": "5,80",
-    "preco": "6,99",
-    "preco_promo": "6,70"
+    "preco": "120,60",
+    "preco_promo": "6,70",
+    "valor_cx": "120,60",
+    "qtd_cx": 18,
+    "valor": "120,60",
+    "unidades": 18,
+    "promo": true,
+    "valor_promo_qtd": "6,70",
+    "validade": "2026-04-30"
   },
   {
     "codigo": "49",
@@ -14,8 +21,15 @@
     "fornecedor": "Danone",
     "imagem": "https://i.ibb.co/ccDHG3wp/45-Danoninho-Pose2.webp",
     "preco_compra": "5,80",
-    "preco": "6,99",
-    "preco_promo": "6,70"
+    "preco": "125,82",
+    "preco_promo": "6,70",
+    "valor_cx": "125,82",
+    "qtd_cx": 18,
+    "valor": "125,82",
+    "unidades": 18,
+    "promo": true,
+    "valor_promo_qtd": "6,70",
+    "validade": "2026-04-29"
   },
   {
     "codigo": "64",
@@ -23,8 +37,15 @@
     "fornecedor": "Danone",
     "imagem": "https://raw.githubusercontent.com/MasterPedidos/MasterImagens/main/clientes/1001/produtos/64 - Danette Branco.webp",
     "preco_compra": "6,80",
-    "preco": "10,80",
-    "preco_promo": "10,70"
+    "preco": "0,00",
+    "preco_promo": "10,70",
+    "valor_cx": "0,00",
+    "qtd_cx": 0,
+    "valor": "0,00",
+    "unidades": 0,
+    "promo": false,
+    "valor_promo_qtd": "10,70",
+    "validade": "2026-04-28"
   },
   {
     "codigo": "129",
@@ -32,8 +53,15 @@
     "fornecedor": "Danone",
     "imagem": "https://i.ibb.co/ycL4DsLV/1001-129.webp",
     "preco_compra": "6,80",
-    "preco": "10,80",
-    "preco_promo": "10,70"
+    "preco": "0,00",
+    "preco_promo": "10,70",
+    "valor_cx": "0,00",
+    "qtd_cx": 0,
+    "valor": "0,00",
+    "unidades": 0,
+    "promo": false,
+    "valor_promo_qtd": "10,70",
+    "validade": "2026-04-25"
   },
   {
     "codigo": "126",
@@ -41,8 +69,15 @@
     "fornecedor": "Danone",
     "imagem": "https://raw.githubusercontent.com/MasterPedidos/MasterImagens/main/clientes/1001/produtos/126 - Danoninho para Levar Morango 70g.webp",
     "preco_compra": "1,72",
-    "preco": "2,26",
-    "preco_promo": "0,00"
+    "preco": "0,00",
+    "preco_promo": "0,00",
+    "valor_cx": "0,00",
+    "qtd_cx": 0,
+    "valor": "0,00",
+    "unidades": 0,
+    "promo": false,
+    "valor_promo_qtd": "0,00",
+    "validade": "2026-05-01"
   },
   {
     "codigo": "127",
@@ -50,8 +85,15 @@
     "fornecedor": "Danone",
     "imagem": "https://raw.githubusercontent.com/MasterPedidos/MasterImagens/main/clientes/1001/produtos/127 - Danoninho para Levar Morango Banana 70g.webp",
     "preco_compra": "1,72",
-    "preco": "2,26",
-    "preco_promo": "0,00"
+    "preco": "0,00",
+    "preco_promo": "0,00",
+    "valor_cx": "0,00",
+    "qtd_cx": 0,
+    "valor": "0,00",
+    "unidades": 0,
+    "promo": false,
+    "valor_promo_qtd": "0,00",
+    "validade": "2026-05-01"
   },
   {
     "codigo": "52",
@@ -59,7 +101,14 @@
     "fornecedor": "Frutap",
     "imagem": "https://raw.githubusercontent.com/MasterPedidos/MasterImagens/main/clientes/1001/produtos/52 - Polpa Frutilac 480g Morango.webp",
     "preco_compra": "2,50",
-    "preco": "3,13",
-    "preco_promo": "0,00"
+    "preco": "0,00",
+    "preco_promo": "0,00",
+    "valor_cx": "0,00",
+    "qtd_cx": 0,
+    "valor": "0,00",
+    "unidades": 0,
+    "promo": false,
+    "valor_promo_qtd": "0,00",
+    "validade": "2026-05-05"
   }
 ]
