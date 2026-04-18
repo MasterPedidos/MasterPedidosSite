@@ -1,59 +1,5 @@
 [
   {
-    "codigo": "45",
-    "descricao": "Cx Danoninho",
-    "fornecedor": "Danone",
-    "imagem": "https://i.ibb.co/ccDHG3wp/45-Danoninho-Pose2.webp",
-    "preco_compra": "5,80",
-    "preco": "6,99",
-    "preco_promo": "6,70"
-  },
-  {
-    "codigo": "49",
-    "descricao": "Cx Danoninho multi",
-    "fornecedor": "Danone",
-    "imagem": "https://i.ibb.co/ccDHG3wp/45-Danoninho-Pose2.webp",
-    "preco_compra": "5,80",
-    "preco": "6,99",
-    "preco_promo": "6,70"
-  },
-  {
-    "codigo": "64",
-    "descricao": "Danette Branco",
-    "fornecedor": "Danone",
-    "imagem": "https://raw.githubusercontent.com/MasterPedidos/MasterImagens/main/clientes/1001/produtos/64 - Danette Branco.webp",
-    "preco_compra": "6,80",
-    "preco": "10,80",
-    "preco_promo": "10,70"
-  },
-  {
-    "codigo": "129",
-    "descricao": "Danette Chocolate 360g",
-    "fornecedor": "Danone",
-    "imagem": "https://i.ibb.co/ycL4DsLV/1001-129.webp",
-    "preco_compra": "6,80",
-    "preco": "10,80",
-    "preco_promo": "10,70"
-  },
-  {
-    "codigo": "126",
-    "descricao": "Danoninho para Levar Morango 70g",
-    "fornecedor": "Danone",
-    "imagem": "https://raw.githubusercontent.com/MasterPedidos/MasterImagens/main/clientes/1001/produtos/126 - Danoninho para Levar Morango 70g.webp",
-    "preco_compra": "1,72",
-    "preco": "2,26",
-    "preco_promo": "0,00"
-  },
-  {
-    "codigo": "127",
-    "descricao": "Danoninho para Levar Morango Banana 70g",
-    "fornecedor": "Danone",
-    "imagem": "https://raw.githubusercontent.com/MasterPedidos/MasterImagens/main/clientes/1001/produtos/127 - Danoninho para Levar Morango Banana 70g.webp",
-    "preco_compra": "1,72",
-    "preco": "2,26",
-    "preco_promo": "0,00"
-  },
-  {
     "codigo": "52",
     "descricao": "Polpa Frutilac 480g Morango",
     "fornecedor": "Frutap",
