@@ -1,34 +1,10 @@
 [
   {
-    "codigo": "45",
-    "descricao": "Cx Danoninho",
-    "fornecedor": "Danone",
-    "imagem": "https://i.ibb.co/ccDHG3wp/45-Danoninho-Pose2.webp",
-    "preco": "6,70",
-    "preco_antigo": "6,99"
-  },
-  {
-    "codigo": "49",
-    "descricao": "Cx Danoninho multi",
-    "fornecedor": "Danone",
-    "imagem": "https://i.ibb.co/ccDHG3wp/45-Danoninho-Pose2.webp",
-    "preco": "6,70",
-    "preco_antigo": "6,99"
-  },
-  {
-    "codigo": "64",
-    "descricao": "Danette Branco",
-    "fornecedor": "Danone",
-    "imagem": "https://raw.githubusercontent.com/MasterPedidos/MasterImagens/main/clientes/1001/produtos/64 - Danette Branco.webp",
-    "preco": "10,70",
-    "preco_antigo": "10,80"
-  },
-  {
-    "codigo": "129",
-    "descricao": "Danette Chocolate 360g",
-    "fornecedor": "Danone",
-    "imagem": "https://i.ibb.co/ycL4DsLV/1001-129.webp",
-    "preco": "10,70",
-    "preco_antigo": "10,80"
+    "tipo": "Jornal Tipo 1",
+    "modelo": 1,
+    "tema": "amarelo",
+    "itens": [
+      {"codigo": "1073","descricao": "Achocolatado Ftap 27 Un","marca": "Frutap","imagem": "https://i.ibb.co/3myYstmG/1073-Achocolatado-Frutap-perspectiva.webp","meta": "Cx c/27unidades","preco": "1,1","preco_antigo": "1,15","Valid": "10/10","extra": "Oferta válida de 05/05 a 09/05 "}
+    ]
   }
 ]
