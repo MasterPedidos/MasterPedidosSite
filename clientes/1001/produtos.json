@@ -64,6 +64,22 @@
     "validade": ""
   },
   {
+    "codigo": "45",
+    "descricao": "Danoninho Morango",
+    "fornecedor": "Danone",
+    "imagem": "https://i.ibb.co/ccDHG3wp/45-Danoninho-Pose2.webp",
+    "preco_compra": "5,50",
+    "preco": "125,28",
+    "preco_promo": "5,00",
+    "valor_cx": "125,28",
+    "qtd_cx": 18,
+    "valor": "125,28",
+    "unidades": 18,
+    "promo": true,
+    "valor_promo_qtd": "5,00",
+    "validade": ""
+  },
+  {
     "codigo": "875",
     "descricao": "FTOP  BACON LISTRADO 170G cc",
     "fornecedor": "Cestas",
