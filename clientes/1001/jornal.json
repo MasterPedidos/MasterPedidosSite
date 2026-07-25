@@ -1,1 +1,10 @@
-[]
+[
+  {
+    "codigo": "45",
+    "descricao": "Danoninho Morango",
+    "fornecedor": "Danone",
+    "imagem": "https://i.ibb.co/ccDHG3wp/45-Danoninho-Pose2.webp",
+    "preco": "5,00",
+    "preco_antigo": "6,96"
+  }
+]
