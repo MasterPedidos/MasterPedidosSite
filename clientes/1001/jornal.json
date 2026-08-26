@@ -1,10 +1,20 @@
 [
   {
-    "codigo": "45",
-    "descricao": "Danoninho Morango",
-    "fornecedor": "Danone",
-    "imagem": "https://i.ibb.co/ccDHG3wp/45-Danoninho-Pose2.webp",
-    "preco": "5,00",
-    "preco_antigo": "6,96"
+    "tipo": "Jornal Tipo 1",
+    "modelo": 1,
+    "tema": "amarelo",
+    "itens": [
+      {"codigo": "64","descricao": "Danette Branco 360G","marca": "Danone","imagem": "https://i.ibb.co/kgq9FtF7/64-Danone-Danette-0-Branco-360g.webp","meta": "Cx c/12 unidades | Qt Estoque: 2","preco": "5,80","preco_antigo": "7,24","Valid": "29/05","extra": "Oferta válida de 14/05 a 18/05 "},
+      {"codigo": "129","descricao": "Danette Chocol 360G","marca": "Danone","imagem": "https://i.ibb.co/4ngdHyVN/129-Danone-Danette-0-360-preto-2024.webp","meta": "Cx c/12 unidades | Qt Estoque: 11","preco": "5,80","preco_antigo": "7,24","Valid": "30/05","extra": "Oferta válida de 14/05 a 18/05 "},
+      {"codigo": "45","descricao": "Danoninho Morango","marca": "Danone","imagem": "https://i.ibb.co/ccDHG3wp/45-Danoninho-Pose2.webp","meta": "Cx c/18 unidades | Qt Estoque: 6","preco": "5,50","preco_antigo": "6,96","Valid": "31/05","extra": "Oferta válida de 14/05 a 18/05 "},
+      {"codigo": "49","descricao": "Danoninho Multi","marca": "Danone","imagem": "https://i.ibb.co/ccXwfj1j/49-Danone-Danoninho-Multi-na-Posi-o-2024.webp","meta": "Cx c/18 unidades | Qt Estoque: 7","preco": "5,50","preco_antigo": "6,96","Valid": "27/05","extra": "Oferta válida de 14/05 a 18/05 "},
+      {"codigo": "8959","descricao": "CEBOLITOS 36GX48","marca": "Elma Chips","imagem": "https://i.ibb.co/67ZjJxVF/8959-Elma-Chips-Cebolitos.webp","meta": "Cx c/48 unidades | Qt Estoque: ","preco": "2,79","preco_antigo": "2,99","Valid": "08/06","extra": "Oferta válida de 14/05 a 18/05 "},
+      {"codigo": "8998","descricao": "Cheetos Bola 39G C/56","marca": "Elma Chips","imagem": "https://i.ibb.co/JWKHtC5t/8998-Elma-Chips-Cheetos-Queijo.webp","meta": "Cx c/56 unidades | Qt Estoque: ","preco": "2,50","preco_antigo": "2,70","Valid": "15/06","extra": "Oferta válida de 14/05 a 18/05 "},
+      {"codigo": "8997","descricao": "Cheetos Mix  34G C/56","marca": "Elma Chips","imagem": "https://i.ibb.co/C5fgVXJ9/8997-Elma-Chips-Cheetos-Mix.webp","meta": "Cx c/56 unidades | Qt Estoque: ","preco": "2,50","preco_antigo": "2,70","Valid": "15/06","extra": "Oferta válida de 14/05 a 18/05 "},
+      {"codigo": "8958","descricao": "Doritos Nacho 58X37G","marca": "Elma Chips","imagem": "https://i.ibb.co/bg5Nk3Qz/8958-Elma-Chips-Doritos.webp","meta": "Cx c/58 unidades | Qt Estoque: ","preco": "3,30","preco_antigo": "3,70","Valid": "15/06","extra": "Oferta válida de 14/05 a 18/05 "},
+      {"codigo": "8962","descricao": "Fandangos Queijo 48X37G","marca": "Elma Chips","imagem": "https://i.ibb.co/QjkfjWTJ/8962-Elma-Chips-Fandango-Queijo2.webp","meta": "Cx c/48 unidades | Qt Estoque: ","preco": "2,29","preco_antigo": "2,45","Valid": "08/06","extra": "Oferta válida de 14/05 a 18/05 "},
+      {"codigo": "5982","descricao": "Ruflle Churras 32GX50","marca": "Elma Chips","imagem": "https://i.ibb.co/QFHHyXzZ/5982-Ruffles-Churrasco.webp","meta": "Cx c/50 unidades | Qt Estoque: ","preco": "2,99","preco_antigo": "3,35","Valid": "27/07","extra": "Oferta válida de 14/05 a 18/05 "},
+      {"codigo": "5981","descricao": "Ruflles Cebola Salsa 32GX50","marca": "Elma Chips","imagem": "https://i.ibb.co/ycNYSfcD/5981-Ruffles-Cebola-e-Salva.webp","meta": "Cx c/50 unidades | Qt Estoque: ","preco": "2,99","preco_antigo": "3,35","Valid": "03/08","extra": "Oferta válida de 14/05 a 18/05 "}
+    ]
   }
 ]
